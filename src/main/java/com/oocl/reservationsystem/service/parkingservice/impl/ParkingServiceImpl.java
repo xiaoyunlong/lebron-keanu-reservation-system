@@ -31,14 +31,14 @@ public class ParkingServiceImpl implements ParkingService {
                 .collect(Collectors.toList());
 
         if (parkingLotsResult.size() == 0) {
-            throw new ParkingLotNoFoundException(ParkingEnum.PARKLING_LOT_NOT_FOUND);
+            throw new ParkingLotNoFoundException(ParkingEnum.PARKING_LOT_NOT_FOUND);
         }
 
         return parkingLotsResult;
     }
 
     private boolean isParkingLotInEffectiveDistance(ParkingLot parkingLot,double latitude, double longitude){
-        double EFFECTIVE_DISTANCE = 5000;
+        double EFFECTIVE_DISTANCE = 5;
         return LatlongitudeUtil.getDistance
                 (latitude, longitude, parkingLot.getLatitude(), parkingLot.getLongitude()) < EFFECTIVE_DISTANCE;
     }

@@ -5,8 +5,6 @@ import com.oocl.reservationsystem.repository.parkingrepository.ParkingLotReposit
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,7 @@ class ParkingServiceTest {
     ParkingLotRepository parkingLotRepository;
 
     @Test
-    void should_return_parking_lots_when_find_parkinglots_by_location_given_latitude_longitude(){
+    void should_return_parking_lots_when_find_parking_lots_by_location_given_latitude_longitude(){
         //given
         double latitude = 113.578996;
         double longitude = 22.377632;
