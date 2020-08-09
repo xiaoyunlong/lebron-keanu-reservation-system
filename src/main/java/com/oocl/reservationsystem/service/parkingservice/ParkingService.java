@@ -1,10 +1,12 @@
 package com.oocl.reservationsystem.service.parkingservice;
 
 import com.oocl.reservationsystem.entity.parkingentity.ParkingLot;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface ParkingService {
 
-    List<ParkingLot> findParkingLotsByLocation(double latitude, double longitude);
+    Page<ParkingLot> findParkingLotsByLocation(double latitude, double longitude, Pageable pageable);
 }

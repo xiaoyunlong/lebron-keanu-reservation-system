@@ -7,6 +7,10 @@ import com.oocl.reservationsystem.repository.parkingrepository.ParkingLotReposit
 import com.oocl.reservationsystem.service.parkingservice.ParkingService;
 import com.oocl.reservationsystem.util.LatlongitudeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,18 +27,18 @@ public class ParkingServiceImpl implements ParkingService {
     }
 
     @Override
-    public List<ParkingLot> findParkingLotsByLocation(double latitude, double longitude) {
+    public Page<ParkingLot> findParkingLotsByLocation(double latitude, double longitude, Pageable pageable) {
 
-        List<ParkingLot> parkingLots = parkingLotRepository.findAll();
-        List<ParkingLot> parkingLotsResult = parkingLots.stream()
+        Page<ParkingLot> parkingLotsPage = parkingLotRepository.findByRemaining_amountGreaterThan(0,pageable);
+        List<ParkingLot> content = parkingLotsPage.getContent().stream()
                 .filter(parkingLot -> isParkingLotInEffectiveDistance(parkingLot,latitude,longitude))
                 .collect(Collectors.toList());
 
-        if (parkingLotsResult.size() == 0) {
+        if (content.size() == 0) {
             throw new ParkingLotNoFoundException(ParkingEnum.PARKING_LOT_NOT_FOUND);
         }
 
-        return parkingLotsResult;
+        return new PageImpl<>(content, pageable, parkingLotsPage.getTotalElements());
     }
 
     private boolean isParkingLotInEffectiveDistance(ParkingLot parkingLot,double latitude, double longitude){
