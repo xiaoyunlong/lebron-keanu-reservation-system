@@ -1,4 +1,4 @@
-package com.oocl.reservationsystem.controller;
+package com.oocl.reservationsystem.controller.ordercontroller;
 
 import org.springframework.web.bind.annotation.RestController;
 
