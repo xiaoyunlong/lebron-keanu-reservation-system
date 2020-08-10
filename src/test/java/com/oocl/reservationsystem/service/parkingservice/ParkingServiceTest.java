@@ -2,7 +2,9 @@ package com.oocl.reservationsystem.service.parkingservice;
 
 import com.oocl.reservationsystem.dto.parkingdto.ParkingLotDto;
 import com.oocl.reservationsystem.entity.parkingentity.ParkingLot;
+import com.oocl.reservationsystem.entity.parkingentity.ParkingPosition;
 import com.oocl.reservationsystem.repository.parkingrepository.ParkingLotRepository;
+import com.oocl.reservationsystem.repository.parkingrepository.ParkingPositionRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +20,10 @@ import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class ParkingServiceTest {
@@ -27,6 +33,9 @@ class ParkingServiceTest {
 
     @MockBean
     ParkingLotRepository parkingLotRepository;
+
+    @MockBean
+    ParkingPositionRepository parkingPositionRepository;
 
 
     @Test
@@ -50,6 +59,43 @@ class ParkingServiceTest {
 
         //then
         Assertions.assertEquals(2, parkingLotsInResult.getContent().size());
+    }
+
+    @Test
+    void should_return_true_when_find_is_Car_In_Position_given_position_id_1() {
+
+        //given
+        int positionId = 1;
+        Mockito.when(parkingPositionRepository.findByStatusIs(positionId)).thenReturn(true);
+
+        //when
+        boolean isCarInPosition = parkingService.isCarInPosition(positionId);
+
+        //then
+        Assertions.assertTrue(isCarInPosition);
+    }
+
+    @Test
+    void should_method_used_when_park_car_in_position_given_position_id_1() {
+
+        //given
+        int positionId = 1;
+        String placeName = "south parkingLot";
+
+        ParkingLot parkingLot = new ParkingLot();
+        parkingLot.setName(placeName);
+
+        ParkingPosition parkingPosition = new ParkingPosition();
+        parkingPosition.setParkingLot(parkingLot);
+
+        Mockito.when(parkingPositionRepository.findById(positionId))
+                .thenReturn(java.util.Optional.of(parkingPosition));
+
+        //when
+        parkingService.parkCarInPosition(positionId);
+
+        //then
+        verify(parkingPositionRepository,times(1)).save(any(ParkingPosition.class));
     }
 
 }

@@ -2,9 +2,14 @@ package com.oocl.reservationsystem.service.parkingservice.impl;
 
 import com.oocl.reservationsystem.dto.parkingdto.ParkingLotDto;
 import com.oocl.reservationsystem.entity.parkingentity.ParkingLot;
+import com.oocl.reservationsystem.entity.parkingentity.ParkingPosition;
 import com.oocl.reservationsystem.enums.parking.ParkingEnum;
+import com.oocl.reservationsystem.enums.parking.ParkingPositionStatusEnum;
 import com.oocl.reservationsystem.exception.parking.ParkingLotNoFoundException;
+import com.oocl.reservationsystem.exception.parking.PositionHaveParkedException;
+import com.oocl.reservationsystem.exception.parking.PositionNoFoundException;
 import com.oocl.reservationsystem.repository.parkingrepository.ParkingLotRepository;
+import com.oocl.reservationsystem.repository.parkingrepository.ParkingPositionRepository;
 import com.oocl.reservationsystem.service.parkingservice.ParkingService;
 import com.oocl.reservationsystem.util.LatlongitudeUtil;
 import org.springframework.beans.BeanUtils;
@@ -22,14 +27,17 @@ import java.util.stream.Collectors;
 public class ParkingServiceImpl implements ParkingService {
 
     private final ParkingLotRepository parkingLotRepository;
+    private final ParkingPositionRepository parkingPositionRepository;
+
     private final double EFFECTIVE_DISTANCE = 1;
     private final int SORT_IN_DISTANCE = 1;
     private final int SORT_IN_PRICE = 2;
 
 
     @Autowired
-    public ParkingServiceImpl(ParkingLotRepository parkingLotRepository) {
+    public ParkingServiceImpl(ParkingLotRepository parkingLotRepository, ParkingPositionRepository parkingPositionRepository) {
         this.parkingLotRepository = parkingLotRepository;
+        this.parkingPositionRepository = parkingPositionRepository;
     }
 
     @Override
@@ -60,6 +68,34 @@ public class ParkingServiceImpl implements ParkingService {
         }
 
         return new PageImpl<>(content, pageable, parkingLotsPage.getTotalElements());
+    }
+
+    @Override
+    public boolean isCarInPosition(int positionId) {
+        return parkingPositionRepository.findByStatusIs(positionId);
+    }
+
+
+    @Override
+    public void parkCarInPosition(int positionId) {
+        ParkingPosition parkingPosition = parkingPositionRepository.findById(positionId)
+                .orElseThrow(() -> new PositionNoFoundException(ParkingEnum.PARKING_POSITION_NOT_FOUND));
+
+        if (parkingPosition.getStatus() == ParkingPositionStatusEnum.HAVE_BEEN_PARKED.getState()) {
+            throw new PositionHaveParkedException(ParkingEnum.PARKING_POSITION_HAVE_BEEN_PARKED);
+        }
+        parkingPosition.setStatus(ParkingPositionStatusEnum.HAVE_BEEN_PARKED.getState());
+
+        parkingPositionRepository.save(parkingPosition);
+    }
+
+    @Override
+    public ParkingLot findParkingLotByPositionId(int positionId) {
+        ParkingPosition parkingPosition = parkingPositionRepository.findById(positionId)
+                .orElseThrow(() -> new PositionNoFoundException(ParkingEnum.PARKING_LOT_NOT_FOUND));
+
+        return parkingLotRepository.findById(parkingPosition.getParkingLot().getId())
+                .orElseThrow(() -> new ParkingLotNoFoundException(ParkingEnum.PARKING_LOT_NOT_FOUND));
     }
 
     private double calculateDistance(ParkingLot parkingLot,double latitude, double longitude) {
