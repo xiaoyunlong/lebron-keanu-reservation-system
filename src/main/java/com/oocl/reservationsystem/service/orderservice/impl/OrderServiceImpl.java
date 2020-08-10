@@ -3,16 +3,22 @@ package com.oocl.reservationsystem.service.orderservice.impl;
 import com.oocl.reservationsystem.dto.orderdto.OrderRequest;
 import com.oocl.reservationsystem.dto.orderdto.OrderResponse;
 import com.oocl.reservationsystem.entity.orderentity.Order;
+import com.oocl.reservationsystem.entity.parkingentity.ParkingLot;
 import com.oocl.reservationsystem.enums.order.OrderStatus;
 import com.oocl.reservationsystem.exception.order.OrderCancelFailException;
 import com.oocl.reservationsystem.exception.order.OrderNotFoundException;
+import com.oocl.reservationsystem.exception.order.OrderParkingPositionNotSpaceException;
 import com.oocl.reservationsystem.exception.order.OrderStatusErrorException;
 import com.oocl.reservationsystem.repository.orderrepository.OrderRepository;
 import com.oocl.reservationsystem.service.orderservice.OrderService;
+import com.oocl.reservationsystem.service.parkingservice.impl.CarServiceImpl;
+import com.oocl.reservationsystem.service.parkingservice.impl.ParkingServiceImpl;
 import com.oocl.reservationsystem.util.OrdersUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,15 +26,21 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
+    private final ParkingServiceImpl parkingService;
+    private final CarServiceImpl carService;
 
-    public OrderServiceImpl(OrderRepository orderRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, ParkingServiceImpl parkingService, CarServiceImpl carService) {
         this.orderRepository = orderRepository;
+        this.parkingService = parkingService;
+        this.carService = carService;
     }
 
     @Override
     public OrderResponse addOrder(OrderRequest orderRequest) {
-        //TODO must first judge whether there is a car in the parking_postition.
-        //TODO use porkingLot and prkingPosition to change status.
+        if (parkingService.isCarInPosition(orderRequest.getParkingPositionId())) {
+            throw new OrderParkingPositionNotSpaceException();
+        }
+        parkingService.parkCarInPosition(orderRequest.getParkingPositionId());
         Order order = new Order();
         BeanUtils.copyProperties(orderRequest, order);
         order.setCreateTime(new Date());
@@ -41,15 +53,19 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderResponse> getAllOrderByCustomerId(Integer customerId) {
         List<Order> orderList = orderRepository.findByCustomerId(customerId);
         List<OrderResponse> orderResponseList = new ArrayList<>();
-        for(Order order:orderList){
-            orderResponseList.add(OrdersUtil.OrderToResponseMapper(order));
+        for (Order order : orderList) {
+            OrderResponse orderResponse = OrdersUtil.OrderToResponseMapper(order);
+            orderResponse.setLicenseNumber(carService.getCarNumberById(order.getCarId()));
+            orderResponseList.add(orderResponse);
         }
         return orderResponseList;
     }
 
     @Override
     public OrderResponse getOrderById(Integer id) {
-        return OrdersUtil.OrderToResponseMapper(orderRepository.findById(id).orElseThrow(OrderNotFoundException::new));
+        OrderResponse orderResponse = OrdersUtil.OrderToResponseMapper(orderRepository.findById(id).orElseThrow(OrderNotFoundException::new));
+        orderResponse.setLicenseNumber(carService.getCarNumberById(orderResponse.getCarId()));
+        return orderResponse;
     }
 
     @Override
@@ -78,7 +94,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderResponse finishOrder(Integer orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
-        //TODO when given money,and calculate remain money
+        //TODO when given money,and calculate remain money,let car out the lot
         order.setEndTime(new Date());
         order.setTotalCost(
                 OrdersUtil.calculateAllCost(
@@ -93,6 +109,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
     }
+
 
 
 

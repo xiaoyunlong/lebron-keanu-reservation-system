@@ -3,6 +3,7 @@ package com.oocl.reservationsystem.dto.orderdto;
 import java.util.Date;
 
 public class OrderResponse {
+    //TODO   location
     private String orderNumber;
     private Integer carId;
     private Integer customerId;
@@ -13,6 +14,24 @@ public class OrderResponse {
     private Integer preCost;
     private String status;
     private Integer parkingPositionId;
+    private String parkingLotName;
+    private String licenseNumber;
+
+    public String getParkingLotName() {
+        return parkingLotName;
+    }
+
+    public void setParkingLotName(String parkingLotName) {
+        this.parkingLotName = parkingLotName;
+    }
+
+    public String getLicenseNumber() {
+        return licenseNumber;
+    }
+
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
+    }
 
     public String getOrderNumber() {
         return orderNumber;
