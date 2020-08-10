@@ -29,3 +29,5 @@ spring:
     database: MySQL
     generate-ddl: false
     show-sql: true
+  profiles:
+    active: dev
