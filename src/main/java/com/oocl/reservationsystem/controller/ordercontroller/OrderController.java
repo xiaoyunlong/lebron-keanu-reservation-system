@@ -31,4 +31,9 @@ public class OrderController {
         return orderService.getOrderById(id);
     }
 
+    @PutMapping("/use/{order_id}")
+    public void useOrder(@PathVariable(value = "order_id") Integer orderId){
+        orderService.useOrder(orderId);
+    }
+
 }

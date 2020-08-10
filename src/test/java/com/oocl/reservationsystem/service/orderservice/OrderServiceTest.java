@@ -91,4 +91,23 @@ public class OrderServiceTest {
         assert order != null;
         assertEquals(order.getCarId(), orderResponse.getCarId());
     }
+
+    @Test
+    void should_change_order_status_used_when_change_status_to_used_given_order_id() throws ParseException {
+        //given
+        Order order = initOneOrder();
+        Order usedOrder = initOneOrder();
+        usedOrder.setStatus(OrderStatus.USED);
+        OrderRequest orderRequest = initOneOrderRequest();
+        int orderId = 1;
+        //when
+        when(orderRepository.findById(any())).thenReturn(Optional.ofNullable(order));
+        when(orderRepository.save(any())).thenReturn(usedOrder);
+
+
+        Order saveOrder = orderService.useOrder(orderId);
+        //then
+        assert order != null;
+        assertEquals(OrderStatus.USED, saveOrder.getStatus());
+    }
 }

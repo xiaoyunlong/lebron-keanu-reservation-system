@@ -51,4 +51,15 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponse getOrderById(Integer id) {
         return OrdersUtil.OrderToResponseMapper(orderRepository.findById(id).orElseThrow(OrderNotFoundException::new));
     }
+
+    @Override
+    public Order useOrder(Integer orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
+        if (order.getStatus().equals(OrderStatus.NOT_USED)) {
+            order.setStatus(OrderStatus.USED);
+            return orderRepository.save(order);
+        } else {
+            throw new OrderStatusErrorException();
+        }
+    }
 }
