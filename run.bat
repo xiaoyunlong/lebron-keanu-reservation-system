@@ -5,4 +5,4 @@ if not "%pid%" == "" (
   rem echo Server is not running.
 )
 
-start /b java -jar d:\deploy\backend\reservation-system-0.0.1-SNAPSHOT.jar
+start /b java -jar d:\deploy\backend\reservation-system-0.0.1-SNAPSHOT.jar --spring.profiles.actvie=prod
