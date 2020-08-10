@@ -2,97 +2,104 @@ package com.oocl.reservationsystem.entity.parkingentity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "parkinglot")
 public class ParkingLot {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private double latitude;
-    private double longitude;
-    private int capicity;
-    @Column(name = "remaining_amount")
-    private int remainingAmount;
-    private String name;
-    @Column(name = "unit_price")
-    private int unitPrice;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "parkingLot")
-    private List<ParkingPosition> parkingPositions;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
+  private double latitude;
+  private double longitude;
+  private int capicity;
+  @Column(name = "remaining_amount")
+  private int remainingAmount;
+  private String name;
+  @Column(name = "unit_price")
+  private int unitPrice;
 
-    public ParkingLot() {
-    }
+  @JsonIgnore
+  @OneToMany(mappedBy = "parkingLot")
+  private List<ParkingPosition> parkingPositions;
 
-    public ParkingLot(double latitude, double longitude, int capicity, int remainingAmount, String name, int unitPrice) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.capicity = capicity;
-        this.remainingAmount = remainingAmount;
-        this.name = name;
-        this.unitPrice = unitPrice;
-    }
+  public ParkingLot() {
+  }
 
-    public int getId() {
-        return id;
-    }
+  public ParkingLot(double latitude, double longitude, int capicity, int remainingAmount, String name, int unitPrice) {
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.capicity = capicity;
+    this.remainingAmount = remainingAmount;
+    this.name = name;
+    this.unitPrice = unitPrice;
+  }
 
-    public double getLatitude() {
-        return latitude;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
+  public double getLatitude() {
+    return latitude;
+  }
 
-    public double getLongitude() {
-        return longitude;
-    }
+  public void setLatitude(double latitude) {
+    this.latitude = latitude;
+  }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
+  public double getLongitude() {
+    return longitude;
+  }
 
-    public int getCapicity() {
-        return capicity;
-    }
+  public void setLongitude(double longitude) {
+    this.longitude = longitude;
+  }
 
-    public void setCapicity(int capicity) {
-        this.capicity = capicity;
-    }
+  public int getCapicity() {
+    return capicity;
+  }
 
-    public int getRemainingAmount() {
-        return remainingAmount;
-    }
+  public void setCapicity(int capicity) {
+    this.capicity = capicity;
+  }
 
-    public void setRemainingAmount(int remainingAmount) {
-        this.remainingAmount = remainingAmount;
-    }
+  public int getRemainingAmount() {
+    return remainingAmount;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setRemainingAmount(int remainingAmount) {
+    this.remainingAmount = remainingAmount;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public int getUnitPrice() {
-        return unitPrice;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setUnitPrice(int unitPrice) {
-        this.unitPrice = unitPrice;
-    }
+  public int getUnitPrice() {
+    return unitPrice;
+  }
 
-    public List<ParkingPosition> getParkingPositions() {
-        return parkingPositions;
-    }
+  public void setUnitPrice(int unitPrice) {
+    this.unitPrice = unitPrice;
+  }
 
-    public void setParkingPositions(List<ParkingPosition> parkingPositions) {
-        this.parkingPositions = parkingPositions;
-    }
+  public List<ParkingPosition> getParkingPositions() {
+    return parkingPositions;
+  }
+
+  public void setParkingPositions(List<ParkingPosition> parkingPositions) {
+    this.parkingPositions = parkingPositions;
+  }
 }

@@ -6,25 +6,23 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-/**
- * 跨域处理
- */
 @Configuration
 public class GlobalCorsConfig {
-    /**
-     * https://zhuanlan.zhihu.com/p/31016194
-     */
-    @Bean
-    public CorsFilter corsFilter() {
 
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("*");
-        config.setAllowCredentials(true);
-        config.addAllowedMethod("*");
-        config.addAllowedHeader("*");
-        UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
-        corsConfigurationSource.registerCorsConfiguration("/**",config);
-        return new CorsFilter(corsConfigurationSource);
+  /**
+   * https://zhuanlan.zhihu.com/p/31016194
+   */
+  @Bean
+  public CorsFilter corsFilter() {
 
-    }
+    CorsConfiguration config = new CorsConfiguration();
+    config.addAllowedOrigin("*");
+    config.setAllowCredentials(true);
+    config.addAllowedMethod("*");
+    config.addAllowedHeader("*");
+    UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
+    corsConfigurationSource.registerCorsConfiguration("/**", config);
+    return new CorsFilter(corsConfigurationSource);
+
+  }
 }

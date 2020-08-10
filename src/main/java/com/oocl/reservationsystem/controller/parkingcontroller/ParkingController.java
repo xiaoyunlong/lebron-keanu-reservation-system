@@ -12,17 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ParkingController {
 
-    private final ParkingService parkingService;
+  private final ParkingService parkingService;
 
-    @Autowired
-    public ParkingController(ParkingService parkingService) {
-        this.parkingService = parkingService;
-    }
+  @Autowired
+  public ParkingController(ParkingService parkingService) {
+    this.parkingService = parkingService;
+  }
 
-    @GetMapping("/parkinglots")
-    public Page<ParkingLotDto> getParkingLots
-            (Pageable pageable, @RequestParam double latitude, @RequestParam double longitude, @RequestParam(defaultValue = "1") int sortType) {
-        return parkingService.findParkingLotsByLocation(latitude, longitude, sortType, pageable);
-    }
+  @GetMapping("/parkinglots")
+  public Page<ParkingLotDto> getParkingLots(Pageable pageable, @RequestParam double latitude,
+      @RequestParam double longitude,
+      @RequestParam(defaultValue = "1") int sortType) {
+    return parkingService.findParkingLotsByLocation(latitude, longitude, sortType, pageable);
+  }
 
 }

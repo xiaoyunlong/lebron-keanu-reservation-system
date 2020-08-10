@@ -28,112 +28,113 @@ import java.util.stream.Collectors;
 @Service
 public class ParkingServiceImpl implements ParkingService {
 
-    private final ParkingLotRepository parkingLotRepository;
-    private final ParkingPositionRepository parkingPositionRepository;
+  private final ParkingLotRepository parkingLotRepository;
+  private final ParkingPositionRepository parkingPositionRepository;
 
-    private final double EFFECTIVE_DISTANCE = 1;
-    private final int SORT_IN_DISTANCE = 1;
-    private final int SORT_IN_PRICE = 2;
+  private static final double EFFECTIVE_DISTANCE = 1;
+  private static final int SORT_IN_DISTANCE = 1;
+  private static final int SORT_IN_PRICE = 2;
 
 
-    @Autowired
-    public ParkingServiceImpl(ParkingLotRepository parkingLotRepository, ParkingPositionRepository parkingPositionRepository) {
-        this.parkingLotRepository = parkingLotRepository;
-        this.parkingPositionRepository = parkingPositionRepository;
+  @Autowired
+  public ParkingServiceImpl(ParkingLotRepository parkingLotRepository,
+      ParkingPositionRepository parkingPositionRepository) {
+    this.parkingLotRepository = parkingLotRepository;
+    this.parkingPositionRepository = parkingPositionRepository;
+  }
+
+  @Override
+  public Page<ParkingLotDto> findParkingLotsByLocation(double latitude, double longitude, int sortType,
+      Pageable pageable) {
+
+    Page<ParkingLot> parkingLotsPage = parkingLotRepository.findByRemainingAmountGreaterThan(0, pageable);
+    List<ParkingLotDto> parkingLotDtos = new ArrayList<>();
+
+    for (ParkingLot parkingLot : parkingLotsPage.getContent()) {
+      ParkingLotDto parkingLotDto = new ParkingLotDto();
+      BeanUtils.copyProperties(parkingLot, parkingLotDto);
+      parkingLotDto.setDistance(calculateDistance(parkingLot, latitude, longitude));
+      parkingLotDtos.add(parkingLotDto);
     }
 
-    @Override
-    public Page<ParkingLotDto> findParkingLotsByLocation(double latitude, double longitude, int sortType, Pageable pageable) {
+    if (sortType == SORT_IN_PRICE) {
+      sortedByPrice(parkingLotDtos);
+    } else if (sortType == SORT_IN_DISTANCE) {
+      sortedByDistance(parkingLotDtos);
+    }
 
-        Page<ParkingLot> parkingLotsPage = parkingLotRepository.findByRemainingAmountGreaterThan(0, pageable);
-        List<ParkingLotDto> parkingLotDtos = new ArrayList<>();
+    List<ParkingLotDto> content = parkingLotDtos.stream()
+        .filter(parkingLotDto -> parkingLotDto.getDistance() <= EFFECTIVE_DISTANCE)
+        .collect(Collectors.toList());
 
-        for (ParkingLot parkingLot : parkingLotsPage.getContent()) {
-            ParkingLotDto parkingLotDto = new ParkingLotDto();
-            BeanUtils.copyProperties(parkingLot, parkingLotDto);
-            parkingLotDto.setDistance(calculateDistance(parkingLot, latitude, longitude));
-            parkingLotDtos.add(parkingLotDto);
+    if (content.size() == 0) {
+      throw new ParkingLotNoFoundException(ParkingEnum.PARKING_LOT_NOT_FOUND);
+    }
+
+    return new PageImpl<>(content, pageable, parkingLotsPage.getTotalElements());
+  }
+
+  @Override
+  public boolean isCarInPosition(int positionId) {
+    return parkingPositionRepository.findByStatusIs(positionId);
+  }
+
+
+  @Transactional
+  @Override
+  public void parkCarInPosition(int positionId) {
+    ParkingPosition parkingPosition = parkingPositionRepository.findById(positionId)
+        .orElseThrow(() -> new PositionNoFoundException(ParkingEnum.PARKING_POSITION_NOT_FOUND));
+
+    if (parkingPosition.getStatus() == ParkingPositionStatusEnum.HAVE_BEEN_PARKED.getState()) {
+      throw new PositionHaveParkedException(ParkingEnum.PARKING_POSITION_HAVE_BEEN_PARKED);
+    }
+    parkingPosition.setStatus(ParkingPositionStatusEnum.HAVE_BEEN_PARKED.getState());
+    ParkingLot parkingLotInDB = findParkingLotByPositionId(positionId);
+
+    if (parkingLotInDB.getRemainingAmount() <= 0) {
+      throw new ParkingLotNoSpaceException(ParkingEnum.PARKING_LOT_HAVE_NO_SPACE);
+    }
+
+    parkingLotInDB.setRemainingAmount(parkingLotInDB.getRemainingAmount() - 1);
+    parkingPositionRepository.save(parkingPosition);
+    parkingLotRepository.save(parkingLotInDB);
+  }
+
+  @Override
+  public ParkingLot findParkingLotByPositionId(int positionId) {
+    ParkingPosition parkingPosition = parkingPositionRepository.findById(positionId)
+        .orElseThrow(() -> new PositionNoFoundException(ParkingEnum.PARKING_LOT_NOT_FOUND));
+
+    return parkingLotRepository.findById(parkingPosition.getParkingLot().getId())
+        .orElseThrow(() -> new ParkingLotNoFoundException(ParkingEnum.PARKING_LOT_NOT_FOUND));
+  }
+
+  private double calculateDistance(ParkingLot parkingLot, double latitude, double longitude) {
+    return LatlongitudeUtil.getDistance(latitude, longitude, parkingLot.getLatitude(), parkingLot.getLongitude());
+  }
+
+  private void sortedByPrice(List<ParkingLotDto> parkingLotDtos) {
+    parkingLotDtos.sort((o1, o2) -> {
+      if (o1.getUnitPrice() == o2.getUnitPrice()) {
+        if (o1.getDistance() == o2.getDistance()) {
+          return o2.getRemainingAmount() - o1.getRemainingAmount();
         }
+        return (int) (o1.getDistance() - o2.getDistance());
+      }
+      return o1.getUnitPrice() - o2.getUnitPrice();
+    });
+  }
 
-        if (sortType == SORT_IN_PRICE) {
-            sortedByPrice(parkingLotDtos);
-        } else if (sortType == SORT_IN_DISTANCE) {
-            sortedByDistance(parkingLotDtos);
+  private void sortedByDistance(List<ParkingLotDto> parkingLotDtos) {
+    parkingLotDtos.sort((o1, o2) -> {
+      if (o1.getDistance() == o2.getDistance()) {
+        if (o1.getRemainingAmount() == o2.getRemainingAmount()) {
+          return o1.getUnitPrice() - o2.getUnitPrice();
         }
-
-        List<ParkingLotDto> content = parkingLotDtos.stream()
-                .filter(parkingLotDto -> parkingLotDto.getDistance() <= EFFECTIVE_DISTANCE)
-                .collect(Collectors.toList());
-
-        if (content.size() == 0) {
-            throw new ParkingLotNoFoundException(ParkingEnum.PARKING_LOT_NOT_FOUND);
-        }
-
-        return new PageImpl<>(content, pageable, parkingLotsPage.getTotalElements());
-    }
-
-    @Override
-    public boolean isCarInPosition(int positionId) {
-        return parkingPositionRepository.findByStatusIs(positionId);
-    }
-
-
-    @Transactional
-    @Override
-    public void parkCarInPosition(int positionId) {
-        ParkingPosition parkingPosition = parkingPositionRepository.findById(positionId)
-                .orElseThrow(() -> new PositionNoFoundException(ParkingEnum.PARKING_POSITION_NOT_FOUND));
-
-        if (parkingPosition.getStatus() == ParkingPositionStatusEnum.HAVE_BEEN_PARKED.getState()) {
-            throw new PositionHaveParkedException(ParkingEnum.PARKING_POSITION_HAVE_BEEN_PARKED);
-        }
-        parkingPosition.setStatus(ParkingPositionStatusEnum.HAVE_BEEN_PARKED.getState());
-        ParkingLot parkingLotInDB = findParkingLotByPositionId(positionId);
-
-        if (parkingLotInDB.getRemainingAmount() <= 0) {
-            throw new ParkingLotNoSpaceException(ParkingEnum.PARKING_LOT_HAVE_NO_SPACE);
-        }
-
-        parkingLotInDB.setRemainingAmount(parkingLotInDB.getRemainingAmount() - 1);
-        parkingPositionRepository.save(parkingPosition);
-        parkingLotRepository.save(parkingLotInDB);
-    }
-
-    @Override
-    public ParkingLot findParkingLotByPositionId(int positionId) {
-        ParkingPosition parkingPosition = parkingPositionRepository.findById(positionId)
-                .orElseThrow(() -> new PositionNoFoundException(ParkingEnum.PARKING_LOT_NOT_FOUND));
-
-        return parkingLotRepository.findById(parkingPosition.getParkingLot().getId())
-                .orElseThrow(() -> new ParkingLotNoFoundException(ParkingEnum.PARKING_LOT_NOT_FOUND));
-    }
-
-    private double calculateDistance(ParkingLot parkingLot, double latitude, double longitude) {
-        return LatlongitudeUtil.getDistance
-                (latitude, longitude, parkingLot.getLatitude(), parkingLot.getLongitude());
-    }
-
-    private void sortedByPrice(List<ParkingLotDto> parkingLotDtos) {
-        parkingLotDtos.sort((o1, o2) -> {
-            if (o1.getUnitPrice() == o2.getUnitPrice()) {
-                if (o1.getDistance() == o2.getDistance()) {
-                    return o2.getRemainingAmount() - o1.getRemainingAmount();
-                }
-                return (int) (o1.getDistance() - o2.getDistance());
-            }
-            return o1.getUnitPrice() - o2.getUnitPrice();
-        });
-    }
-
-    private void sortedByDistance(List<ParkingLotDto> parkingLotDtos) {
-        parkingLotDtos.sort((o1, o2) -> {
-            if (o1.getDistance() == o2.getDistance()) {
-                if (o1.getRemainingAmount() == o2.getRemainingAmount()) {
-                    return o1.getUnitPrice() - o2.getUnitPrice();
-                }
-                return o2.getRemainingAmount() - o1.getRemainingAmount();
-            }
-            return (int) (o1.getDistance() - o2.getDistance());
-        });
-    }
+        return o2.getRemainingAmount() - o1.getRemainingAmount();
+      }
+      return (int) (o1.getDistance() - o2.getDistance());
+    });
+  }
 }

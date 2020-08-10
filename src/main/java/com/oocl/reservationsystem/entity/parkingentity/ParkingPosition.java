@@ -2,57 +2,63 @@ package com.oocl.reservationsystem.entity.parkingentity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "parking_position")
 public class ParkingPosition {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    private String parking_number;
-    private int status;
+  private String parkingNumber;
+  private int status;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "parkinglot_id")
-    private ParkingLot parkingLot;
+  @JsonIgnore
+  @ManyToOne
+  @JoinColumn(name = "parkinglot_id")
+  private ParkingLot parkingLot;
 
-    public ParkingPosition() {
-    }
+  public ParkingPosition() {
+  }
 
-    public ParkingPosition(String parking_number, int status) {
-        this.parking_number = parking_number;
-        this.status = status;
-    }
+  public ParkingPosition(String parkingNumber, int status) {
+    this.parkingNumber = parkingNumber;
+    this.status = status;
+  }
 
-    public Integer getId() {
-        return id;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public String getParking_number() {
-        return parking_number;
-    }
+  public String getParkingNumber() {
+    return parkingNumber;
+  }
 
-    public void setParking_number(String parking_number) {
-        this.parking_number = parking_number;
-    }
+  public void setParkingNumber(String parkingNumber) {
+    this.parkingNumber = parkingNumber;
+  }
 
-    public int getStatus() {
-        return status;
-    }
+  public int getStatus() {
+    return status;
+  }
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
+  public void setStatus(int status) {
+    this.status = status;
+  }
 
-    public ParkingLot getParkingLot() {
-        return parkingLot;
-    }
+  public ParkingLot getParkingLot() {
+    return parkingLot;
+  }
 
-    public void setParkingLot(ParkingLot parkingLot) {
-        this.parkingLot = parkingLot;
-    }
+  public void setParkingLot(ParkingLot parkingLot) {
+    this.parkingLot = parkingLot;
+  }
 }

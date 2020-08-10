@@ -8,15 +8,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CarServiceImpl implements CarService {
-    private final CarRepository carRepository;
 
-    public CarServiceImpl(CarRepository carRepository) {
-        this.carRepository = carRepository;
-    }
+  private final CarRepository carRepository;
 
-    @Override
-    public String getCarNumberById(Integer id) {
-        Car car =  carRepository.findById(id).orElseThrow(CarNotFoundException::new);
-        return car.getCarNumber();
-    }
+  public CarServiceImpl(CarRepository carRepository) {
+    this.carRepository = carRepository;
+  }
+
+  @Override
+  public String getCarNumberById(Integer id) {
+    Car car = carRepository.findById(id).orElseThrow(CarNotFoundException::new);
+    return car.getCarNumber();
+  }
 }

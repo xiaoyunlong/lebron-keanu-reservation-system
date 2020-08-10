@@ -1,74 +1,75 @@
 package com.oocl.reservationsystem.dto.orderdto;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
+import javax.validation.constraints.NotNull;
 
 public class OrderRequest {
-    @NotNull
-    private Integer carId;
 
-    @NotNull
-    private Integer customerId;
+  @NotNull
+  private Integer carId;
 
-    @NotNull
-    private Date startTime;
+  @NotNull
+  private Integer customerId;
 
-    @NotNull
-    private Integer preCost;
+  @NotNull
+  private Date startTime;
 
-    @NotNull
-    private Integer parkingPositionId;
+  @NotNull
+  private Integer preCost;
 
-    public OrderRequest(@NotNull Integer carId, @NotNull Integer customerId,
-                        @NotNull Date startTime, @NotNull Integer preCost,
-                        @NotNull Integer parkingPositionId) {
-        this.carId = carId;
-        this.customerId = customerId;
-        this.startTime = startTime;
-        this.preCost = preCost;
-        this.parkingPositionId = parkingPositionId;
-    }
+  @NotNull
+  private Integer parkingPositionId;
 
-    public OrderRequest() {
-    }
+  public OrderRequest(@NotNull Integer carId, @NotNull Integer customerId,
+      @NotNull Date startTime, @NotNull Integer preCost,
+      @NotNull Integer parkingPositionId) {
+    this.carId = carId;
+    this.customerId = customerId;
+    this.startTime = startTime;
+    this.preCost = preCost;
+    this.parkingPositionId = parkingPositionId;
+  }
 
-    public Integer getCarId() {
-        return carId;
-    }
+  public OrderRequest() {
+  }
 
-    public void setCarId(Integer carId) {
-        this.carId = carId;
-    }
+  public Integer getCarId() {
+    return carId;
+  }
 
-    public Integer getCustomerId() {
-        return customerId;
-    }
+  public void setCarId(Integer carId) {
+    this.carId = carId;
+  }
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
+  public Integer getCustomerId() {
+    return customerId;
+  }
 
-    public Date getStartTime() {
-        return startTime;
-    }
+  public void setCustomerId(Integer customerId) {
+    this.customerId = customerId;
+  }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
+  public Date getStartTime() {
+    return startTime;
+  }
 
-    public Integer getPreCost() {
-        return preCost;
-    }
+  public void setStartTime(Date startTime) {
+    this.startTime = startTime;
+  }
 
-    public void setPreCost(Integer preCost) {
-        this.preCost = preCost;
-    }
+  public Integer getPreCost() {
+    return preCost;
+  }
 
-    public Integer getParkingPositionId() {
-        return parkingPositionId;
-    }
+  public void setPreCost(Integer preCost) {
+    this.preCost = preCost;
+  }
 
-    public void setParkingPositionId(Integer parkingPositionId) {
-        this.parkingPositionId = parkingPositionId;
-    }
+  public Integer getParkingPositionId() {
+    return parkingPositionId;
+  }
+
+  public void setParkingPositionId(Integer parkingPositionId) {
+    this.parkingPositionId = parkingPositionId;
+  }
 }

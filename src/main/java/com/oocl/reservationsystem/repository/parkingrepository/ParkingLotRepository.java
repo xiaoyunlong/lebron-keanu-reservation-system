@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface ParkingLotRepository extends JpaRepository<ParkingLot,Integer> {
-    Page<ParkingLot> findByRemainingAmountGreaterThan(int amout,Pageable pageable);
+public interface ParkingLotRepository extends JpaRepository<ParkingLot, Integer> {
+
+  Page<ParkingLot> findByRemainingAmountGreaterThan(int amout, Pageable pageable);
 }

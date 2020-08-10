@@ -3,129 +3,130 @@ package com.oocl.reservationsystem.dto.orderdto;
 import java.util.Date;
 
 public class OrderResponse {
-    //TODO   location
-    private String orderNumber;
-    private Integer carId;
-    private Integer customerId;
-    private Date createTime;
-    private Date startTime;
-    private Date endTime;
-    private Integer totalCost;
-    private Integer preCost;
-    private String status;
-    private Integer parkingPositionId;
-    private String parkingLotName;
-    private String licenseNumber;
 
-    public String getParkingLotName() {
-        return parkingLotName;
-    }
+  //TODO   location
+  private String orderNumber;
+  private Integer carId;
+  private Integer customerId;
+  private Date createTime;
+  private Date startTime;
+  private Date endTime;
+  private Integer totalCost;
+  private Integer preCost;
+  private String status;
+  private Integer parkingPositionId;
+  private String parkingLotName;
+  private String licenseNumber;
 
-    public void setParkingLotName(String parkingLotName) {
-        this.parkingLotName = parkingLotName;
-    }
+  public String getParkingLotName() {
+    return parkingLotName;
+  }
 
-    public String getLicenseNumber() {
-        return licenseNumber;
-    }
+  public void setParkingLotName(String parkingLotName) {
+    this.parkingLotName = parkingLotName;
+  }
 
-    public void setLicenseNumber(String licenseNumber) {
-        this.licenseNumber = licenseNumber;
-    }
+  public String getLicenseNumber() {
+    return licenseNumber;
+  }
 
-    public String getOrderNumber() {
-        return orderNumber;
-    }
+  public void setLicenseNumber(String licenseNumber) {
+    this.licenseNumber = licenseNumber;
+  }
 
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
-    }
+  public String getOrderNumber() {
+    return orderNumber;
+  }
 
-    public Integer getCarId() {
-        return carId;
-    }
+  public void setOrderNumber(String orderNumber) {
+    this.orderNumber = orderNumber;
+  }
 
-    public void setCarId(Integer carId) {
-        this.carId = carId;
-    }
+  public Integer getCarId() {
+    return carId;
+  }
 
-    public Integer getCustomerId() {
-        return customerId;
-    }
+  public void setCarId(Integer carId) {
+    this.carId = carId;
+  }
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
+  public Integer getCustomerId() {
+    return customerId;
+  }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+  public void setCustomerId(Integer customerId) {
+    this.customerId = customerId;
+  }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+  public Date getCreateTime() {
+    return createTime;
+  }
 
-    public Date getStartTime() {
-        return startTime;
-    }
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
+  public Date getStartTime() {
+    return startTime;
+  }
 
-    public Date getEndTime() {
-        return endTime;
-    }
+  public void setStartTime(Date startTime) {
+    this.startTime = startTime;
+  }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
+  public Date getEndTime() {
+    return endTime;
+  }
 
-    public Integer getTotalCost() {
-        return totalCost;
-    }
+  public void setEndTime(Date endTime) {
+    this.endTime = endTime;
+  }
 
-    public void setTotalCost(Integer totalCost) {
-        this.totalCost = totalCost;
-    }
+  public Integer getTotalCost() {
+    return totalCost;
+  }
 
-    public Integer getPreCost() {
-        return preCost;
-    }
+  public void setTotalCost(Integer totalCost) {
+    this.totalCost = totalCost;
+  }
 
-    public void setPreCost(Integer preCost) {
-        this.preCost = preCost;
-    }
+  public Integer getPreCost() {
+    return preCost;
+  }
 
-    public String getStatus() {
-        return status;
-    }
+  public void setPreCost(Integer preCost) {
+    this.preCost = preCost;
+  }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  public String getStatus() {
+    return status;
+  }
 
-    public Integer getParkingPositionId() {
-        return parkingPositionId;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public void setParkingPositionId(Integer parkingPositionId) {
-        this.parkingPositionId = parkingPositionId;
-    }
+  public Integer getParkingPositionId() {
+    return parkingPositionId;
+  }
 
-    @Override
-    public String toString() {
-        return "OrderResponse{" +
-                "orderNumber='" + orderNumber + '\'' +
-                ", carId=" + carId +
-                ", customerId=" + customerId +
-                ", createTime=" + createTime +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", totalCost=" + totalCost +
-                ", preCost=" + preCost +
-                ", status='" + status + '\'' +
-                ", parkingPositionId=" + parkingPositionId +
-                '}';
-    }
+  public void setParkingPositionId(Integer parkingPositionId) {
+    this.parkingPositionId = parkingPositionId;
+  }
+
+  @Override
+  public String toString() {
+    return "OrderResponse{"
+        + "orderNumber='" + orderNumber + '\''
+        + ", carId=" + carId
+        + ", customerId=" + customerId
+        + ", createTime=" + createTime
+        + ", startTime=" + startTime
+        + ", endTime=" + endTime
+        + ", totalCost=" + totalCost
+        + ", preCost=" + preCost
+        + ", status='" + status + '\''
+        + ", parkingPositionId=" + parkingPositionId
+        + '}';
+  }
 }

@@ -8,15 +8,15 @@ import java.util.List;
 
 public interface OrderService {
 
-    OrderResponse addOrder(OrderRequest orderRequest);
+  OrderResponse addOrder(OrderRequest orderRequest);
 
-    List<OrderResponse> getAllOrderByCustomerId(Integer customerId);
+  List<OrderResponse> getAllOrderByCustomerId(Integer customerId);
 
-    OrderResponse getOrderById(Integer id);
+  OrderResponse getOrderById(Integer id);
 
-    Order useOrder(Integer orderId);
+  Order useOrder(Integer orderId);
 
-    Order cancelOrder(Integer orderId);
+  Order cancelOrder(Integer orderId);
 
-    OrderResponse finishOrder(Integer orderId);
+  OrderResponse finishOrder(Integer orderId);
 }
