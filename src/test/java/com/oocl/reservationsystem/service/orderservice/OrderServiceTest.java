@@ -37,10 +37,8 @@ public class OrderServiceTest {
     Order initOneOrder() throws ParseException {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         Date startDate = df.parse("2020-12-11T20:18:30Z");
-        OrderRequest orderRequest = new OrderRequest(1, 1, startDate, 5, 1);
-        Order order = new Order(1, 1, 1, new Date(), startDate, null,
+        return new Order(1, 1, 1, new Date(), startDate, null,
                 null, 5, OrderStatus.NOT_USED, 1);
-        return order;
     }
 
     OrderRequest initOneOrderRequest() throws ParseException {
@@ -67,7 +65,6 @@ public class OrderServiceTest {
     void should_return_someone_customer_all_order_when_get_all_order_by_customer_id_given_customer_id() throws ParseException {
         //given
         Order order = initOneOrder();
-        OrderRequest orderRequest = initOneOrderRequest();
         List<Order> orderList = new ArrayList<>();
         orderList.add(order);
         int customerId = 1;
@@ -82,7 +79,6 @@ public class OrderServiceTest {
     void should_return_one_order_when_get_order_by_id_given_order_id() throws ParseException {
         //given
         Order order = initOneOrder();
-        OrderRequest orderRequest = initOneOrderRequest();
         int orderId = 1;
         //when
         when(orderRepository.findById(any())).thenReturn(Optional.ofNullable(order));
@@ -98,7 +94,6 @@ public class OrderServiceTest {
         Order order = initOneOrder();
         Order usedOrder = initOneOrder();
         usedOrder.setStatus(OrderStatus.USED);
-        OrderRequest orderRequest = initOneOrderRequest();
         int orderId = 1;
         //when
         when(orderRepository.findById(any())).thenReturn(Optional.ofNullable(order));
@@ -116,7 +111,6 @@ public class OrderServiceTest {
         Order order = initOneOrder();
         Order usedOrder = initOneOrder();
         usedOrder.setStatus(OrderStatus.CANCELLED);
-        OrderRequest orderRequest = initOneOrderRequest();
         int orderId = 1;
         //when
         when(orderRepository.findById(any())).thenReturn(Optional.ofNullable(order));
@@ -133,17 +127,16 @@ public class OrderServiceTest {
         //given
         Order order = initOneOrder();
         order.setStatus(OrderStatus.USED);
+        order.setEnterTime(new Date());
         Order usedOrder = initOneOrder();
         usedOrder.setStatus(OrderStatus.FINISHED);
-        OrderRequest orderRequest = initOneOrderRequest();
         int orderId = 1;
         //when
-        when(orderRepository.findById(any())).thenReturn(Optional.ofNullable(order));
+        when(orderRepository.findById(any())).thenReturn(Optional.of(order));
         when(orderRepository.save(any())).thenReturn(usedOrder);
 
         OrderResponse orderResponse = orderService.finishOrder(orderId);
         //then
-        assert order != null;
         assertEquals(OrderStatus.FINISHED, orderResponse.getStatus());
     }
 }

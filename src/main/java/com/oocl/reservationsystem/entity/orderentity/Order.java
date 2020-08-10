@@ -18,6 +18,7 @@ public class Order {
     private Integer preCost;
     private String status;
     private Integer parkingPositionId;
+    private Date enterTime;
 
     public Order(Integer id, Integer carId, Integer customerId, Date createTime,
                  Date startTime, Date endTime, Integer totalCost, Integer preCost
@@ -35,6 +36,14 @@ public class Order {
     }
 
     public Order() {
+    }
+
+    public Date getEnterTime() {
+        return enterTime;
+    }
+
+    public void setEnterTime(Date enterTime) {
+        this.enterTime = enterTime;
     }
 
     public Integer getId() {

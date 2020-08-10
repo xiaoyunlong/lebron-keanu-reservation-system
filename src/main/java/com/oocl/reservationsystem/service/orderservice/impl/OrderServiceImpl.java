@@ -56,6 +56,7 @@ public class OrderServiceImpl implements OrderService {
     public Order useOrder(Integer orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
         if (order.getStatus().equals(OrderStatus.NOT_USED)) {
+            order.setEnterTime(new Date());
             order.setStatus(OrderStatus.USED);
             return orderRepository.save(order);
         } else {
@@ -81,7 +82,7 @@ public class OrderServiceImpl implements OrderService {
         order.setEndTime(new Date());
         order.setTotalCost(
                 OrdersUtil.calculateAllCost(
-                        order.getStartTime(),
+                        order.getEnterTime(),
                         order.getEndTime(),
                         order.getPreCost()));
         if (order.getStatus().equals(OrderStatus.USED)) {
