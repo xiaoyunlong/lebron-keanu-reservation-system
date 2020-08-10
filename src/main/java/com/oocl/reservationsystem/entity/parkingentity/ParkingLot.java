@@ -1,9 +1,7 @@
 package com.oocl.reservationsystem.entity.parkingentity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "parkinglot")
@@ -19,10 +17,6 @@ public class ParkingLot {
     private String name;
     @Column(name = "unit_price")
     private int unitPrice;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "parkingLot")
-    private List<ParkingPosition> parkingPositions;
 
     public ParkingLot() {
     }
