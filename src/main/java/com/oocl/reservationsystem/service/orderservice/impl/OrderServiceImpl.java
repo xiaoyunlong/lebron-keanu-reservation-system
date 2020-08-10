@@ -37,5 +37,13 @@ public class OrderServiceImpl implements OrderService {
         return OrdersUtil.OrderToResponseMapper(orderRepository.save(order));
     }
 
-
+    @Override
+    public List<OrderResponse> getAllOrderByCustomerId(Integer customerId) {
+        List<Order> orderList = orderRepository.findByCustomerId(customerId);
+        List<OrderResponse> orderResponseList = new ArrayList<>();
+        for(Order order:orderList){
+            orderResponseList.add(OrdersUtil.OrderToResponseMapper(order));
+        }
+        return orderResponseList;
+    }
 }

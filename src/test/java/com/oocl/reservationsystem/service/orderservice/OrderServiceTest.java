@@ -62,4 +62,20 @@ public class OrderServiceTest {
         assertEquals(orderRequest.getCustomerId(), orderResponse.getCustomerId());
     }
 
+    @Test
+    void should_return_someone_customer_all_order_when_get_all_order_by_customer_id_given_customer_id() throws ParseException {
+        //given
+        Order order = initOneOrder();
+        OrderRequest orderRequest = initOneOrderRequest();
+        List<Order> orderList = new ArrayList<>();
+        orderList.add(order);
+        int customerId = 1;
+        //when
+        when(orderRepository.findByCustomerId(any())).thenReturn(orderList);
+        List<OrderResponse> responseList = orderService.getAllOrderByCustomerId(customerId);
+        //then
+        assertEquals(customerId, responseList.get(0).getCustomerId());
+
+    }
+
 }

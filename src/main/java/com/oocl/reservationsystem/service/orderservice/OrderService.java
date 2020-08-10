@@ -10,5 +10,6 @@ public interface OrderService {
 
     OrderResponse addOrder(OrderRequest orderRequest);
 
+    List<OrderResponse> getAllOrderByCustomerId(Integer customerId);
 
 }
