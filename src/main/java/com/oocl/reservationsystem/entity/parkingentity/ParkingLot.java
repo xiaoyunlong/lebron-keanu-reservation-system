@@ -1,5 +1,6 @@
 package com.oocl.reservationsystem.entity.parkingentity;
 
+
 import javax.persistence.*;
 
 @Entity
@@ -11,17 +12,22 @@ public class ParkingLot {
     private double latitude;
     private double longitude;
     private int capicity;
-    private int remaining_amount;
+    @Column(name = "remaining_amount")
+    private int remainingAmount;
     private String name;
-    private int unit_price;
+    @Column(name = "unit_price")
+    private int unitPrice;
 
-    public ParkingLot(double latitude, double longitude, int capicity, int remaining_amount, String name, int unit_price) {
+    public ParkingLot() {
+    }
+
+    public ParkingLot(double latitude, double longitude, int capicity, int remainingAmount, String name, int unitPrice) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.capicity = capicity;
-        this.remaining_amount = remaining_amount;
+        this.remainingAmount = remainingAmount;
         this.name = name;
-        this.unit_price = unit_price;
+        this.unitPrice = unitPrice;
     }
 
     public double getLatitude() {
@@ -30,5 +36,21 @@ public class ParkingLot {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    public int getCapicity() {
+        return capicity;
+    }
+
+    public int getRemainingAmount() {
+        return remainingAmount;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getUnitPrice() {
+        return unitPrice;
     }
 }
