@@ -73,4 +73,26 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderCancelFailException();
         }
     }
+
+    @Override
+    public OrderResponse finishOrder(Integer orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
+        //TODO when given money,and calculate remain money
+        order.setEndTime(new Date());
+        order.setTotalCost(
+                OrdersUtil.calculateAllCost(
+                        order.getStartTime(),
+                        order.getEndTime(),
+                        order.getPreCost()));
+        if (order.getStatus().equals(OrderStatus.USED)) {
+            order.setStatus(OrderStatus.FINISHED);
+            return OrdersUtil.OrderToResponseMapper(orderRepository.save(order));
+        } else {
+            throw new OrderStatusErrorException();
+        }
+
+    }
+
+
+
 }

@@ -21,6 +21,7 @@ public class OrderController {
     public void addOrder(@RequestBody @Valid OrderRequest orderRequest){
         orderService.addOrder(orderRequest);
     }
+
     @GetMapping()
     public List<OrderResponse> getAllOrderByCustomerId(@RequestParam(value="customer_id") Integer customerId) {
         return orderService.getAllOrderByCustomerId(customerId);
@@ -35,9 +36,15 @@ public class OrderController {
     public void useOrder(@PathVariable(value = "order_id") Integer orderId){
         orderService.useOrder(orderId);
     }
+
     @PutMapping("/cancel/{order_id}")
     public void cancelOrder(@PathVariable(value = "order_id") Integer orderId){
         orderService.cancelOrder(orderId);
+    }
+
+    @PutMapping("/finish/{order_id}")
+    public OrderResponse finishOrder(@PathVariable(value = "order_id") Integer orderId){
+        return orderService.finishOrder(orderId);
     }
 
 }

@@ -127,4 +127,23 @@ public class OrderServiceTest {
         assert order != null;
         assertEquals(OrderStatus.CANCELLED, saveOrder.getStatus());
     }
+
+    @Test
+    void should_return_order_response_when_change_status_to_finish_given_order_id() throws ParseException {
+        //given
+        Order order = initOneOrder();
+        order.setStatus(OrderStatus.USED);
+        Order usedOrder = initOneOrder();
+        usedOrder.setStatus(OrderStatus.FINISHED);
+        OrderRequest orderRequest = initOneOrderRequest();
+        int orderId = 1;
+        //when
+        when(orderRepository.findById(any())).thenReturn(Optional.ofNullable(order));
+        when(orderRepository.save(any())).thenReturn(usedOrder);
+
+        OrderResponse orderResponse = orderService.finishOrder(orderId);
+        //then
+        assert order != null;
+        assertEquals(OrderStatus.FINISHED, orderResponse.getStatus());
+    }
 }

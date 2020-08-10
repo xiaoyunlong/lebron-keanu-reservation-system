@@ -17,4 +17,6 @@ public interface OrderService {
     Order useOrder(Integer orderId);
 
     Order cancelOrder(Integer orderId);
+
+    OrderResponse finishOrder(Integer orderId);
 }
