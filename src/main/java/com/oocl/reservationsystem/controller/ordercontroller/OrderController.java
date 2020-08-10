@@ -26,4 +26,9 @@ public class OrderController {
         return orderService.getAllOrderByCustomerId(customerId);
     }
 
+    @GetMapping("/{id}")
+    public OrderResponse getOrderById(@PathVariable Integer id){
+        return orderService.getOrderById(id);
+    }
+
 }

@@ -46,4 +46,9 @@ public class OrderServiceImpl implements OrderService {
         }
         return orderResponseList;
     }
+
+    @Override
+    public OrderResponse getOrderById(Integer id) {
+        return OrdersUtil.OrderToResponseMapper(orderRepository.findById(id).orElseThrow(OrderNotFoundException::new));
+    }
 }

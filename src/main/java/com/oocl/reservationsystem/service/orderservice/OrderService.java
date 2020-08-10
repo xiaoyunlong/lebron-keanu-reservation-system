@@ -12,4 +12,5 @@ public interface OrderService {
 
     List<OrderResponse> getAllOrderByCustomerId(Integer customerId);
 
+    OrderResponse getOrderById(Integer id);
 }

@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -75,7 +76,19 @@ public class OrderServiceTest {
         List<OrderResponse> responseList = orderService.getAllOrderByCustomerId(customerId);
         //then
         assertEquals(customerId, responseList.get(0).getCustomerId());
-
     }
 
+    @Test
+    void should_return_one_order_when_get_order_by_id_given_order_id() throws ParseException {
+        //given
+        Order order = initOneOrder();
+        OrderRequest orderRequest = initOneOrderRequest();
+        int orderId = 1;
+        //when
+        when(orderRepository.findById(any())).thenReturn(Optional.ofNullable(order));
+        OrderResponse orderResponse = orderService.getOrderById(orderId);
+        //then
+        assert order != null;
+        assertEquals(order.getCarId(), orderResponse.getCarId());
+    }
 }
