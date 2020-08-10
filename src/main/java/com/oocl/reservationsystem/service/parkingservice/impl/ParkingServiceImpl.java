@@ -6,6 +6,7 @@ import com.oocl.reservationsystem.entity.parkingentity.ParkingPosition;
 import com.oocl.reservationsystem.enums.parking.ParkingEnum;
 import com.oocl.reservationsystem.enums.parking.ParkingPositionStatusEnum;
 import com.oocl.reservationsystem.exception.parking.ParkingLotNoFoundException;
+import com.oocl.reservationsystem.exception.parking.ParkingLotNoSpaceException;
 import com.oocl.reservationsystem.exception.parking.PositionHaveParkedException;
 import com.oocl.reservationsystem.exception.parking.PositionNoFoundException;
 import com.oocl.reservationsystem.repository.parkingrepository.ParkingLotRepository;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +45,7 @@ public class ParkingServiceImpl implements ParkingService {
     @Override
     public Page<ParkingLotDto> findParkingLotsByLocation(double latitude, double longitude, int sortType, Pageable pageable) {
 
-        Page<ParkingLot> parkingLotsPage = parkingLotRepository.findByRemainingAmountGreaterThan(0,pageable);
+        Page<ParkingLot> parkingLotsPage = parkingLotRepository.findByRemainingAmountGreaterThan(0, pageable);
         List<ParkingLotDto> parkingLotDtos = new ArrayList<>();
 
         for (ParkingLot parkingLot : parkingLotsPage.getContent()) {
@@ -76,6 +78,7 @@ public class ParkingServiceImpl implements ParkingService {
     }
 
 
+    @Transactional
     @Override
     public void parkCarInPosition(int positionId) {
         ParkingPosition parkingPosition = parkingPositionRepository.findById(positionId)
@@ -85,8 +88,15 @@ public class ParkingServiceImpl implements ParkingService {
             throw new PositionHaveParkedException(ParkingEnum.PARKING_POSITION_HAVE_BEEN_PARKED);
         }
         parkingPosition.setStatus(ParkingPositionStatusEnum.HAVE_BEEN_PARKED.getState());
+        ParkingLot parkingLotInDB = findParkingLotByPositionId(positionId);
 
+        if (parkingLotInDB.getRemainingAmount() <= 0) {
+            throw new ParkingLotNoSpaceException(ParkingEnum.PARKING_LOT_HAVE_NO_SPACE);
+        }
+
+        parkingLotInDB.setRemainingAmount(parkingLotInDB.getRemainingAmount() - 1);
         parkingPositionRepository.save(parkingPosition);
+        parkingLotRepository.save(parkingLotInDB);
     }
 
     @Override
@@ -98,12 +108,12 @@ public class ParkingServiceImpl implements ParkingService {
                 .orElseThrow(() -> new ParkingLotNoFoundException(ParkingEnum.PARKING_LOT_NOT_FOUND));
     }
 
-    private double calculateDistance(ParkingLot parkingLot,double latitude, double longitude) {
+    private double calculateDistance(ParkingLot parkingLot, double latitude, double longitude) {
         return LatlongitudeUtil.getDistance
                 (latitude, longitude, parkingLot.getLatitude(), parkingLot.getLongitude());
     }
 
-    private void sortedByPrice(List<ParkingLotDto> parkingLotDtos){
+    private void sortedByPrice(List<ParkingLotDto> parkingLotDtos) {
         parkingLotDtos.sort((o1, o2) -> {
             if (o1.getUnitPrice() == o2.getUnitPrice()) {
                 if (o1.getDistance() == o2.getDistance()) {
@@ -115,7 +125,7 @@ public class ParkingServiceImpl implements ParkingService {
         });
     }
 
-    private void sortedByDistance(List<ParkingLotDto> parkingLotDtos){
+    private void sortedByDistance(List<ParkingLotDto> parkingLotDtos) {
         parkingLotDtos.sort((o1, o2) -> {
             if (o1.getDistance() == o2.getDistance()) {
                 if (o1.getRemainingAmount() == o2.getRemainingAmount()) {
