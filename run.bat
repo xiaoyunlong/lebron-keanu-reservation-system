@@ -1,4 +1,4 @@
-for /f "tokens=5 delims= " %%a in ('netstat -ano ^| findstr "8088" ^| findstr "LISTENING"') do set pid=%%a
+for /f "tokens=5 delims= " %%a in ('netstat -ano ^| findstr "8098" ^| findstr "LISTENING"') do set pid=%%a
 if not "%pid%" == "" (
   taskkill /f /PID %pid%
 ) else (
