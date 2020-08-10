@@ -23,6 +23,9 @@ public class ParkingServiceImpl implements ParkingService {
 
     private final ParkingLotRepository parkingLotRepository;
     private final double EFFECTIVE_DISTANCE = 1;
+    private final int SORT_IN_DISTANCE = 1;
+    private final int SORT_IN_PRICE = 2;
+
 
     @Autowired
     public ParkingServiceImpl(ParkingLotRepository parkingLotRepository) {
@@ -30,7 +33,7 @@ public class ParkingServiceImpl implements ParkingService {
     }
 
     @Override
-    public Page<ParkingLotDto> findParkingLotsByLocation(double latitude, double longitude, Pageable pageable) {
+    public Page<ParkingLotDto> findParkingLotsByLocation(double latitude, double longitude, int sortType, Pageable pageable) {
 
         Page<ParkingLot> parkingLotsPage = parkingLotRepository.findByRemainingAmountGreaterThan(0,pageable);
         List<ParkingLotDto> parkingLotDtos = new ArrayList<>();
@@ -40,6 +43,12 @@ public class ParkingServiceImpl implements ParkingService {
             BeanUtils.copyProperties(parkingLot, parkingLotDto);
             parkingLotDto.setDistance(calculateDistance(parkingLot, latitude, longitude));
             parkingLotDtos.add(parkingLotDto);
+        }
+
+        if (sortType == SORT_IN_PRICE) {
+            sortedByPrice(parkingLotDtos);
+        } else if (sortType == SORT_IN_DISTANCE) {
+            sortedByDistance(parkingLotDtos);
         }
 
         List<ParkingLotDto> content = parkingLotDtos.stream()
@@ -53,9 +62,32 @@ public class ParkingServiceImpl implements ParkingService {
         return new PageImpl<>(content, pageable, parkingLotsPage.getTotalElements());
     }
 
-
     private double calculateDistance(ParkingLot parkingLot,double latitude, double longitude) {
         return LatlongitudeUtil.getDistance
                 (latitude, longitude, parkingLot.getLatitude(), parkingLot.getLongitude());
+    }
+
+    private void sortedByPrice(List<ParkingLotDto> parkingLotDtos){
+        parkingLotDtos.sort((o1, o2) -> {
+            if (o1.getUnitPrice() == o2.getUnitPrice()) {
+                if (o1.getDistance() == o2.getDistance()) {
+                    return o2.getRemainingAmount() - o1.getRemainingAmount();
+                }
+                return (int) (o1.getDistance() - o2.getDistance());
+            }
+            return o1.getUnitPrice() - o2.getUnitPrice();
+        });
+    }
+
+    private void sortedByDistance(List<ParkingLotDto> parkingLotDtos){
+        parkingLotDtos.sort((o1, o2) -> {
+            if (o1.getDistance() == o2.getDistance()) {
+                if (o1.getRemainingAmount() == o2.getRemainingAmount()) {
+                    return o1.getUnitPrice() - o2.getUnitPrice();
+                }
+                return o2.getRemainingAmount() - o1.getRemainingAmount();
+            }
+            return (int) (o1.getDistance() - o2.getDistance());
+        });
     }
 }

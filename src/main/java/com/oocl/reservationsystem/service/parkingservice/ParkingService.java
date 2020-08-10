@@ -6,5 +6,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface ParkingService {
 
-    Page<ParkingLotDto> findParkingLotsByLocation(double latitude, double longitude, Pageable pageable);
+    Page<ParkingLotDto> findParkingLotsByLocation(double latitude, double longitude, int sortType, Pageable pageable);
+
 }

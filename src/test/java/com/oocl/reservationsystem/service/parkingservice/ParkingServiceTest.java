@@ -28,11 +28,13 @@ class ParkingServiceTest {
     @MockBean
     ParkingLotRepository parkingLotRepository;
 
+
     @Test
     void should_return_parking_lots_when_find_parking_lots_by_location_given_latitude_longitude(){
         //given
         double latitude = 113.578996;
         double longitude = 22.377632;
+        int sortType = 1;
 
         //给附近的两个停车场
         List<ParkingLot> parkingLots = new ArrayList<>();
@@ -44,7 +46,7 @@ class ParkingServiceTest {
                 .thenReturn(page);
 
         //when
-        Page<ParkingLotDto> parkingLotsInResult = parkingService.findParkingLotsByLocation(latitude, longitude, Pageable.unpaged());
+        Page<ParkingLotDto> parkingLotsInResult = parkingService.findParkingLotsByLocation(latitude, longitude, sortType,Pageable.unpaged());
 
         //then
         Assertions.assertEquals(2, parkingLotsInResult.getContent().size());
