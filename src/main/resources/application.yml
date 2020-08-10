@@ -1,0 +1,36 @@
+# spring cloud access&secret config
+# 可以访问如下地址查看: https://usercenter.console.aliyun.com/#/manage/ak
+alibaba:
+  cloud:
+    access-key: '****'
+    secret-key: '****'
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    jmx:
+      exposure:
+        include: '*'
+    web:
+      exposure:
+        include: '*'
+  server:
+    port: 8081
+
+# 应用服务 WEB 访问端口
+server:
+  port: 8088
+spring:
+  application:
+    name: reservation-system
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: '@@nrot@@'
+    url: jdbc:mysql://10.222.232.158:3306/parkinglot
+    username: root
+  jpa:
+    database: MySQL
+    generate-ddl: false
+    show-sql: true
+
