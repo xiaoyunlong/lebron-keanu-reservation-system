@@ -104,10 +104,27 @@ public class OrderServiceTest {
         when(orderRepository.findById(any())).thenReturn(Optional.ofNullable(order));
         when(orderRepository.save(any())).thenReturn(usedOrder);
 
-
         Order saveOrder = orderService.useOrder(orderId);
         //then
         assert order != null;
         assertEquals(OrderStatus.USED, saveOrder.getStatus());
+    }
+
+    @Test
+    void should_return_status_canceled_when_change_status_to_cancel_given_order_id() throws ParseException {
+        //given
+        Order order = initOneOrder();
+        Order usedOrder = initOneOrder();
+        usedOrder.setStatus(OrderStatus.CANCELLED);
+        OrderRequest orderRequest = initOneOrderRequest();
+        int orderId = 1;
+        //when
+        when(orderRepository.findById(any())).thenReturn(Optional.ofNullable(order));
+        when(orderRepository.save(any())).thenReturn(usedOrder);
+
+        Order saveOrder = orderService.cancelOrder(orderId);
+        //then
+        assert order != null;
+        assertEquals(OrderStatus.CANCELLED, saveOrder.getStatus());
     }
 }

@@ -35,5 +35,9 @@ public class OrderController {
     public void useOrder(@PathVariable(value = "order_id") Integer orderId){
         orderService.useOrder(orderId);
     }
+    @PutMapping("/cancel/{order_id}")
+    public void cancelOrder(@PathVariable(value = "order_id") Integer orderId){
+        orderService.cancelOrder(orderId);
+    }
 
 }

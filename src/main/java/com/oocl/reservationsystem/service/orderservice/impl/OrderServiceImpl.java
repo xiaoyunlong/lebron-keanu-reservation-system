@@ -62,4 +62,15 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderStatusErrorException();
         }
     }
+
+    @Override
+    public Order cancelOrder(Integer orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
+        if (order.getStatus().equals(OrderStatus.NOT_USED)) {
+            order.setStatus(OrderStatus.CANCELLED);
+            return orderRepository.save(order);
+        } else {
+            throw new OrderCancelFailException();
+        }
+    }
 }

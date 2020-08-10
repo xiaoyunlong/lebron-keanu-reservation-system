@@ -15,4 +15,6 @@ public interface OrderService {
     OrderResponse getOrderById(Integer id);
 
     Order useOrder(Integer orderId);
+
+    Order cancelOrder(Integer orderId);
 }
