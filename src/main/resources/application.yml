@@ -30,4 +30,4 @@ spring:
     generate-ddl: false
     show-sql: true
   profiles:
-    active: dev
+    active: prod
