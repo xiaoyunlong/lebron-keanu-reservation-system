@@ -84,6 +84,8 @@ class ParkingServiceTest {
 
         ParkingLot parkingLot = new ParkingLot();
         parkingLot.setName(placeName);
+        parkingLot.setCapicity(10);
+        parkingLot.setRemainingAmount(10);
 
         ParkingPosition parkingPosition = new ParkingPosition();
         parkingPosition.setParkingLot(parkingLot);
@@ -91,11 +93,15 @@ class ParkingServiceTest {
         Mockito.when(parkingPositionRepository.findById(positionId))
                 .thenReturn(java.util.Optional.of(parkingPosition));
 
+        Mockito.when(parkingLotRepository.findById(parkingPosition.getParkingLot().getId()))
+                .thenReturn(java.util.Optional.of(parkingLot));
+
         //when
         parkingService.parkCarInPosition(positionId);
 
         //then
         verify(parkingPositionRepository,times(1)).save(any(ParkingPosition.class));
+        verify(parkingLotRepository,times(1)).save(any(ParkingLot.class));
     }
 
 }
