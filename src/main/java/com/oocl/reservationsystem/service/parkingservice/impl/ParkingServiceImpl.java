@@ -1,6 +1,7 @@
 package com.oocl.reservationsystem.service.parkingservice.impl;
 
 import com.oocl.reservationsystem.dto.parkingdto.ParkingLotDto;
+import com.oocl.reservationsystem.dto.parkingdto.WebSocketRequest;
 import com.oocl.reservationsystem.entity.parkingentity.ParkingLot;
 import com.oocl.reservationsystem.entity.parkingentity.ParkingPosition;
 import com.oocl.reservationsystem.enums.parking.ParkingEnum;
@@ -121,6 +122,15 @@ public class ParkingServiceImpl implements ParkingService {
     return parkingLotRepository
         .findById(parkingPosition.getParkingLot().getId())
         .orElseThrow(() -> new ParkingLotNoFoundException(ParkingEnum.PARKING_LOT_NOT_FOUND));
+  }
+
+  @Override
+  public ParkingLot updateParkingLotByParkingLotIdAndStatus(WebSocketRequest webSocketRequest) {
+    Optional<ParkingLot> parkingLot = parkingLotRepository.findById(webSocketRequest.getParkinglotId());
+    if(parkingLot.isPresent()){
+      parkingLot.get().getParkingPositions().get(webSocketRequest.getIndex()).setStatus(webSocketRequest.getStatus());
+    }
+    return parkingLot.get();
   }
 
   private double calculateDistance(ParkingLot parkingLot, double latitude, double longitude) {

@@ -1,7 +1,13 @@
 package com.oocl.reservationsystem.websocket;
 
+import com.google.gson.Gson;
+import com.oocl.reservationsystem.dto.parkingdto.WebSocketRequest;
+import com.oocl.reservationsystem.entity.parkingentity.ParkingLot;
+import com.oocl.reservationsystem.service.parkingservice.ParkingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -19,6 +25,8 @@ public class MyWebsocketServer {
 
   private static final Map<String, Session> clients = new ConcurrentHashMap<>();
   private final Logger log = LoggerFactory.getLogger(MyWebsocketServer.class);
+  @Autowired
+  private ParkingService parkingService;
 
   @OnOpen
   public void onOpen(Session session) {
@@ -42,7 +50,11 @@ public class MyWebsocketServer {
   @OnMessage
   public void onMessage(String message) {
     log.info("服务端收到客户端发来的消息: {}", message);
-    this.sendAll(message);
+    Gson gson = new Gson();
+    String webSocketRequestJson = message;
+    WebSocketRequest webSocketRequest = gson.fromJson(webSocketRequestJson, WebSocketRequest.class);
+    ParkingLot parkingLot = parkingService.updateParkingLotByParkingLotIdAndStatus(webSocketRequest);
+    this.sendAll(gson.toJson(parkingLot));
   }
 
   private void sendAll(String message) {
