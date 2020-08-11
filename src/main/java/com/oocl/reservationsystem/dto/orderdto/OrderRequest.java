@@ -5,15 +5,22 @@ import javax.validation.constraints.NotNull;
 
 public class OrderRequest {
 
-  @NotNull private Integer carId;
+  @NotNull
+  private String carNumber;
 
-  @NotNull private Integer customerId;
+  private Integer carId;
 
-  @NotNull private Date startTime;
+  @NotNull
+  private Integer customerId;
 
-  @NotNull private Integer preCost;
+  @NotNull
+  private Date startTime;
 
-  @NotNull private Integer parkingPositionId;
+  @NotNull
+  private Integer preCost;
+
+  @NotNull
+  private Integer parkingPositionId;
 
   public OrderRequest(
       @NotNull Integer carId,
@@ -28,7 +35,16 @@ public class OrderRequest {
     this.parkingPositionId = parkingPositionId;
   }
 
-  public OrderRequest() {}
+  public String getCarNumber() {
+    return carNumber;
+  }
+
+  public void setCarNumber(String carNumber) {
+    this.carNumber = carNumber;
+  }
+
+  public OrderRequest() {
+  }
 
   public Integer getCarId() {
     return carId;

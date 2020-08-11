@@ -20,4 +20,9 @@ public class CarServiceImpl implements CarService {
     Car car = carRepository.findById(id).orElseThrow(CarNotFoundException::new);
     return car.getCarNumber();
   }
+
+  @Override
+  public Car findCarByCarNumber(String carNumber) {
+    return carRepository.findTheCarByCarNumber(carNumber);
+  }
 }

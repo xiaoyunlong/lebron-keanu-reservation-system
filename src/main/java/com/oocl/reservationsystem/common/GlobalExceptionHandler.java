@@ -81,4 +81,12 @@ public class GlobalExceptionHandler {
   String customerNoFoundException(CustomerNoFoundException exception) {
     return exception.getMessage();
   }
+
+  @ExceptionHandler(RuntimeException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  String basicExceptionHandler(RuntimeException exception) {
+    return exception.getMessage();
+  }
+
 }

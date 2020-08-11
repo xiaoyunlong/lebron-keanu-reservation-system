@@ -47,12 +47,11 @@ public class OrderServiceImpl implements OrderService {
     parkingService.parkCarInPosition(orderRequest.getParkingPositionId());
     Order order = new Order();
     BeanUtils.copyProperties(orderRequest, order);
+
     order.setCreateTime(new Date());
     order.setStatus(OrderStatus.NOT_USED);
-
-    System.out.println("order:" + order.toString());
+    order.setCarId(carService.findCarByCarNumber(orderRequest.getCarNumber()).getId());
     Order saveOrder = orderRepository.save(order);
-    System.out.println("saveOrder = " + saveOrder.toString());
     return orderToResponseMapper(saveOrder);
   }
 
