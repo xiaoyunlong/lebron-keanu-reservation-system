@@ -2,7 +2,7 @@ package com.oocl.reservationsystem.util;
 
 public class LatlongitudeUtil {
 
-  //地球半径
+  // 地球半径
   private static final double EARTH_RADIUS = 6378.137;
   private static final double MILES_TO_METERS = 1609.344;
 
@@ -16,8 +16,12 @@ public class LatlongitudeUtil {
     double a = radLat1 - radLat2;
     double b = rad(lng1) - rad(lng2);
 
-    double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) +
-            Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+    double s =
+        2
+            * Math.asin(
+                Math.sqrt(
+                    Math.pow(Math.sin(a / 2), 2)
+                        + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
     s = s * EARTH_RADIUS * MILES_TO_METERS;
     s = Math.round(s * 1000) / 1000;
     return s;
