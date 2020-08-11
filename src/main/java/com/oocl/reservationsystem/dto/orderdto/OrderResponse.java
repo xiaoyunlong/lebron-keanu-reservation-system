@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class OrderResponse {
     //TODO   location
+    private Integer id;
     private String orderNumber;
     private Integer carId;
     private Integer customerId;
@@ -16,6 +17,14 @@ public class OrderResponse {
     private Integer parkingPositionId;
     private String parkingLotName;
     private String licenseNumber;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getParkingLotName() {
         return parkingLotName;

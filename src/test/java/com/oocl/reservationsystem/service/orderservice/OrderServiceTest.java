@@ -3,11 +3,13 @@
 //import com.oocl.reservationsystem.dto.orderdto.OrderRequest;
 //import com.oocl.reservationsystem.dto.orderdto.OrderResponse;
 //import com.oocl.reservationsystem.entity.orderentity.Order;
+//import com.oocl.reservationsystem.entity.parkingentity.ParkingLot;
 //import com.oocl.reservationsystem.enums.order.OrderStatus;
 //import com.oocl.reservationsystem.repository.orderrepository.OrderRepository;
 //import com.oocl.reservationsystem.service.orderservice.impl.OrderServiceImpl;
 //import com.oocl.reservationsystem.service.parkingservice.ParkingService;
 //import com.oocl.reservationsystem.service.parkingservice.impl.ParkingServiceImpl;
+//
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +22,7 @@
 //import org.springframework.boot.test.mock.mockito.MockBean;
 //
 //import javax.xml.ws.Response;
+//
 //import java.text.DateFormat;
 //import java.text.ParseException;
 //import java.text.SimpleDateFormat;
@@ -33,7 +36,6 @@
 //import static org.mockito.ArgumentMatchers.anyInt;
 //import static org.mockito.Mockito.when;
 //
-//@SpringBootTest
 //@ExtendWith(MockitoExtension.class)
 //public class OrderServiceTest {
 //
@@ -59,15 +61,19 @@
 //        return new OrderRequest(1, 1, startDate, 5, 1);
 //    }
 //
+//    ParkingLot initParkingLot() {
+//        return new ParkingLot(1.1, 1.1, 10, 10, "parkinglot-1", 5);
+//    }
+//
 //    @Test
 //    void should_return_order_response_when_add_order_given_1_order_json() throws ParseException {
 //        //given
 //        Order order = initOneOrder();
 //        OrderRequest orderRequest = initOneOrderRequest();
+//        ParkingLot parkingLot = initParkingLot();
 ////        when(orderRepository.save(any(Order.class))).thenReturn(new Order());
 //        when(orderRepository.save(any())).thenReturn(order);
-////        when(parkingService.isCarInPosition(anyInt())).thenReturn(false);
-//        //.parkCarInPosition(
+//        when(parkingService.findParkingLotByPositionId(any())).thenReturn(parkingLot);
 //        //when
 //        OrderResponse orderResponse = orderService.addOrder(orderRequest);
 //

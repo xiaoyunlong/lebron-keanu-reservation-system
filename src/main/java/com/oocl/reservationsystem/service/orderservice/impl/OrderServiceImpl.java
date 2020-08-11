@@ -3,6 +3,7 @@ package com.oocl.reservationsystem.service.orderservice.impl;
 import com.oocl.reservationsystem.dto.orderdto.OrderRequest;
 import com.oocl.reservationsystem.dto.orderdto.OrderResponse;
 import com.oocl.reservationsystem.entity.orderentity.Order;
+import com.oocl.reservationsystem.entity.parkingentity.ParkingLot;
 import com.oocl.reservationsystem.enums.order.OrderStatus;
 import com.oocl.reservationsystem.exception.order.OrderCancelFailException;
 import com.oocl.reservationsystem.exception.order.OrderNotFoundException;
@@ -17,6 +18,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
         System.out.println("order:"+order.toString());
         Order saveOrder = orderRepository.save(order);
         System.out.println("saveOrder = " + saveOrder.toString());
-        return OrdersUtil.OrderToResponseMapper(saveOrder);
+        return OrderToResponseMapper(saveOrder);
     }
 
     @Override
@@ -55,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orderList = orderRepository.findByCustomerId(customerId);
         List<OrderResponse> orderResponseList = new ArrayList<>();
         for (Order order : orderList) {
-            OrderResponse orderResponse = OrdersUtil.OrderToResponseMapper(order);
+            OrderResponse orderResponse = OrderToResponseMapper(order);
             orderResponse.setLicenseNumber(carService.getCarNumberById(order.getCarId()));
             orderResponseList.add(orderResponse);
         }
@@ -64,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse getOrderById(Integer id) {
-        OrderResponse orderResponse = OrdersUtil.OrderToResponseMapper(orderRepository.findById(id).orElseThrow(OrderNotFoundException::new));
+        OrderResponse orderResponse = OrderToResponseMapper(orderRepository.findById(id).orElseThrow(OrderNotFoundException::new));
         orderResponse.setLicenseNumber(carService.getCarNumberById(orderResponse.getCarId()));
         return orderResponse;
     }
@@ -105,11 +108,32 @@ public class OrderServiceImpl implements OrderService {
                         order.getPreCost()));
         if (order.getStatus().equals(OrderStatus.USED)) {
             order.setStatus(OrderStatus.FINISHED);
-            return OrdersUtil.OrderToResponseMapper(orderRepository.save(order));
+            return OrderToResponseMapper(orderRepository.save(order));
         } else {
             throw new OrderStatusErrorException();
         }
 
+    }
+
+    @Override
+    public List<Order> findOrdersListByStatus(String status) {
+        return orderRepository.findOrdersListByStatus(status);
+    }
+
+    public   OrderResponse OrderToResponseMapper(Order order) {
+        OrderResponse orderResponse = new OrderResponse();
+        BeanUtils.copyProperties(order, orderResponse);
+
+        ParkingLot parkingLot = parkingService.findParkingLotByPositionId(order.getParkingPositionId());
+        orderResponse.setParkingLotName(parkingLot.getName());
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyyHHmmMMdd");
+        String orderNumber = dateFormat.format(order.getCreateTime())
+                + order.getId().toString()
+                + order.getCustomerId().toString();
+
+        orderResponse.setOrderNumber(orderNumber);
+        return orderResponse;
     }
 
 
