@@ -26,6 +26,7 @@ public class ParkingLot {
   private String name;
   @Column(name = "unit_price")
   private int unitPrice;
+  private String location;
 
   @JsonIgnore
   @OneToMany(mappedBy = "parkingLot")
@@ -101,5 +102,13 @@ public class ParkingLot {
 
   public void setParkingPositions(List<ParkingPosition> parkingPositions) {
     this.parkingPositions = parkingPositions;
+  }
+
+  public String getLocation() {
+    return location;
+  }
+
+  public void setLocation(String location) {
+    this.location = location;
   }
 }

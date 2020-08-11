@@ -7,6 +7,7 @@ public class ParkingLotDto {
   private int remainingAmount;
   private int unitPrice;
   private double distance;
+  private String location;
 
   public String getName() {
     return name;
@@ -46,5 +47,13 @@ public class ParkingLotDto {
 
   public void setDistance(double distance) {
     this.distance = distance;
+  }
+
+  public String getLocation() {
+    return location;
+  }
+
+  public void setLocation(String location) {
+    this.location = location;
   }
 }
