@@ -1,33 +1,33 @@
-//package com.oocl.reservationsystem.service.orderservice;
+// package com.oocl.reservationsystem.service.orderservice;
 //
-//import com.oocl.reservationsystem.dto.orderdto.OrderRequest;
-//import com.oocl.reservationsystem.dto.orderdto.OrderResponse;
-//import com.oocl.reservationsystem.entity.orderentity.Order;
-//import com.oocl.reservationsystem.enums.order.OrderStatus;
-//import com.oocl.reservationsystem.repository.orderrepository.OrderRepository;
-//import com.oocl.reservationsystem.service.orderservice.impl.OrderServiceImpl;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.junit.jupiter.MockitoExtension;
+// import com.oocl.reservationsystem.dto.orderdto.OrderRequest;
+// import com.oocl.reservationsystem.dto.orderdto.OrderResponse;
+// import com.oocl.reservationsystem.entity.orderentity.Order;
+// import com.oocl.reservationsystem.enums.order.OrderStatus;
+// import com.oocl.reservationsystem.repository.orderrepository.OrderRepository;
+// import com.oocl.reservationsystem.service.orderservice.impl.OrderServiceImpl;
+// import org.junit.jupiter.api.BeforeEach;
+// import org.junit.jupiter.api.Test;
+// import org.junit.jupiter.api.extension.ExtendWith;
+// import org.mockito.InjectMocks;
+// import org.mockito.Mock;
+// import org.mockito.junit.jupiter.MockitoExtension;
 //
-//import javax.xml.ws.Response;
-//import java.text.DateFormat;
-//import java.text.ParseException;
-//import java.text.SimpleDateFormat;
-//import java.util.ArrayList;
-//import java.util.Date;
-//import java.util.List;
-//import java.util.Optional;
+// import javax.xml.ws.Response;
+// import java.text.DateFormat;
+// import java.text.ParseException;
+// import java.text.SimpleDateFormat;
+// import java.util.ArrayList;
+// import java.util.Date;
+// import java.util.List;
+// import java.util.Optional;
 //
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.mockito.ArgumentMatchers.any;
-//import static org.mockito.Mockito.when;
+// import static org.junit.jupiter.api.Assertions.assertEquals;
+// import static org.mockito.ArgumentMatchers.any;
+// import static org.mockito.Mockito.when;
 //
-//@ExtendWith(MockitoExtension.class)
-//public class OrderServiceTest {
+// @ExtendWith(MockitoExtension.class)
+// public class OrderServiceTest {
 //    @InjectMocks
 //    OrderServiceImpl orderService;
 //
@@ -62,7 +62,9 @@
 //    }
 //
 //    @Test
-//    void should_return_someone_customer_all_order_when_get_all_order_by_customer_id_given_customer_id() throws ParseException {
+//    void
+// should_return_someone_customer_all_order_when_get_all_order_by_customer_id_given_customer_id()
+// throws ParseException {
 //        //given
 //        Order order = initOneOrder();
 //        List<Order> orderList = new ArrayList<>();
@@ -89,7 +91,8 @@
 //    }
 //
 //    @Test
-//    void should_change_order_status_used_when_change_status_to_used_given_order_id() throws ParseException {
+//    void should_change_order_status_used_when_change_status_to_used_given_order_id() throws
+// ParseException {
 //        //given
 //        Order order = initOneOrder();
 //        Order usedOrder = initOneOrder();
@@ -106,7 +109,8 @@
 //    }
 //
 //    @Test
-//    void should_return_status_canceled_when_change_status_to_cancel_given_order_id() throws ParseException {
+//    void should_return_status_canceled_when_change_status_to_cancel_given_order_id() throws
+// ParseException {
 //        //given
 //        Order order = initOneOrder();
 //        Order usedOrder = initOneOrder();
@@ -123,7 +127,8 @@
 //    }
 //
 //    @Test
-//    void should_return_order_response_when_change_status_to_finish_given_order_id() throws ParseException {
+//    void should_return_order_response_when_change_status_to_finish_given_order_id() throws
+// ParseException {
 //        //given
 //        Order order = initOneOrder();
 //        order.setStatus(OrderStatus.USED);
@@ -139,4 +144,4 @@
 //        //then
 //        assertEquals(OrderStatus.FINISHED, orderResponse.getStatus());
 //    }
-//}
+// }

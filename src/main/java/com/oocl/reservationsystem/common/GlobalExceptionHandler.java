@@ -21,14 +21,16 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-  private Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+  private final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler({MethodArgumentNotValidException.class})
   @ResponseBody
-  public List<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+  public List<String> handleMethodArgumentNotValidException(
+      MethodArgumentNotValidException exception) {
     return exception.getBindingResult().getFieldErrors().stream()
-        .map(e -> e.getField() + ":" + e.getDefaultMessage()).collect(Collectors.toList());
+        .map(e -> e.getField() + ":" + e.getDefaultMessage())
+        .collect(Collectors.toList());
   }
 
   @ExceptionHandler(OrderNotFoundException.class)

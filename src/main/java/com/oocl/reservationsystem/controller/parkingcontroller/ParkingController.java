@@ -20,10 +20,11 @@ public class ParkingController {
   }
 
   @GetMapping("/parkinglots")
-  public Page<ParkingLotDto> getParkingLots(Pageable pageable, @RequestParam double latitude,
+  public Page<ParkingLotDto> getParkingLots(
+      Pageable pageable,
+      @RequestParam double latitude,
       @RequestParam double longitude,
       @RequestParam(defaultValue = "1") int sortType) {
     return parkingService.findParkingLotsByLocation(latitude, longitude, sortType, pageable);
   }
-
 }

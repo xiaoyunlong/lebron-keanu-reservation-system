@@ -11,24 +11,24 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 
-//@ServerEndpoint("/websocket")
-//@Component
+// @ServerEndpoint("/websocket")
+// @Component
 public class MyWebsocketServer {
 
-  private static Map<String, Session> clients = new ConcurrentHashMap<>();
+  private static final Map<String, Session> clients = new ConcurrentHashMap<>();
   private final Logger log = LoggerFactory.getLogger(MyWebsocketServer.class);
 
   @OnOpen
   public void onOpen(Session session) {
     log.info("有新的客户端连接了: {}", session.getId());
-    //将新用户存入在线的组
+    // 将新用户存入在线的组
     clients.put(session.getId(), session);
   }
 
   @OnClose
   public void onClose(Session session) {
     log.info("有用户断开了, id为:{}", session.getId());
-    //将掉线的用户移除在线的组里
+    // 将掉线的用户移除在线的组里
     clients.remove(session.getId());
   }
 
@@ -37,19 +37,15 @@ public class MyWebsocketServer {
     throwable.printStackTrace();
   }
 
-
   @OnMessage
   public void onMessage(String message) {
     log.info("服务端收到客户端发来的消息: {}", message);
     this.sendAll(message);
   }
 
-
   private void sendAll(String message) {
     for (Map.Entry<String, Session> sessionEntry : clients.entrySet()) {
       sessionEntry.getValue().getAsyncRemote().sendText(message);
     }
   }
-
 }
-

@@ -13,6 +13,7 @@ public class Car {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
+
   private String carNumber;
   private Integer customerId;
 

@@ -2,6 +2,7 @@ package com.oocl.reservationsystem.entity.parkingentity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +19,9 @@ public class ParkingPosition {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
+  @Column(name = "parking_number")
   private String parkingNumber;
+
   private int status;
 
   @JsonIgnore
@@ -26,8 +29,7 @@ public class ParkingPosition {
   @JoinColumn(name = "parkinglot_id")
   private ParkingLot parkingLot;
 
-  public ParkingPosition() {
-  }
+  public ParkingPosition() {}
 
   public ParkingPosition(String parkingNumber, int status) {
     this.parkingNumber = parkingNumber;

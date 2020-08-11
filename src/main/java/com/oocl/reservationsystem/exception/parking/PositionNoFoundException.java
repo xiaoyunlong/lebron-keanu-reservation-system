@@ -4,7 +4,7 @@ import com.oocl.reservationsystem.enums.parking.ParkingEnum;
 
 public class PositionNoFoundException extends RuntimeException {
 
-  private String message;
+  private final String message;
 
   public PositionNoFoundException(ParkingEnum parkingEnum) {
     this.message = parkingEnum.getMessage();
@@ -14,5 +14,4 @@ public class PositionNoFoundException extends RuntimeException {
   public String getMessage() {
     return message;
   }
-
 }

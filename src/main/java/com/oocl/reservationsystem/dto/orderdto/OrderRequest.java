@@ -5,23 +5,21 @@ import javax.validation.constraints.NotNull;
 
 public class OrderRequest {
 
-  @NotNull
-  private Integer carId;
+  @NotNull private Integer carId;
 
-  @NotNull
-  private Integer customerId;
+  @NotNull private Integer customerId;
 
-  @NotNull
-  private Date startTime;
+  @NotNull private Date startTime;
 
-  @NotNull
-  private Integer preCost;
+  @NotNull private Integer preCost;
 
-  @NotNull
-  private Integer parkingPositionId;
+  @NotNull private Integer parkingPositionId;
 
-  public OrderRequest(@NotNull Integer carId, @NotNull Integer customerId,
-      @NotNull Date startTime, @NotNull Integer preCost,
+  public OrderRequest(
+      @NotNull Integer carId,
+      @NotNull Integer customerId,
+      @NotNull Date startTime,
+      @NotNull Integer preCost,
       @NotNull Integer parkingPositionId) {
     this.carId = carId;
     this.customerId = customerId;
@@ -30,8 +28,7 @@ public class OrderRequest {
     this.parkingPositionId = parkingPositionId;
   }
 
-  public OrderRequest() {
-  }
+  public OrderRequest() {}
 
   public Integer getCarId() {
     return carId;

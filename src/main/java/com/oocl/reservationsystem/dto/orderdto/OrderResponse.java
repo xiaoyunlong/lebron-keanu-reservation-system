@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class OrderResponse {
 
-  //TODO   location
+  // TODO   location
   private String orderNumber;
   private Integer carId;
   private Integer customerId;
@@ -117,16 +117,28 @@ public class OrderResponse {
   @Override
   public String toString() {
     return "OrderResponse{"
-        + "orderNumber='" + orderNumber + '\''
-        + ", carId=" + carId
-        + ", customerId=" + customerId
-        + ", createTime=" + createTime
-        + ", startTime=" + startTime
-        + ", endTime=" + endTime
-        + ", totalCost=" + totalCost
-        + ", preCost=" + preCost
-        + ", status='" + status + '\''
-        + ", parkingPositionId=" + parkingPositionId
+        + "orderNumber='"
+        + orderNumber
+        + '\''
+        + ", carId="
+        + carId
+        + ", customerId="
+        + customerId
+        + ", createTime="
+        + createTime
+        + ", startTime="
+        + startTime
+        + ", endTime="
+        + endTime
+        + ", totalCost="
+        + totalCost
+        + ", preCost="
+        + preCost
+        + ", status='"
+        + status
+        + '\''
+        + ", parkingPositionId="
+        + parkingPositionId
         + '}';
   }
 }

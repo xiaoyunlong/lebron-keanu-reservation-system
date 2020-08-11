@@ -9,9 +9,7 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class GlobalCorsConfig {
 
-  /**
-   * https://zhuanlan.zhihu.com/p/31016194
-   */
+  /** https://zhuanlan.zhihu.com/p/31016194 */
   @Bean
   public CorsFilter corsFilter() {
 
@@ -23,6 +21,5 @@ public class GlobalCorsConfig {
     UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
     corsConfigurationSource.registerCorsConfiguration("/**", config);
     return new CorsFilter(corsConfigurationSource);
-
   }
 }

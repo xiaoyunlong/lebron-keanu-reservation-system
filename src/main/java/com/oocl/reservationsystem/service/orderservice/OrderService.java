@@ -19,4 +19,6 @@ public interface OrderService {
   Order cancelOrder(Integer orderId);
 
   OrderResponse finishOrder(Integer orderId);
+
+  List<Order> findOrdersListByStatus(String status);
 }

@@ -14,6 +14,7 @@ public class Order {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
+
   private Integer carId;
   private Integer customerId;
   private Date createTime;
@@ -25,8 +26,17 @@ public class Order {
   private Integer parkingPositionId;
   private Date enterTime;
 
-  public Order(Integer id, Integer carId, Integer customerId, Date createTime,
-      Date startTime, Date endTime, Integer totalCost, Integer preCost, String status, Integer parkingPositionId) {
+  public Order(
+      Integer id,
+      Integer carId,
+      Integer customerId,
+      Date createTime,
+      Date startTime,
+      Date endTime,
+      Integer totalCost,
+      Integer preCost,
+      String status,
+      Integer parkingPositionId) {
     this.id = id;
     this.carId = carId;
     this.customerId = customerId;
@@ -39,8 +49,7 @@ public class Order {
     this.parkingPositionId = parkingPositionId;
   }
 
-  public Order() {
-  }
+  public Order() {}
 
   public Date getEnterTime() {
     return enterTime;
@@ -133,16 +142,27 @@ public class Order {
   @Override
   public String toString() {
     return "Order{"
-        + "id=" + id
-        + ", carId=" + carId
-        + ", customerId=" + customerId
-        + ", createTime=" + createTime
-        + ", startTime=" + startTime
-        + ", endTime=" + endTime
-        + ", totalCost=" + totalCost
-        + ", preCost=" + preCost
-        + ", status='" + status + '\''
-        + ", parkingPositionId=" + parkingPositionId
+        + "id="
+        + id
+        + ", carId="
+        + carId
+        + ", customerId="
+        + customerId
+        + ", createTime="
+        + createTime
+        + ", startTime="
+        + startTime
+        + ", endTime="
+        + endTime
+        + ", totalCost="
+        + totalCost
+        + ", preCost="
+        + preCost
+        + ", status='"
+        + status
+        + '\''
+        + ", parkingPositionId="
+        + parkingPositionId
         + '}';
   }
 }

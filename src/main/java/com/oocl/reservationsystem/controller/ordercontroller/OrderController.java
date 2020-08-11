@@ -31,7 +31,8 @@ public class OrderController {
   }
 
   @GetMapping()
-  public List<OrderResponse> getAllOrderByCustomerId(@RequestParam(value = "customer_id") Integer customerId) {
+  public List<OrderResponse> getAllOrderByCustomerId(
+      @RequestParam(value = "customer_id") Integer customerId) {
     return orderService.getAllOrderByCustomerId(customerId);
   }
 
@@ -54,5 +55,4 @@ public class OrderController {
   public OrderResponse finishOrder(@PathVariable(value = "order_id") Integer orderId) {
     return orderService.finishOrder(orderId);
   }
-
 }

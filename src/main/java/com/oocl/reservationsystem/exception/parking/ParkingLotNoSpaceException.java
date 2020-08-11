@@ -4,7 +4,7 @@ import com.oocl.reservationsystem.enums.parking.ParkingEnum;
 
 public class ParkingLotNoSpaceException extends RuntimeException {
 
-  private String message;
+  private final String message;
 
   public ParkingLotNoSpaceException(ParkingEnum parkingEnum) {
     this.message = parkingEnum.getMessage();

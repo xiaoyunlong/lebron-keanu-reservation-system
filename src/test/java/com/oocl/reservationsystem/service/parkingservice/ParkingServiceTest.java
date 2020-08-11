@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -28,24 +29,20 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest
 class ParkingServiceTest {
 
-  @Autowired
-  ParkingService parkingService;
+  @Autowired ParkingService parkingService;
 
-  @MockBean
-  ParkingLotRepository parkingLotRepository;
+  @MockBean ParkingLotRepository parkingLotRepository;
 
-  @MockBean
-  ParkingPositionRepository parkingPositionRepository;
-
+  @MockBean ParkingPositionRepository parkingPositionRepository;
 
   @Test
   void should_return_parking_lots_when_find_parking_lots_by_location_given_latitude_longitude() {
-    //given
+    // given
     double latitude = 113.578996;
     double longitude = 22.377632;
     int sortType = 1;
 
-    //给附近的两个停车场
+    // 给附近的两个停车场
     List<ParkingLot> parkingLots = new ArrayList<>();
     parkingLots.add(new ParkingLot(113.579316, 22.376505, 100, 100, null, 10));
     parkingLots.add(new ParkingLot(113.581109, 22.378243, 100, 100, null, 10));
@@ -54,32 +51,35 @@ class ParkingServiceTest {
     Mockito.when(parkingLotRepository.findByRemainingAmountGreaterThan(0, Pageable.unpaged()))
         .thenReturn(page);
 
-    //when
-    Page<ParkingLotDto> parkingLotsInResult = parkingService
-        .findParkingLotsByLocation(latitude, longitude, sortType, Pageable.unpaged());
+    // when
+    Page<ParkingLotDto> parkingLotsInResult =
+        parkingService.findParkingLotsByLocation(latitude, longitude, sortType, Pageable.unpaged());
 
-    //then
+    // then
     Assertions.assertEquals(2, parkingLotsInResult.getContent().size());
   }
 
   @Test
   void should_return_true_when_find_is_Car_In_Position_given_position_id_1() {
 
-    //given
+    // given
     int positionId = 1;
-    Mockito.when(parkingPositionRepository.findByStatusIs(positionId)).thenReturn(true);
+    ParkingPosition parkingPosition = new ParkingPosition();
+    parkingPosition.setStatus(0);
+    Mockito.when(parkingPositionRepository.findById(positionId))
+        .thenReturn(Optional.of(parkingPosition));
 
-    //when
+    // when
     boolean isCarInPosition = parkingService.isCarInPosition(positionId);
 
-    //then
-    Assertions.assertTrue(isCarInPosition);
+    // then
+    Assertions.assertFalse(isCarInPosition);
   }
 
   @Test
   void should_method_used_when_park_car_in_position_given_position_id_1() {
 
-    //given
+    // given
     int positionId = 1;
     String placeName = "south parkingLot";
 
@@ -97,12 +97,11 @@ class ParkingServiceTest {
     Mockito.when(parkingLotRepository.findById(parkingPosition.getParkingLot().getId()))
         .thenReturn(java.util.Optional.of(parkingLot));
 
-    //when
+    // when
     parkingService.parkCarInPosition(positionId);
 
-    //then
+    // then
     verify(parkingPositionRepository, times(1)).save(any(ParkingPosition.class));
     verify(parkingLotRepository, times(1)).save(any(ParkingLot.class));
   }
-
 }

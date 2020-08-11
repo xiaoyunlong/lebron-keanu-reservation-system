@@ -1,6 +1,5 @@
 package com.oocl.reservationsystem.enums.order;
 
-
 public class OrderStatus {
 
   public static final String NOT_USED = "Reserved";

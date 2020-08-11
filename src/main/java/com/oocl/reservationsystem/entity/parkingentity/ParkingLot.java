@@ -18,24 +18,34 @@ public class ParkingLot {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
+
   private double latitude;
   private double longitude;
   private int capicity;
+
   @Column(name = "remaining_amount")
   private int remainingAmount;
+
   private String name;
+
   @Column(name = "unit_price")
   private int unitPrice;
+
   private String location;
 
   @JsonIgnore
   @OneToMany(mappedBy = "parkingLot")
   private List<ParkingPosition> parkingPositions;
 
-  public ParkingLot() {
-  }
+  public ParkingLot() {}
 
-  public ParkingLot(double latitude, double longitude, int capicity, int remainingAmount, String name, int unitPrice) {
+  public ParkingLot(
+      double latitude,
+      double longitude,
+      int capicity,
+      int remainingAmount,
+      String name,
+      int unitPrice) {
     this.latitude = latitude;
     this.longitude = longitude;
     this.capicity = capicity;
