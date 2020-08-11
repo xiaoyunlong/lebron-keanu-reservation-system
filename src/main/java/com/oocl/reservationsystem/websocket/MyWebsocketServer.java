@@ -1,7 +1,8 @@
-package com.oocl.reservationsystem.controller;
+package com.oocl.reservationsystem.websocket;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -10,9 +11,10 @@ import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
 
-// @ServerEndpoint("/websocket")
-// @Component
+@ServerEndpoint("/websocket")
+@Component
 public class MyWebsocketServer {
 
   private static final Map<String, Session> clients = new ConcurrentHashMap<>();
