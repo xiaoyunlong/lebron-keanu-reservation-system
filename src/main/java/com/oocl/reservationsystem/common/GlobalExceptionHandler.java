@@ -1,5 +1,6 @@
 package com.oocl.reservationsystem.common;
 
+import com.oocl.reservationsystem.exception.login.CustomerNoFoundException;
 import com.oocl.reservationsystem.exception.order.OrderCancelFailException;
 import com.oocl.reservationsystem.exception.order.OrderNotFoundException;
 import com.oocl.reservationsystem.exception.order.OrderParkingPositionNotSpaceException;
@@ -72,5 +73,12 @@ public class GlobalExceptionHandler {
   @ResponseBody
   String carNotFoundException() {
     return "Car not found. ";
+  }
+
+  @ExceptionHandler(CustomerNoFoundException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  String customerNoFoundException(CustomerNoFoundException exception) {
+    return exception.getMessage();
   }
 }
