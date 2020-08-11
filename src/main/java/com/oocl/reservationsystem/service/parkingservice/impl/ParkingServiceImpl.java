@@ -33,7 +33,7 @@ public class ParkingServiceImpl implements ParkingService {
   private final ParkingLotRepository parkingLotRepository;
   private final ParkingPositionRepository parkingPositionRepository;
 
-  private static final double EFFECTIVE_DISTANCE = 1000;
+  private static final double EFFECTIVE_DISTANCE = 2000;
   private static final int SORT_IN_DISTANCE = 1;
   private static final int SORT_IN_PRICE = 2;
 
