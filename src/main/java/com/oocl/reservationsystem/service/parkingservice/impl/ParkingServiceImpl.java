@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,7 +75,11 @@ public class ParkingServiceImpl implements ParkingService {
 
     @Override
     public boolean isCarInPosition(int positionId) {
-        return parkingPositionRepository.findByStatusIs(positionId);
+        Optional<ParkingPosition> parkingPosition = parkingPositionRepository.findById(positionId);
+        if (parkingPosition.get() == null) {
+            throw new PositionNoFoundException(ParkingEnum.PARKING_POSITION_NOT_FOUND);
+        }
+        return parkingPosition.get().getStatus() == ParkingPositionStatusEnum.HAVE_BEEN_PARKED.getState();
     }
 
 

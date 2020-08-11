@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -66,13 +67,15 @@ class ParkingServiceTest {
 
         //given
         int positionId = 1;
-        Mockito.when(parkingPositionRepository.findByStatusIs(positionId)).thenReturn(true);
+        ParkingPosition parkingPosition = new ParkingPosition();
+        parkingPosition.setStatus(0);
+        Mockito.when(parkingPositionRepository.findById(positionId)).thenReturn(Optional.of(parkingPosition));
 
         //when
         boolean isCarInPosition = parkingService.isCarInPosition(positionId);
 
         //then
-        Assertions.assertTrue(isCarInPosition);
+        Assertions.assertFalse(isCarInPosition);
     }
 
     @Test

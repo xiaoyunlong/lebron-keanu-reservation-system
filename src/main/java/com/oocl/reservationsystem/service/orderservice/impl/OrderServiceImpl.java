@@ -3,7 +3,6 @@ package com.oocl.reservationsystem.service.orderservice.impl;
 import com.oocl.reservationsystem.dto.orderdto.OrderRequest;
 import com.oocl.reservationsystem.dto.orderdto.OrderResponse;
 import com.oocl.reservationsystem.entity.orderentity.Order;
-import com.oocl.reservationsystem.entity.parkingentity.ParkingLot;
 import com.oocl.reservationsystem.enums.order.OrderStatus;
 import com.oocl.reservationsystem.exception.order.OrderCancelFailException;
 import com.oocl.reservationsystem.exception.order.OrderNotFoundException;
@@ -11,14 +10,13 @@ import com.oocl.reservationsystem.exception.order.OrderParkingPositionNotSpaceEx
 import com.oocl.reservationsystem.exception.order.OrderStatusErrorException;
 import com.oocl.reservationsystem.repository.orderrepository.OrderRepository;
 import com.oocl.reservationsystem.service.orderservice.OrderService;
-import com.oocl.reservationsystem.service.parkingservice.impl.CarServiceImpl;
-import com.oocl.reservationsystem.service.parkingservice.impl.ParkingServiceImpl;
+import com.oocl.reservationsystem.service.parkingservice.CarService;
+import com.oocl.reservationsystem.service.parkingservice.ParkingService;
 import com.oocl.reservationsystem.util.OrdersUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,15 +24,15 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
-    private final ParkingServiceImpl parkingService;
-    private final CarServiceImpl carService;
+    private final ParkingService parkingService;
+    private final CarService carService;
 
-    public OrderServiceImpl(OrderRepository orderRepository, ParkingServiceImpl parkingService, CarServiceImpl carService) {
+    public OrderServiceImpl(OrderRepository orderRepository, ParkingService parkingService, CarService carService) {
         this.orderRepository = orderRepository;
         this.parkingService = parkingService;
         this.carService = carService;
     }
-
+    @Transactional
     @Override
     public OrderResponse addOrder(OrderRequest orderRequest) {
         if (parkingService.isCarInPosition(orderRequest.getParkingPositionId())) {
@@ -45,8 +43,11 @@ public class OrderServiceImpl implements OrderService {
         BeanUtils.copyProperties(orderRequest, order);
         order.setCreateTime(new Date());
         order.setStatus(OrderStatus.NOT_USED);
-        System.out.println(order.toString());
-        return OrdersUtil.OrderToResponseMapper(orderRepository.save(order));
+
+        System.out.println("order:"+order.toString());
+        Order saveOrder = orderRepository.save(order);
+        System.out.println("saveOrder = " + saveOrder.toString());
+        return OrdersUtil.OrderToResponseMapper(saveOrder);
     }
 
     @Override
@@ -85,6 +86,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
         if (order.getStatus().equals(OrderStatus.NOT_USED)) {
             order.setStatus(OrderStatus.CANCELLED);
+            order.setPreCost(0);
             return orderRepository.save(order);
         } else {
             throw new OrderCancelFailException();

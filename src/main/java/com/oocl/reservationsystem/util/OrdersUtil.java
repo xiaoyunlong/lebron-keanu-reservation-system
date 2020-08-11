@@ -1,11 +1,8 @@
 package com.oocl.reservationsystem.util;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.oocl.reservationsystem.dto.orderdto.OrderResponse;
 import com.oocl.reservationsystem.entity.orderentity.Order;
 import com.oocl.reservationsystem.entity.parkingentity.ParkingLot;
-import com.oocl.reservationsystem.service.parkingservice.ParkingService;
-import com.oocl.reservationsystem.service.parkingservice.impl.CarServiceImpl;
 import com.oocl.reservationsystem.service.parkingservice.impl.ParkingServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

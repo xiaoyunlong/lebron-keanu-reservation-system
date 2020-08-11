@@ -55,4 +55,5 @@ public class ParkingPosition {
     public void setParkingLot(ParkingLot parkingLot) {
         this.parkingLot = parkingLot;
     }
+
 }
