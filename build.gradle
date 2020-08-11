@@ -33,6 +33,7 @@ dependencies {
     implementation ('com.alibaba:fastjson:1.2.73')
     runtime('mysql:mysql-connector-java')
     compile 'com.h2database:h2'
+    compile group: 'com.google.code.gson', name: 'gson', version:'2.7'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
