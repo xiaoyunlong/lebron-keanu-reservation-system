@@ -1,11 +1,9 @@
 package com.oocl.reservationsystem.dto.logindto;
 
 import com.oocl.reservationsystem.entity.parkingentity.Car;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
 public class LoginResponse {
   private int id;
   private String username;
@@ -13,6 +11,16 @@ public class LoginResponse {
   private String phoneNumber;
   private String password;
   private List<Car> cars;
+
+  public LoginResponse(int id, String username, String email, String phoneNumber, String password,
+      List<Car> cars) {
+    this.id = id;
+    this.username = username;
+    this.email = email;
+    this.phoneNumber = phoneNumber;
+    this.password = password;
+    this.cars = cars;
+  }
 
   public int getId() {
     return id;

@@ -9,6 +9,10 @@ import java.util.List;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
+
   @Query(value = "SELECT * FROM `customer` c WHERE c.email= ?1 AND c.`password` = ?2", nativeQuery = true)
-  List<Customer> findByEmailAndPassword(String email,String password);
+  List<Customer> findByEmailAndPassword(String email, String password);
+
+  @Query(value = "SELECT * FROM `customer` c WHERE c.email= ?1", nativeQuery = true)
+  Customer findByEmail(String email);
 }

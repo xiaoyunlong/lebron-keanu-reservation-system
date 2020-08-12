@@ -27,15 +27,9 @@ public class LoginServiceImpl implements LoginService {
     List<Customer> customers = customerRepository
         .findByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
     if (customers.size() == 1) {
-      LoginResponse loginResponse = new LoginResponse();
       Customer currentUser = customers.get(0);
-      loginResponse.setId(currentUser.getId());
-      loginResponse.setUsername(currentUser.getUsername());
-      loginResponse.setEmail(currentUser.getEmail());
-      loginResponse.setPhoneNumber(currentUser.getPhoneNumber());
-      loginResponse.setPassword(loginRequest.getPassword());
-      loginResponse.setCars(currentUser.getCars());
-      return loginResponse;
+      return new LoginResponse(currentUser.getId(), currentUser.getUsername(),
+          currentUser.getEmail(), currentUser.getPhoneNumber(), loginRequest.getPassword(), currentUser.getCars());
     }
     throw new CustomerNoFoundException(CustomerEnum.ACCOUNT_OR_PASSWORD_IS_INCORRECT);
   }

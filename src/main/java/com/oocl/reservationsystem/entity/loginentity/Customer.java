@@ -21,6 +21,7 @@ public class Customer {
 
   private String username;
   private String email;
+  private String password;
 
   @Column(name = "phone_number")
   private String phoneNumber;
@@ -71,5 +72,13 @@ public class Customer {
 
   public void setCars(List<Car> cars) {
     this.cars = cars;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 }
