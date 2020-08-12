@@ -37,6 +37,10 @@ public class Customer {
     this.phoneNumber = phoneNumber;
   }
 
+  public int getId() {
+    return id;
+  }
+
   public String getUsername() {
     return username;
   }

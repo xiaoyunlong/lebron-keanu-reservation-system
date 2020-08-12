@@ -5,7 +5,9 @@ import com.oocl.reservationsystem.exception.order.OrderCancelFailException;
 import com.oocl.reservationsystem.exception.order.OrderNotFoundException;
 import com.oocl.reservationsystem.exception.order.OrderParkingPositionNotSpaceException;
 import com.oocl.reservationsystem.exception.order.OrderStatusErrorException;
+import com.oocl.reservationsystem.exception.parking.CarHasBeenStolenException;
 import com.oocl.reservationsystem.exception.parking.CarNotFoundException;
+import com.oocl.reservationsystem.exception.parking.FetchCarErrorException;
 import com.oocl.reservationsystem.exception.parking.ParkingLotNoFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,4 +91,17 @@ public class GlobalExceptionHandler {
     return exception.getMessage();
   }
 
+  @ExceptionHandler(CarHasBeenStolenException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  String carHasBeenStolen(CarHasBeenStolenException exception) {
+    return "The car has been stolen.";
+  }
+
+  @ExceptionHandler(FetchCarErrorException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  String fetchCarErrorException(FetchCarErrorException exception) {
+    return "fetch car error";
+  }
 }

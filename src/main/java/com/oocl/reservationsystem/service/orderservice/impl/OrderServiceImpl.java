@@ -94,6 +94,7 @@ public class OrderServiceImpl implements OrderService {
     if (order.getStatus().equals(OrderStatus.NOT_USED)) {
       order.setStatus(OrderStatus.CANCELLED);
       order.setPreCost(0);
+      parkingService.fetchCarOutPosition(order.getParkingPositionId());
       return orderRepository.save(order);
     } else {
       throw new OrderCancelFailException();
@@ -109,6 +110,7 @@ public class OrderServiceImpl implements OrderService {
         OrdersUtil.calculateAllCost(order.getEnterTime(), order.getEndTime(), order.getPreCost()));
     if (order.getStatus().equals(OrderStatus.USED)) {
       order.setStatus(OrderStatus.FINISHED);
+      parkingService.fetchCarOutPosition(order.getParkingPositionId());
       return orderToResponseMapper(orderRepository.save(order));
     } else {
       throw new OrderStatusErrorException();
