@@ -49,9 +49,11 @@ public class OrderServiceImpl implements OrderService {
   @Override
   public OrderResponse addOrder(OrderRequest orderRequest) {
 
-    if (orderRequest.getStartTime().getTime() - new Date().getTime() > 60 * 60 * 1000) {
+    if (orderRequest.getStartTime().getTime() - new Date().getTime() > 60 * 60 * 1000
+        || orderRequest.getStartTime().getTime() <= new Date().getTime()) {
       throw new StartTimeOverHourException();
     }
+
     if (isCarAlrearyParkOrReserved(orderRequest.getCarNumber())) {
       throw new CarAlrearyParkOrReservedException();
     }
@@ -59,6 +61,7 @@ public class OrderServiceImpl implements OrderService {
     if (parkingService.isCarInPosition(orderRequest.getParkingPositionId())) {
       throw new OrderParkingPositionNotSpaceException();
     }
+
     parkingService.parkCarInPosition(orderRequest.getParkingPositionId());
     Order order = new Order();
     BeanUtils.copyProperties(orderRequest, order);
