@@ -50,9 +50,9 @@ public class MyWebsocketServer {
   @OnMessage
   public void onMessage(String message) {
     log.info("服务端收到客户端发来的消息: {}", message);
+    message = "{\"parkinglotId\":1,\"index\":0,\"status\":1}";
     Gson gson = new Gson();
-    String webSocketRequestJson = message;
-    WebSocketRequest webSocketRequest = gson.fromJson(webSocketRequestJson, WebSocketRequest.class);
+    WebSocketRequest webSocketRequest = gson.fromJson(message, WebSocketRequest.class);
     ParkingLot parkingLot = parkingService.updateParkingLotByParkingLotIdAndStatus(webSocketRequest);
     this.sendAll(gson.toJson(parkingLot));
   }
