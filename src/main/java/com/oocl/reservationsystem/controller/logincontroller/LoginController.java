@@ -4,6 +4,7 @@ import com.oocl.reservationsystem.dto.logindto.LoginRequest;
 import com.oocl.reservationsystem.dto.logindto.LoginResponse;
 import com.oocl.reservationsystem.dto.logindto.RegisterRequest;
 import com.oocl.reservationsystem.service.loginservice.LoginService;
+import com.oocl.reservationsystem.service.registerservice.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,10 +16,15 @@ public class LoginController {
 
   private final LoginService loginService;
 
+  private final RegisterService registerService;
+
   @Autowired
-  public LoginController(LoginService loginService) {
+  public LoginController(LoginService loginService,
+      RegisterService registerService) {
     this.loginService = loginService;
+    this.registerService = registerService;
   }
+
 
   @PostMapping("/login")
   @ResponseBody
@@ -27,7 +33,8 @@ public class LoginController {
   }
 
   @PostMapping("/register")
-  public void customerLogin(@RequestBody RegisterRequest registerRequest) {
-
+  @ResponseBody
+  public LoginResponse customerRegister(@RequestBody RegisterRequest registerRequest) {
+    return registerService.getCustomerRegisterRequest(registerRequest);
   }
 }
