@@ -6,6 +6,8 @@ import com.oocl.reservationsystem.entity.parkingentity.ParkingLot;
 import com.oocl.reservationsystem.entity.parkingentity.ParkingPosition;
 import com.oocl.reservationsystem.enums.parking.ParkingEnum;
 import com.oocl.reservationsystem.enums.parking.ParkingPositionStatusEnum;
+import com.oocl.reservationsystem.exception.parking.CarHasBeenStolenException;
+import com.oocl.reservationsystem.exception.parking.FetchCarErrorException;
 import com.oocl.reservationsystem.exception.parking.ParkingLotNoFoundException;
 import com.oocl.reservationsystem.exception.parking.ParkingLotNoSpaceException;
 import com.oocl.reservationsystem.exception.parking.PositionHaveParkedException;
@@ -110,6 +112,30 @@ public class ParkingServiceImpl implements ParkingService {
     parkingLotInDB.setRemainingAmount(parkingLotInDB.getRemainingAmount() - 1);
     parkingPositionRepository.save(parkingPosition);
     parkingLotRepository.save(parkingLotInDB);
+  }
+
+  @Override
+  public void fetchCarOutPosition(int positionId) {
+    ParkingPosition parkingPosition =
+        parkingPositionRepository
+            .findById(positionId)
+            .orElseThrow(
+                () -> new PositionNoFoundException(ParkingEnum.PARKING_POSITION_NOT_FOUND));
+
+    if (parkingPosition.getStatus() == ParkingPositionStatusEnum.HAVE_NOT_PARKED.getState()) {
+      throw new CarHasBeenStolenException();
+    }
+    parkingPosition.setStatus(ParkingPositionStatusEnum.HAVE_NOT_PARKED.getState());
+    ParkingLot parkingLotInDB = findParkingLotByPositionId(positionId);
+
+    if (parkingLotInDB.getRemainingAmount() == parkingLotInDB.getCapicity()) {
+      throw new FetchCarErrorException();
+    }
+
+    parkingLotInDB.setRemainingAmount(parkingLotInDB.getRemainingAmount() + 1);
+    parkingPositionRepository.save(parkingPosition);
+    parkingLotRepository.save(parkingLotInDB);
+
   }
 
   @Override
