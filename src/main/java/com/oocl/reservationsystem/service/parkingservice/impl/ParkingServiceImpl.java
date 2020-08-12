@@ -162,7 +162,8 @@ public class ParkingServiceImpl implements ParkingService {
   public ParkingLot updateParkingLotByParkingLotIdAndStatus(WebSocketRequest webSocketRequest) {
     Optional<ParkingLot> parkingLot = parkingLotRepository.findById(webSocketRequest.getParkinglotId());
     if (parkingLot.isPresent()) {
-      ParkingPosition parkingPosition = parkingLot.get().getParkingPositions().get(webSocketRequest.getIndex());
+      ParkingPosition parkingPosition = parkingLot.get().getParkingPositions().stream()
+          .filter(item -> item.getId() == webSocketRequest.getParkingPositionId()).findFirst().get();
       parkingPosition.setStatus(webSocketRequest.getStatus());
       parkingPositionRepository.save(parkingPosition);
     }

@@ -6,7 +6,7 @@ public class WebSocketRequest {
   @Expose
   private Integer parkinglotId;
   @Expose
-  private Integer index;
+  private Integer parkingPositionId;
   @Expose
   private Integer status;
 
@@ -18,12 +18,12 @@ public class WebSocketRequest {
     this.parkinglotId = parkinglotId;
   }
 
-  public int getIndex() {
-    return index;
+  public int getParkingPositionId() {
+    return parkingPositionId;
   }
 
-  public void setIndex(int index) {
-    this.index = index;
+  public void setParkingPositionId(int parkingPositionId) {
+    this.parkingPositionId = parkingPositionId;
   }
 
   public int getStatus() {
@@ -38,7 +38,7 @@ public class WebSocketRequest {
   public String toString() {
     return "WebSocketRequest{"
         + "parkinglotId=" + parkinglotId
-        + ", index=" + index
+        + ", index=" + parkingPositionId
         + ", status=" + status
         + '}';
   }
