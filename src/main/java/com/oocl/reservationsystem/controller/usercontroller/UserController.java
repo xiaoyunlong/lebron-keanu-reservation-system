@@ -1,4 +1,4 @@
-package com.oocl.reservationsystem.controller.userController;
+package com.oocl.reservationsystem.controller.usercontroller;
 
 import com.oocl.reservationsystem.dto.userdto.UserDto;
 import com.oocl.reservationsystem.service.userservice.UserService;
