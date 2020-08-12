@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 public class LoginController {
 
@@ -31,14 +33,14 @@ public class LoginController {
   @PostMapping("/login")
   @ResponseBody
   @ResponseStatus(HttpStatus.ACCEPTED)
-  public LoginResponse customerLogin(@RequestBody LoginRequest loginRequest) {
+  public LoginResponse customerLogin(@RequestBody @Valid LoginRequest loginRequest) {
     return loginService.getCustomerLoginRequest(loginRequest);
   }
 
   @PostMapping("/register")
   @ResponseBody
   @ResponseStatus(HttpStatus.ACCEPTED)
-  public LoginResponse customerRegister(@RequestBody RegisterRequest registerRequest) {
+  public LoginResponse customerRegister(@RequestBody @Valid RegisterRequest registerRequest) {
     return registerService.getCustomerRegisterRequest(registerRequest);
   }
 }
