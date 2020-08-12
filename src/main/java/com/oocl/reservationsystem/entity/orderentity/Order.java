@@ -36,7 +36,7 @@ public class Order {
       Integer totalCost,
       Integer preCost,
       String status,
-      Integer parkingPositionId,Date enterTime) {
+      Integer parkingPositionId, Date enterTime) {
     this.id = id;
     this.carId = carId;
     this.customerId = customerId;
@@ -50,7 +50,8 @@ public class Order {
     this.enterTime = enterTime;
   }
 
-  public Order() {}
+  public Order() {
+  }
 
   public Date getEnterTime() {
     return enterTime;
