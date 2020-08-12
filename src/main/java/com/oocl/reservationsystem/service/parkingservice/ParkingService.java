@@ -18,6 +18,8 @@ public interface ParkingService {
 
   void parkCarInPosition(int positionId);
 
+  void fetchCarOutPosition(int positionId);
+
   ParkingLot findParkingLotByPositionId(int positionId);
 
   List<ParkingPosition> findParkingPositionsByParkinglotId(int id);
