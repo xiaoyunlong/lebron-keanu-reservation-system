@@ -1,10 +1,18 @@
 package com.oocl.reservationsystem.entity.orderentity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.oocl.reservationsystem.entity.loginentity.Customer;
+import com.oocl.reservationsystem.entity.parkingentity.Car;
+import com.oocl.reservationsystem.entity.parkingentity.ParkingPosition;
+
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,40 +23,41 @@ public class Order {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  private Integer carId;
-  private Integer customerId;
+  @Column(name = "create_time")
   private Date createTime;
+
+  @Column(name = "start_time")
   private Date startTime;
+
+  @Column(name = "end_time")
   private Date endTime;
+
+  @Column(name = "total_cost")
   private Integer totalCost;
+
+  @Column(name = "pre_cost")
   private Integer preCost;
+
+  @Column(name = "status")
   private String status;
-  private Integer parkingPositionId;
+
+  @Column(name = "enter_time")
   private Date enterTime;
 
-  public Order(
-      Integer id,
-      Integer carId,
-      Integer customerId,
-      Date createTime,
-      Date startTime,
-      Date endTime,
-      Integer totalCost,
-      Integer preCost,
-      String status,
-      Integer parkingPositionId, Date enterTime) {
-    this.id = id;
-    this.carId = carId;
-    this.customerId = customerId;
-    this.createTime = createTime;
-    this.startTime = startTime;
-    this.endTime = endTime;
-    this.totalCost = totalCost;
-    this.preCost = preCost;
-    this.status = status;
-    this.parkingPositionId = parkingPositionId;
-    this.enterTime = enterTime;
-  }
+  @JsonIgnore
+  @ManyToOne
+  @JoinColumn(name = "customer_id")
+  private Customer customer;
+
+  @JsonIgnore
+  @ManyToOne
+  @JoinColumn(name = "parking_position_id")
+  private ParkingPosition parkingPosition;
+
+  @JsonIgnore
+  @ManyToOne
+  @JoinColumn(name = "car_id")
+  private Car car;
 
   public Order() {
   }
@@ -67,22 +76,6 @@ public class Order {
 
   public void setId(Integer id) {
     this.id = id;
-  }
-
-  public Integer getCarId() {
-    return carId;
-  }
-
-  public void setCarId(Integer carId) {
-    this.carId = carId;
-  }
-
-  public Integer getCustomerId() {
-    return customerId;
-  }
-
-  public void setCustomerId(Integer customerId) {
-    this.customerId = customerId;
   }
 
   public Date getCreateTime() {
@@ -133,38 +126,28 @@ public class Order {
     this.status = status;
   }
 
-  public Integer getParkingPositionId() {
-    return parkingPositionId;
+  public Customer getCustomer() {
+    return customer;
   }
 
-  public void setParkingPositionId(Integer parkingPositionId) {
-    this.parkingPositionId = parkingPositionId;
+  public void setCustomer(Customer customer) {
+    this.customer = customer;
   }
 
-  @Override
-  public String toString() {
-    return "Order{"
-        + "id="
-        + id
-        + ", carId="
-        + carId
-        + ", customerId="
-        + customerId
-        + ", createTime="
-        + createTime
-        + ", startTime="
-        + startTime
-        + ", endTime="
-        + endTime
-        + ", totalCost="
-        + totalCost
-        + ", preCost="
-        + preCost
-        + ", status='"
-        + status
-        + '\''
-        + ", parkingPositionId="
-        + parkingPositionId
-        + '}';
+  public ParkingPosition getParkingPosition() {
+    return parkingPosition;
   }
+
+  public void setParkingPosition(ParkingPosition parkingPosition) {
+    this.parkingPosition = parkingPosition;
+  }
+
+  public Car getCar() {
+    return car;
+  }
+
+  public void setCar(Car car) {
+    this.car = car;
+  }
+
 }

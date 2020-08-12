@@ -1,6 +1,7 @@
 package com.oocl.reservationsystem.entity.loginentity;
 
 import com.oocl.reservationsystem.entity.mailentity.Notification;
+import com.oocl.reservationsystem.entity.orderentity.Order;
 import com.oocl.reservationsystem.entity.parkingentity.Car;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class Customer {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+  private Integer id;
 
   private String username;
   private String email;
@@ -33,6 +34,9 @@ public class Customer {
   @OneToMany(mappedBy = "customer")
   private List<Notification> notifications;
 
+  @OneToMany(mappedBy = "customer")
+  private List<Order> orders;
+
   public Customer() {
   }
 
@@ -42,7 +46,7 @@ public class Customer {
     this.phoneNumber = phoneNumber;
   }
 
-  public int getId() {
+  public Integer getId() {
     return id;
   }
 
@@ -86,7 +90,7 @@ public class Customer {
     this.password = password;
   }
 
-  public void setId(int id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
@@ -96,5 +100,13 @@ public class Customer {
 
   public void setNotifications(List<Notification> notifications) {
     this.notifications = notifications;
+  }
+
+  public List<Order> getOrders() {
+    return orders;
+  }
+
+  public void setOrders(List<Order> orders) {
+    this.orders = orders;
   }
 }

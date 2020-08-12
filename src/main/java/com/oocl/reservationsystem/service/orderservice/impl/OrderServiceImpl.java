@@ -68,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
 
     order.setCreateTime(new Date());
     order.setStatus(OrderStatus.NOT_USED);
-    order.setCarId(carService.findCarByCarNumber(orderRequest.getCarNumber()).getId());
+    order.setCar(carService.findCarByCarNumber(orderRequest.getCarNumber()));
     Order saveOrder = orderRepository.save(order);
     return orderToResponseMapper(saveOrder);
   }
@@ -87,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
     List<OrderResponse> orderResponseList = new ArrayList<>();
     for (Order order : orderList) {
       OrderResponse orderResponse = orderToResponseMapper(order);
-      orderResponse.setLicenseNumber(carService.getCarNumberById(order.getCarId()));
+      orderResponse.setLicenseNumber(order.getCar().getCarNumber());
       orderResponseList.add(orderResponse);
     }
     return orderResponseList;
@@ -133,7 +133,7 @@ public class OrderServiceImpl implements OrderService {
         OrdersUtil.calculateAllCost(order.getEnterTime(), order.getEndTime(), order.getPreCost()));
     if (order.getStatus().equals(OrderStatus.USED)) {
       order.setStatus(OrderStatus.FINISHED);
-      parkingService.fetchCarOutPosition(order.getParkingPositionId());
+      parkingService.fetchCarOutPosition(order.getParkingPosition().getId());
       return orderToResponseMapper(orderRepository.save(order));
     } else {
       throw new OrderStatusErrorException();
@@ -146,7 +146,7 @@ public class OrderServiceImpl implements OrderService {
     if (order.getStatus().equals(OrderStatus.NOT_USED)) {
       order.setStatus(OrderStatus.CANCELLED);
       order.setPreCost(0);
-      parkingService.fetchCarOutPosition(order.getParkingPositionId());
+      parkingService.fetchCarOutPosition(order.getParkingPosition().getId());
       return orderRepository.save(order);
     } else {
       throw new OrderCancelFailException();
@@ -173,7 +173,7 @@ public class OrderServiceImpl implements OrderService {
     OrderResponse orderResponse = new OrderResponse();
     BeanUtils.copyProperties(order, orderResponse);
 
-    ParkingLot parkingLot = parkingService.findParkingLotByPositionId(order.getParkingPositionId());
+    ParkingLot parkingLot = parkingService.findParkingLotByPositionId(order.getParkingPosition().getId());
     orderResponse.setParkingLotName(parkingLot.getName());
     orderResponse.setLocation(parkingLot.getLocation());
 
@@ -181,7 +181,7 @@ public class OrderServiceImpl implements OrderService {
     String orderNumber =
         dateFormat.format(order.getCreateTime())
             + order.getId().toString()
-            + order.getCustomerId().toString();
+            + order.getCustomer().getId().toString();
 
     orderResponse.setOrderNumber(orderNumber);
     return orderResponse;

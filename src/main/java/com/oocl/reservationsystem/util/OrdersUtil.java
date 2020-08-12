@@ -31,14 +31,14 @@ public class OrdersUtil {
     BeanUtils.copyProperties(order, orderResponse);
 
     ParkingLot parkingLot =
-        ordersUtil.parkingService.findParkingLotByPositionId(order.getParkingPositionId());
+        ordersUtil.parkingService.findParkingLotByPositionId(order.getParkingPosition().getId());
     orderResponse.setParkingLotName(parkingLot.getName());
 
     DateFormat dateFormat = new SimpleDateFormat("yyyyHHmmMMdd");
     String orderNumber =
         dateFormat.format(order.getCreateTime())
             + order.getId().toString()
-            + order.getCustomerId().toString();
+            + order.getCustomer().getId().toString();
 
     orderResponse.setOrderNumber(orderNumber);
     return orderResponse;

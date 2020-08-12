@@ -28,7 +28,7 @@ public class OrderTimer {
     for (Order order : orderList) {
       if ((new Date().getTime() - order.getStartTime().getTime()) >= 0) {
         order.setStatus(OrderStatus.CANCELLED);
-        parkingService.fetchCarOutPosition(order.getParkingPositionId());
+        parkingService.fetchCarOutPosition(order.getParkingPosition().getId());
         orderRepository.save(order);
       }
     }
