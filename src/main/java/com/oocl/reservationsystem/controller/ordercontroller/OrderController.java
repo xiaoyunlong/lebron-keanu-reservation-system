@@ -30,12 +30,6 @@ public class OrderController {
     orderService.addOrder(orderRequest);
   }
 
-  @GetMapping()
-  public List<OrderResponse> getAllOrderByCustomerId(
-      @RequestParam(value = "customer_id") Integer customerId) {
-    return orderService.getAllOrderByCustomerId(customerId);
-  }
-
   @GetMapping("/{id}")
   public OrderResponse getOrderById(@PathVariable Integer id) {
     return orderService.getOrderById(id);
