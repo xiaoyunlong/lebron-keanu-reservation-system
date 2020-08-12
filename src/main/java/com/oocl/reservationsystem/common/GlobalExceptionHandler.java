@@ -90,6 +90,19 @@ public class GlobalExceptionHandler {
   String basicExceptionHandler(RuntimeException exception) {
     return exception.getMessage();
   }
+  @ExceptionHandler(CarHasBeenStolenException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  String carHasBeenStolen(CarHasBeenStolenException exception) {
+    return "The car has been stolen.";
+  }
+
+  @ExceptionHandler(FetchCarErrorException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  String fetchCarErrorException(FetchCarErrorException exception) {
+    return "fetch car error";
+  }
 
   @ExceptionHandler(CarHasBeenStolenException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
