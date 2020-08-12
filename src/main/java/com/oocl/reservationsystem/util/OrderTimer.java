@@ -17,7 +17,7 @@ public class OrderTimer {
   @Autowired OrderService orderService;
   @Autowired OrderRepository orderRepository;
 
-  @Scheduled(fixedRate = 3000)
+  @Scheduled(fixedRate = 6000)
   public void cancelTimeoutOrder() {
     List<Order> orderList = orderService.findOrdersListByStatus(OrderStatus.NOT_USED);
     for (Order order : orderList) {
