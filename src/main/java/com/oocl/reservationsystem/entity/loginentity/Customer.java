@@ -1,6 +1,6 @@
 package com.oocl.reservationsystem.entity.loginentity;
 
-import com.oocl.reservationsystem.entity.mailentity.Message;
+import com.oocl.reservationsystem.entity.mailentity.Notification;
 import com.oocl.reservationsystem.entity.parkingentity.Car;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class Customer {
   private List<Car> cars;
 
   @OneToMany(mappedBy = "customer")
-  private List<Message> messages;
+  private List<Notification> notifications;
 
   public Customer() {
   }
@@ -90,11 +90,11 @@ public class Customer {
     this.id = id;
   }
 
-  public List<Message> getMessages() {
-    return messages;
+  public List<Notification> getNotifications() {
+    return notifications;
   }
 
-  public void setMessages(List<Message> messages) {
-    this.messages = messages;
+  public void setNotifications(List<Notification> notifications) {
+    this.notifications = notifications;
   }
 }

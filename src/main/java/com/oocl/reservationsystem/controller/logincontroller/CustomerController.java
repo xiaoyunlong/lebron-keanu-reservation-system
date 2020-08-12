@@ -2,7 +2,7 @@ package com.oocl.reservationsystem.controller.logincontroller;
 
 import com.oocl.reservationsystem.dto.orderdto.OrderResponse;
 import com.oocl.reservationsystem.entity.loginentity.Customer;
-import com.oocl.reservationsystem.entity.mailentity.Message;
+import com.oocl.reservationsystem.entity.mailentity.Notification;
 import com.oocl.reservationsystem.service.loginservice.CustomerService;
 import com.oocl.reservationsystem.service.orderservice.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +40,10 @@ public class CustomerController {
     return orderService.getAllOrderByCustomerId(id);
   }
 
-  @GetMapping("/customers/{id}/messages")
+  @GetMapping("/customers/{id}/notifications")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public List<Message> getAllMessagesByCustomerId(@PathVariable("id") Integer id) {
-    return customerService.getCustomerById(id).getMessages();
+  public List<Notification> getAllMessagesByCustomerId(@PathVariable("id") Integer id) {
+    return customerService.getCustomerById(id).getNotifications();
   }
 }
