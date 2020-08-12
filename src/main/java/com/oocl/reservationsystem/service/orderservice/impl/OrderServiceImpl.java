@@ -7,10 +7,12 @@ import com.oocl.reservationsystem.entity.orderentity.Order;
 import com.oocl.reservationsystem.entity.parkingentity.Car;
 import com.oocl.reservationsystem.entity.parkingentity.ParkingLot;
 import com.oocl.reservationsystem.enums.order.OrderStatus;
+import com.oocl.reservationsystem.exception.order.CarAlrearyParkOrReservedException;
 import com.oocl.reservationsystem.exception.order.OrderCancelFailException;
 import com.oocl.reservationsystem.exception.order.OrderNotFoundException;
 import com.oocl.reservationsystem.exception.order.OrderParkingPositionNotSpaceException;
 import com.oocl.reservationsystem.exception.order.OrderStatusErrorException;
+import com.oocl.reservationsystem.exception.order.StartTimeOverHourException;
 import com.oocl.reservationsystem.exception.parking.ParkingLotEventTypeErrorException;
 import com.oocl.reservationsystem.repository.orderrepository.OrderRepository;
 import com.oocl.reservationsystem.service.orderservice.OrderService;
@@ -46,7 +48,14 @@ public class OrderServiceImpl implements OrderService {
   @Transactional
   @Override
   public OrderResponse addOrder(OrderRequest orderRequest) {
-    //TODO need valid car whether in parkingLot
+
+    if (orderRequest.getStartTime().getTime() - new Date().getTime() > 60 * 60 * 1000) {
+      throw new StartTimeOverHourException();
+    }
+    if (isCarAlrearyParkOrReserved(orderRequest.getCarNumber())) {
+      throw new CarAlrearyParkOrReservedException();
+    }
+
     if (parkingService.isCarInPosition(orderRequest.getParkingPositionId())) {
       throw new OrderParkingPositionNotSpaceException();
     }
@@ -60,6 +69,14 @@ public class OrderServiceImpl implements OrderService {
     Order saveOrder = orderRepository.save(order);
     return orderToResponseMapper(saveOrder);
   }
+
+  public Boolean isCarAlrearyParkOrReserved(String carNumber) {
+    Car car = carService.findCarByCarNumber(carNumber);
+    List<Order> parkOrder = orderRepository.findOrderByStatusAndCarId(OrderStatus.USED, car.getId());
+    List<Order> reserveOrder = orderRepository.findOrderByStatusAndCarId(OrderStatus.NOT_USED, car.getId());
+    return parkOrder.size() != 0 || reserveOrder.size() != 0;
+  }
+
 
   @Override
   public List<OrderResponse> getAllOrderByCustomerId(Integer customerId) {

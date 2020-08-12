@@ -1,10 +1,12 @@
 package com.oocl.reservationsystem.common;
 
 import com.oocl.reservationsystem.exception.login.CustomerNoFoundException;
+import com.oocl.reservationsystem.exception.order.CarAlrearyParkOrReservedException;
 import com.oocl.reservationsystem.exception.order.OrderCancelFailException;
 import com.oocl.reservationsystem.exception.order.OrderNotFoundException;
 import com.oocl.reservationsystem.exception.order.OrderParkingPositionNotSpaceException;
 import com.oocl.reservationsystem.exception.order.OrderStatusErrorException;
+import com.oocl.reservationsystem.exception.order.StartTimeOverHourException;
 import com.oocl.reservationsystem.exception.parking.CarHasBeenStolenException;
 import com.oocl.reservationsystem.exception.parking.CarNotFoundException;
 import com.oocl.reservationsystem.exception.parking.FetchCarErrorException;
@@ -112,5 +114,20 @@ public class GlobalExceptionHandler {
   String parkingLotEventTypeErrorException(ParkingLotEventTypeErrorException exception) {
     return "parkingLot eventType error exception";
   }
+
+  @ExceptionHandler(StartTimeOverHourException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  String startTimeOverHourException(StartTimeOverHourException exception) {
+    return "The appointment time is only one hour from nown";
+  }
+
+  @ExceptionHandler(CarAlrearyParkOrReservedException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  String carAlrearyParkOrReservedException(CarAlrearyParkOrReservedException exception) {
+    return "this car already parked or reserved.";
+  }
+
 
 }
