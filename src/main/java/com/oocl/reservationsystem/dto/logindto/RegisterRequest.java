@@ -1,9 +1,16 @@
 package com.oocl.reservationsystem.dto.logindto;
 
+import javax.validation.constraints.NotBlank;
+
 public class RegisterRequest {
+
+  @NotBlank
   private String email;
+  @NotBlank
   private String password;
+  @NotBlank
   private String username;
+  @NotBlank
   private String phoneNumber;
 
   public String getEmail() {
