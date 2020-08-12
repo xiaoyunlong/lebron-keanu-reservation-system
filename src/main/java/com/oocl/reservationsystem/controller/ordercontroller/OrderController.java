@@ -1,5 +1,6 @@
 package com.oocl.reservationsystem.controller.ordercontroller;
 
+import com.oocl.reservationsystem.dto.orderdto.OrderParkingLotRequest;
 import com.oocl.reservationsystem.dto.orderdto.OrderRequest;
 import com.oocl.reservationsystem.dto.orderdto.OrderResponse;
 import com.oocl.reservationsystem.service.orderservice.OrderService;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -35,18 +37,13 @@ public class OrderController {
     return orderService.getOrderById(id);
   }
 
-  @PutMapping("/use/{order_id}")
-  public void useOrder(@PathVariable(value = "order_id") Integer orderId) {
-    orderService.useOrder(orderId);
-  }
-
   @PutMapping("/cancel/{order_id}")
   public void cancelOrder(@PathVariable(value = "order_id") Integer orderId) {
     orderService.cancelOrder(orderId);
   }
 
-  @PutMapping("/finish/{order_id}")
-  public OrderResponse finishOrder(@PathVariable(value = "order_id") Integer orderId) {
-    return orderService.finishOrder(orderId);
+  @PutMapping()
+  public void changeStatusFromParkingLot(@RequestBody @Valid OrderParkingLotRequest orderParkingLotRequest) {
+    orderService.changeStatusFromParkingLot(orderParkingLotRequest);
   }
 }

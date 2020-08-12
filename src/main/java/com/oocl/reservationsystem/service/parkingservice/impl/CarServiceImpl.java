@@ -28,6 +28,9 @@ public class CarServiceImpl implements CarService {
 
   @Override
   public Car findCarByCarNumber(String carNumber) {
+    if (null == carRepository.findTheCarByCarNumber(carNumber)) {
+      throw new CarNotFoundException();
+    }
     return carRepository.findTheCarByCarNumber(carNumber);
   }
 

@@ -36,7 +36,7 @@ public class Order {
       Integer totalCost,
       Integer preCost,
       String status,
-      Integer parkingPositionId) {
+      Integer parkingPositionId,Date enterTime) {
     this.id = id;
     this.carId = carId;
     this.customerId = customerId;
@@ -47,6 +47,7 @@ public class Order {
     this.preCost = preCost;
     this.status = status;
     this.parkingPositionId = parkingPositionId;
+    this.enterTime = enterTime;
   }
 
   public Order() {}

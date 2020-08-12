@@ -1,14 +1,17 @@
 package com.oocl.reservationsystem.service.orderservice.impl;
 
+import com.oocl.reservationsystem.dto.orderdto.OrderParkingLotRequest;
 import com.oocl.reservationsystem.dto.orderdto.OrderRequest;
 import com.oocl.reservationsystem.dto.orderdto.OrderResponse;
 import com.oocl.reservationsystem.entity.orderentity.Order;
+import com.oocl.reservationsystem.entity.parkingentity.Car;
 import com.oocl.reservationsystem.entity.parkingentity.ParkingLot;
 import com.oocl.reservationsystem.enums.order.OrderStatus;
 import com.oocl.reservationsystem.exception.order.OrderCancelFailException;
 import com.oocl.reservationsystem.exception.order.OrderNotFoundException;
 import com.oocl.reservationsystem.exception.order.OrderParkingPositionNotSpaceException;
 import com.oocl.reservationsystem.exception.order.OrderStatusErrorException;
+import com.oocl.reservationsystem.exception.parking.ParkingLotEventTypeErrorException;
 import com.oocl.reservationsystem.repository.orderrepository.OrderRepository;
 import com.oocl.reservationsystem.service.orderservice.OrderService;
 import com.oocl.reservationsystem.service.parkingservice.CarService;
@@ -30,6 +33,8 @@ public class OrderServiceImpl implements OrderService {
   private final OrderRepository orderRepository;
   private final ParkingService parkingService;
   private final CarService carService;
+  private static final String ENTER = "entering";
+  private static final String EXIT = "exiting";
 
   public OrderServiceImpl(
       OrderRepository orderRepository, ParkingService parkingService, CarService carService) {
@@ -41,6 +46,7 @@ public class OrderServiceImpl implements OrderService {
   @Transactional
   @Override
   public OrderResponse addOrder(OrderRequest orderRequest) {
+    //TODO need valid car whether in parkingLot
     if (parkingService.isCarInPosition(orderRequest.getParkingPositionId())) {
       throw new OrderParkingPositionNotSpaceException();
     }
@@ -77,12 +83,38 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
-  public Order useOrder(Integer orderId) {
-    Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
+  public Order useOrder(String carNumber) {
+    Car car = carService.findCarByCarNumber(carNumber);
+    List<Order> willUseOrder = orderRepository.findOrderByStatusAndCarId(OrderStatus.NOT_USED, car.getId());
+    if (willUseOrder == null || willUseOrder.size() == 0) {
+      throw new OrderNotFoundException();
+    }
+    Order order = willUseOrder.get(0);
     if (order.getStatus().equals(OrderStatus.NOT_USED)) {
       order.setEnterTime(new Date());
       order.setStatus(OrderStatus.USED);
       return orderRepository.save(order);
+    } else {
+      throw new OrderStatusErrorException();
+    }
+  }
+
+  @Override
+  public OrderResponse finishOrder(String carNumber) {
+    Car car = carService.findCarByCarNumber(carNumber);
+    List<Order> willFinishOrder = orderRepository.findOrderByStatusAndCarId(OrderStatus.USED, car.getId());
+    if (willFinishOrder == null || willFinishOrder.size() == 0) {
+      throw new OrderNotFoundException();
+    }
+    Order order = willFinishOrder.get(0);
+    // TODO when given money,and calculate remain money,let car out the lot
+    order.setEndTime(new Date());
+    order.setTotalCost(
+        OrdersUtil.calculateAllCost(order.getEnterTime(), order.getEndTime(), order.getPreCost()));
+    if (order.getStatus().equals(OrderStatus.USED)) {
+      order.setStatus(OrderStatus.FINISHED);
+      parkingService.fetchCarOutPosition(order.getParkingPositionId());
+      return orderToResponseMapper(orderRepository.save(order));
     } else {
       throw new OrderStatusErrorException();
     }
@@ -102,24 +134,19 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
-  public OrderResponse finishOrder(Integer orderId) {
-    Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
-    // TODO when given money,and calculate remain money,let car out the lot
-    order.setEndTime(new Date());
-    order.setTotalCost(
-        OrdersUtil.calculateAllCost(order.getEnterTime(), order.getEndTime(), order.getPreCost()));
-    if (order.getStatus().equals(OrderStatus.USED)) {
-      order.setStatus(OrderStatus.FINISHED);
-      parkingService.fetchCarOutPosition(order.getParkingPositionId());
-      return orderToResponseMapper(orderRepository.save(order));
-    } else {
-      throw new OrderStatusErrorException();
-    }
+  public List<Order> findOrdersListByStatus(String status) {
+    return orderRepository.findOrdersListByStatus(status);
   }
 
   @Override
-  public List<Order> findOrdersListByStatus(String status) {
-    return orderRepository.findOrdersListByStatus(status);
+  public void changeStatusFromParkingLot(OrderParkingLotRequest orderParkingLotRequest) {
+    if (orderParkingLotRequest.getEventType().equals(ENTER)) {
+      useOrder(orderParkingLotRequest.getLicenseNumber());
+    } else if (orderParkingLotRequest.getEventType().equals(EXIT)) {
+      finishOrder(orderParkingLotRequest.getLicenseNumber());
+    } else {
+      throw new ParkingLotEventTypeErrorException();
+    }
   }
 
   public OrderResponse orderToResponseMapper(Order order) {
