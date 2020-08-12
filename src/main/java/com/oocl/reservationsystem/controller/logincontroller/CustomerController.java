@@ -43,7 +43,7 @@ public class CustomerController {
   @GetMapping("/customers/{id}/notifications")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public List<Notification> getAllMessagesByCustomerId(@PathVariable("id") Integer id) {
+  public List<Notification> getAllNotificationsByCustomerId(@PathVariable("id") Integer id) {
     return customerService.getCustomerById(id).getNotifications();
   }
 }
