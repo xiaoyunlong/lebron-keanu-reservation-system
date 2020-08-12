@@ -26,6 +26,15 @@ public class Car {
   @JoinColumn(name = "customer_id")
   private Customer customer;
 
+  public Car(Integer id, String carNumber, Customer customer) {
+    this.id = id;
+    this.carNumber = carNumber;
+    this.customer = customer;
+  }
+
+  public Car() {
+  }
+
   public Integer getId() {
     return id;
   }
