@@ -1,10 +1,12 @@
 package com.oocl.reservationsystem.entity.parkingentity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.annotations.Expose;
 
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,24 +19,30 @@ public class ParkingLot {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Expose
   private int id;
-
+  @Expose
   private double latitude;
+  @Expose
   private double longitude;
+  @Expose
   private int capicity;
 
   @Column(name = "remaining_amount")
+  @Expose
   private int remainingAmount;
-
+  @Expose
   private String name;
 
   @Column(name = "unit_price")
+  @Expose
   private int unitPrice;
-
+  @Expose
   private String location;
 
   @JsonIgnore
-  @OneToMany(mappedBy = "parkingLot")
+  @OneToMany(fetch= FetchType.EAGER,mappedBy = "parkingLot")
+  @Expose
   private List<ParkingPosition> parkingPositions;
 
   public ParkingLot() {}

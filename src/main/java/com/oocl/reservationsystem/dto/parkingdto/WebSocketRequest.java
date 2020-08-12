@@ -1,9 +1,13 @@
 package com.oocl.reservationsystem.dto.parkingdto;
 
-public class WebSocketRequest {
+import com.google.gson.annotations.Expose;
 
+public class WebSocketRequest {
+  @Expose
   private Integer parkinglotId;
+  @Expose
   private Integer index;
+  @Expose
   private Integer status;
 
   public Integer getParkinglotId() {

@@ -1,6 +1,7 @@
 package com.oocl.reservationsystem.entity.parkingentity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.annotations.Expose;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,11 +18,14 @@ public class ParkingPosition {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Expose
   private Integer id;
 
   @Column(name = "parking_number")
+  @Expose
   private String parkingNumber;
 
+  @Expose
   private int status;
 
   @JsonIgnore

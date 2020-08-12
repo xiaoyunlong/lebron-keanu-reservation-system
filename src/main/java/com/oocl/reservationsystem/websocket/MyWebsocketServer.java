@@ -1,13 +1,13 @@
 package com.oocl.reservationsystem.websocket;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.oocl.reservationsystem.dto.parkingdto.WebSocketRequest;
 import com.oocl.reservationsystem.entity.parkingentity.ParkingLot;
 import com.oocl.reservationsystem.service.parkingservice.ParkingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -25,19 +25,24 @@ public class MyWebsocketServer {
 
   private static final Map<String, Session> clients = new ConcurrentHashMap<>();
   private final Logger log = LoggerFactory.getLogger(MyWebsocketServer.class);
+
+  private static ParkingService parkingService;
+
   @Autowired
-  private ParkingService parkingService;
+  public void setParkingService(ParkingService parkingService) {
+    MyWebsocketServer.parkingService = parkingService;
+  }
 
   @OnOpen
   public void onOpen(Session session) {
-    log.info("有新的客户端连接了: {}", session.getId());
+    log.info("New Connection: {}", session.getId());
     // 将新用户存入在线的组
     clients.put(session.getId(), session);
   }
 
   @OnClose
   public void onClose(Session session) {
-    log.info("有用户断开了, id为:{}", session.getId());
+    log.info("Connection Lost, id为:{}", session.getId());
     // 将掉线的用户移除在线的组里
     clients.remove(session.getId());
   }
@@ -49,9 +54,8 @@ public class MyWebsocketServer {
 
   @OnMessage
   public void onMessage(String message) {
-    log.info("服务端收到客户端发来的消息: {}", message);
-    message = "{\"parkinglotId\":1,\"index\":0,\"status\":1}";
-    Gson gson = new Gson();
+    log.info("Receive Message From Client: {}", message);
+    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     WebSocketRequest webSocketRequest = gson.fromJson(message, WebSocketRequest.class);
     ParkingLot parkingLot = parkingService.updateParkingLotByParkingLotIdAndStatus(webSocketRequest);
     this.sendAll(gson.toJson(parkingLot));
