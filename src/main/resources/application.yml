@@ -16,7 +16,7 @@ management:
   server:
     port: 8081
 server:
-  port: 8088
+  port: 8090
 spring:
   application:
     name: reservation-system
