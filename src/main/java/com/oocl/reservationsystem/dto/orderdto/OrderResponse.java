@@ -1,16 +1,20 @@
 package com.oocl.reservationsystem.dto.orderdto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class OrderResponse {
 
-  // TODO   location
   private Integer id;
   private String orderNumber;
   private Integer carId;
   private Integer customerId;
+  @JsonFormat(pattern = "yyyy-MM-dd hh:mm", timezone = "GMT+8")
   private Date createTime;
+  @JsonFormat(pattern = "yyyy-MM-dd hh:mm", timezone = "GMT+8")
   private Date startTime;
+  @JsonFormat(pattern = "yyyy-MM-dd hh:mm", timezone = "GMT+8")
   private Date endTime;
   private Integer totalCost;
   private Integer preCost;
@@ -18,6 +22,15 @@ public class OrderResponse {
   private Integer parkingPositionId;
   private String parkingLotName;
   private String licenseNumber;
+  private String location;
+
+  public String getLocation() {
+    return location;
+  }
+
+  public void setLocation(String location) {
+    this.location = location;
+  }
 
   public Integer getId() {
     return id;

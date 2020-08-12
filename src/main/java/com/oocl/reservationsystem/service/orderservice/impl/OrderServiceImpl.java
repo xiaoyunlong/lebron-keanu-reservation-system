@@ -126,6 +126,7 @@ public class OrderServiceImpl implements OrderService {
 
     ParkingLot parkingLot = parkingService.findParkingLotByPositionId(order.getParkingPositionId());
     orderResponse.setParkingLotName(parkingLot.getName());
+    orderResponse.setLocation(parkingLot.getLocation());
 
     DateFormat dateFormat = new SimpleDateFormat("yyyyHHmmMMdd");
     String orderNumber =

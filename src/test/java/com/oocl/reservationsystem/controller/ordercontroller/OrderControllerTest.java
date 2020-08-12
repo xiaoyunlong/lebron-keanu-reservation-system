@@ -1,6 +1,5 @@
 //package com.oocl.reservationsystem.controller.ordercontroller;
 //
-//import com.oocl.reservationsystem.BaseTest;
 //import com.oocl.reservationsystem.entity.orderentity.Order;
 //import com.oocl.reservationsystem.enums.order.OrderStatus;
 //import com.oocl.reservationsystem.repository.orderrepository.OrderRepository;
@@ -24,9 +23,9 @@
 //import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 //import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 //
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 //@AutoConfigureMockMvc
-//
-//public class OrderControllerTest extends BaseTest {
+//public class OrderControllerTest {
 //
 //  @Autowired
 //  private OrderRepository orderRepository;
