@@ -1,4 +1,3 @@
 package com.oocl.reservationsystem.service.loginservice;
 
-public interface LoginServiceTest {
-}
+public interface LoginServiceTest {}

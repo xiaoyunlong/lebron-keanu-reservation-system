@@ -1,34 +1,124 @@
 package com.oocl.reservationsystem.entity.parkingentity;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "parkinglot")
 public class ParkingLot {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private double latitude;
-    private double longitude;
-    private int capicity;
-    private int remaining_amount;
-    private String name;
-    private int unit_price;
 
-    public ParkingLot(double latitude, double longitude, int capicity, int remaining_amount, String name, int unit_price) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.capicity = capicity;
-        this.remaining_amount = remaining_amount;
-        this.name = name;
-        this.unit_price = unit_price;
-    }
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
-    public double getLatitude() {
-        return latitude;
-    }
+  private double latitude;
+  private double longitude;
+  private int capicity;
 
-    public double getLongitude() {
-        return longitude;
-    }
+  @Column(name = "remaining_amount")
+  private int remainingAmount;
+
+  private String name;
+
+  @Column(name = "unit_price")
+  private int unitPrice;
+
+  private String location;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "parkingLot")
+  private List<ParkingPosition> parkingPositions;
+
+  public ParkingLot() {}
+
+  public ParkingLot(
+      double latitude,
+      double longitude,
+      int capicity,
+      int remainingAmount,
+      String name,
+      int unitPrice) {
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.capicity = capicity;
+    this.remainingAmount = remainingAmount;
+    this.name = name;
+    this.unitPrice = unitPrice;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public double getLatitude() {
+    return latitude;
+  }
+
+  public void setLatitude(double latitude) {
+    this.latitude = latitude;
+  }
+
+  public double getLongitude() {
+    return longitude;
+  }
+
+  public void setLongitude(double longitude) {
+    this.longitude = longitude;
+  }
+
+  public int getCapicity() {
+    return capicity;
+  }
+
+  public void setCapicity(int capicity) {
+    this.capicity = capicity;
+  }
+
+  public int getRemainingAmount() {
+    return remainingAmount;
+  }
+
+  public void setRemainingAmount(int remainingAmount) {
+    this.remainingAmount = remainingAmount;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public int getUnitPrice() {
+    return unitPrice;
+  }
+
+  public void setUnitPrice(int unitPrice) {
+    this.unitPrice = unitPrice;
+  }
+
+  public List<ParkingPosition> getParkingPositions() {
+    return parkingPositions;
+  }
+
+  public void setParkingPositions(List<ParkingPosition> parkingPositions) {
+    this.parkingPositions = parkingPositions;
+  }
+
+  public String getLocation() {
+    return location;
+  }
+
+  public void setLocation(String location) {
+    this.location = location;
+  }
 }

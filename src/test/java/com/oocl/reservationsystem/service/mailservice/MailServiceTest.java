@@ -1,4 +1,3 @@
 package com.oocl.reservationsystem.service.mailservice;
 
-public interface MailServiceTest {
-}
+public interface MailServiceTest {}

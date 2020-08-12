@@ -12,6 +12,8 @@ plugins {
     id 'org.springframework.boot' version '2.3.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
+    id 'checkstyle'
+    id 'jacoco'
 }
 
 group = 'com.oocl'
@@ -24,10 +26,14 @@ repositories {
 }
 
 dependencies {
+    implementation ('org.springframework.boot:spring-boot-starter-websocket')
     implementation ('org.springframework.boot:spring-boot-starter-web')
     implementation ('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation('org.springframework.boot:spring-boot-starter-validation')
+    implementation ('com.alibaba:fastjson:1.2.73')
     runtime('mysql:mysql-connector-java')
-
+    compile 'com.h2database:h2'
+    compile group: 'com.google.code.gson', name: 'gson', version:'2.7'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
@@ -35,4 +41,64 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        classDumpDir = file("$buildDir/jacoco/classpathdumps")
+    }
+}
+
+checkstyle {
+    ignoreFailures = false
+    sourceSets = [sourceSets.main]
+    maxErrors = 0
+    maxWarnings = 0
+    reportsDir = file("$project.buildDir/reports/checkstyle")
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+    reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
+def jacocoExcludedFiles = [
+    '**/com/oocl/reservationsystem/dto/**',
+    '**/com/oocl/reservationsystem/entity/**',
+    '**/com/oocl/reservationsystem/exception/**',
+    '**/com/oocl/reservationsystem/common/**',
+    '**/com/oocl/reservationsystem/enums/**'
+]
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination = file("${buildDir}/reports/jacoco")
+    }
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: jacocoExcludedFiles)
+        }))
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.9
+            }
+        }
+
+        rule {
+            enabled = false
+            element = 'CLASS'
+            includes = ['org.gradle.*']
+
+            limit {
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+                maximum = 0.3
+            }
+        }
+    }
 }
