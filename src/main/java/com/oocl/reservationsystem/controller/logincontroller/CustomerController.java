@@ -2,6 +2,7 @@ package com.oocl.reservationsystem.controller.logincontroller;
 
 import com.oocl.reservationsystem.dto.orderdto.OrderResponse;
 import com.oocl.reservationsystem.entity.loginentity.Customer;
+import com.oocl.reservationsystem.entity.mailentity.Message;
 import com.oocl.reservationsystem.service.loginservice.CustomerService;
 import com.oocl.reservationsystem.service.orderservice.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,5 +38,12 @@ public class CustomerController {
   @GetMapping("/customers/{id}/orders")
   public List<OrderResponse> getAllOrderByCustomerId(@PathVariable Integer id) {
     return orderService.getAllOrderByCustomerId(id);
+  }
+
+  @GetMapping("/customers/{id}/messages")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public List<Message> getAllMessagesByCustomerId(@PathVariable("id") Integer id) {
+    return customerService.getCustomerById(id).getMessages();
   }
 }
