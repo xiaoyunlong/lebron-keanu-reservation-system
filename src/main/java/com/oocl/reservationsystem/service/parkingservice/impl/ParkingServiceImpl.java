@@ -141,6 +141,14 @@ public class ParkingServiceImpl implements ParkingService {
     return parkingLot.get();
   }
 
+  @Override
+  public ParkingLot findParkingLotById(Integer id) {
+    if (parkingLotRepository.findById(id).isPresent()) {
+      return parkingLotRepository.findById(id).get();
+    }
+    return null;
+  }
+
   private double calculateDistance(ParkingLot parkingLot, double latitude, double longitude) {
     return LatlongitudeUtil.getDistance(
         latitude, longitude, parkingLot.getLatitude(), parkingLot.getLongitude());

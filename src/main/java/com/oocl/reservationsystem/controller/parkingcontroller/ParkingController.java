@@ -1,6 +1,7 @@
 package com.oocl.reservationsystem.controller.parkingcontroller;
 
 import com.oocl.reservationsystem.dto.parkingdto.ParkingLotDto;
+import com.oocl.reservationsystem.entity.parkingentity.ParkingLot;
 import com.oocl.reservationsystem.entity.parkingentity.ParkingPosition;
 import com.oocl.reservationsystem.service.parkingservice.ParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,10 @@ public class ParkingController {
   @GetMapping("/parkinglots/{id}/parkingpositions")
   public List<ParkingPosition> getParkingPositionsByParkinglotId(@PathVariable("id") Integer id) {
     return parkingService.findParkingPositionsByParkinglotId(id);
+  }
+
+  @GetMapping("/parkinglots/{id}")
+  public ParkingLot getParkingLotById(@PathVariable("id") Integer id) {
+    return parkingService.findParkingLotById(id);
   }
 }
