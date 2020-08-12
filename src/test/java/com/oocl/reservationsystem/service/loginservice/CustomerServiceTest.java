@@ -20,7 +20,9 @@ import static org.mockito.ArgumentMatchers.anyInt;
 @ExtendWith(MockitoExtension.class)
 public class CustomerServiceTest extends BaseTest {
 
-  @Mock @Autowired private CustomerRepository customerRepository;
+  @Mock
+  @Autowired
+  private CustomerRepository customerRepository;
 
   @Test
   void should_return_user_info_when_find_user_info_by_customer_id_given_customer_id_1() {

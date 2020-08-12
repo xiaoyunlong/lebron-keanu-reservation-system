@@ -1,5 +1,5 @@
 package com.oocl.reservationsystem.exception.order;
 
-public class CarAlrearyParkOrReservedException extends RuntimeException{
+public class CarAlrearyParkOrReservedException extends RuntimeException {
 
 }

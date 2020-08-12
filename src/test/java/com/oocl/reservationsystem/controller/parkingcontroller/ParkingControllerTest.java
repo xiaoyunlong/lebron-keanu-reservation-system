@@ -17,9 +17,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class ParkingControllerTest extends BaseTest {
 
-  @Autowired private ParkingLotRepository parkingLotRepository;
+  @Autowired
+  private ParkingLotRepository parkingLotRepository;
 
-  @Autowired private MockMvc mockMvc;
+  @Autowired
+  private MockMvc mockMvc;
 
   @AfterEach
   void tearDown() {
@@ -28,8 +30,8 @@ public class ParkingControllerTest extends BaseTest {
 
   @Test
   void
-      should_return_1_parkinglot_when_find_parking_lots_by_location_given_latitude_longitude_and_2_parkinglots()
-          throws Exception {
+  should_return_1_parkinglot_when_find_parking_lots_by_location_given_latitude_longitude_and_2_parkinglots()
+      throws Exception {
     saveParkinglot(113.579316, 22.376505, 100, 100, null, 10);
     saveParkinglot(113.561282, 22.373635, 100, 100, null, 10);
 
@@ -45,8 +47,8 @@ public class ParkingControllerTest extends BaseTest {
 
   @Test
   void
-      should_return_not_found_exception_when_find_parking_lots_by_location_given_latitude_longitude_and_2_parkinglots_not_in_near()
-          throws Exception {
+  should_return_not_found_exception_when_find_parking_lots_by_location_given_latitude_longitude_and_2_parkinglots_not_in_near()
+      throws Exception {
     saveParkinglot(113.579316, 22.376505, 100, 100, null, 10);
     saveParkinglot(113.561282, 22.373635, 100, 100, null, 10);
 
@@ -61,8 +63,8 @@ public class ParkingControllerTest extends BaseTest {
 
   @Test
   void
-      should_return_first_parkingLot_ZH03_and_second_parkingLot_ZH02_and_third_parkingLot_ZH05_when_find_parking_lots_by_price_given_5_parkingLots_and_location_latitude_longitude()
-          throws Exception {
+  should_return_first_parkingLot_ZH03_and_second_parkingLot_ZH02_and_third_parkingLot_ZH05_when_find_parking_lots_by_price_given_5_parkingLots_and_location_latitude_longitude()
+      throws Exception {
     saveParkinglot(113.579316, 22.376505, 10, 10, "ZH01", 30);
     saveParkinglot(113.579803, 22.377223, 20, 20, "ZH02", 30);
     saveParkinglot(113.578398, 22.375861, 20, 20, "ZH03", 10);
@@ -84,8 +86,8 @@ public class ParkingControllerTest extends BaseTest {
 
   @Test
   void
-      should_return_first_parkingLot_ZH02_and_second_parkingLot_ZH05_and_third_parkingLot_ZH04_when_find_parking_lots_by_distance_given_5_parkingLots_and_location_latitude_longitude()
-          throws Exception {
+  should_return_first_parkingLot_ZH02_and_second_parkingLot_ZH05_and_third_parkingLot_ZH04_when_find_parking_lots_by_distance_given_5_parkingLots_and_location_latitude_longitude()
+      throws Exception {
     saveParkinglot(113.579316, 22.376505, 10, 10, "ZH01", 30);
     saveParkinglot(113.579803, 22.377223, 20, 20, "ZH02", 30);
     saveParkinglot(113.578398, 22.375861, 20, 20, "ZH03", 10);

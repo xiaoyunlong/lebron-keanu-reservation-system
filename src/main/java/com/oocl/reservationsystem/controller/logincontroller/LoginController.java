@@ -3,7 +3,9 @@ package com.oocl.reservationsystem.controller.logincontroller;
 import com.oocl.reservationsystem.dto.logindto.LoginRequest;
 import com.oocl.reservationsystem.dto.logindto.LoginResponse;
 import com.oocl.reservationsystem.dto.logindto.RegisterRequest;
+import com.oocl.reservationsystem.dto.mqdto.MessageType;
 import com.oocl.reservationsystem.service.loginservice.LoginService;
+import com.oocl.reservationsystem.service.rabbitservice.RabbitService;
 import com.oocl.reservationsystem.service.registerservice.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,9 @@ import javax.validation.Valid;
 
 @RestController
 public class LoginController {
+
+  @Autowired
+  private RabbitService rabbitService;
 
   private final LoginService loginService;
 
@@ -41,6 +46,8 @@ public class LoginController {
   @ResponseBody
   @ResponseStatus(HttpStatus.ACCEPTED)
   public LoginResponse customerRegister(@RequestBody @Valid RegisterRequest registerRequest) {
-    return registerService.getCustomerRegisterRequest(registerRequest);
+    LoginResponse loginResponse = registerService.getCustomerRegisterRequest(registerRequest);
+    rabbitService.sendRegisterMQMessage(loginResponse.getId(), MessageType.REGISTER_MESSAGE);
+    return loginResponse;
   }
 }

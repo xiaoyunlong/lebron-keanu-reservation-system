@@ -16,6 +16,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
   List<Order> findOrdersListByStatus(String status);
 
   @Query(value = "select * from orders where status=?1 and car_id=?2", nativeQuery = true)
-  List<Order> findOrderByStatusAndCarId(String status,Integer carId);
+  List<Order> findOrderByStatusAndCarId(String status, Integer carId);
 
 }

@@ -1,9 +1,12 @@
 package com.oocl.reservationsystem.controller.ordercontroller;
 
+import com.oocl.reservationsystem.dto.mqdto.MessageType;
 import com.oocl.reservationsystem.dto.orderdto.OrderParkingLotRequest;
 import com.oocl.reservationsystem.dto.orderdto.OrderRequest;
 import com.oocl.reservationsystem.dto.orderdto.OrderResponse;
 import com.oocl.reservationsystem.service.orderservice.OrderService;
+import com.oocl.reservationsystem.service.rabbitservice.RabbitService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +24,9 @@ import javax.validation.Valid;
 @RequestMapping("/orders")
 public class OrderController {
 
+  @Autowired
+  RabbitService rabbitService;
+
   private final OrderService orderService;
 
   public OrderController(OrderService orderService) {
@@ -29,7 +35,8 @@ public class OrderController {
 
   @PostMapping()
   public void addOrder(@RequestBody @Valid OrderRequest orderRequest) {
-    orderService.addOrder(orderRequest);
+    OrderResponse orderResponse = orderService.addOrder(orderRequest);
+    rabbitService.sendMQMessage(orderResponse, MessageType.REVERSE_MESSAGE);
   }
 
   @GetMapping("/{id}")
@@ -40,6 +47,7 @@ public class OrderController {
   @PutMapping("/cancel/{order_id}")
   public void cancelOrder(@PathVariable(value = "order_id") Integer orderId) {
     orderService.cancelOrder(orderId);
+    rabbitService.sendCancelOrderMQMessage(orderId, MessageType.ORDER_CANCEL_MESSAGE);
   }
 
   @PutMapping()

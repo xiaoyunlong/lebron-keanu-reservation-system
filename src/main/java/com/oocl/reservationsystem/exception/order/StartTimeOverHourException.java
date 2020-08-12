@@ -1,5 +1,5 @@
 package com.oocl.reservationsystem.exception.order;
 
-public class StartTimeOverHourException extends RuntimeException{
+public class StartTimeOverHourException extends RuntimeException {
 
 }

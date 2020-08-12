@@ -1,6 +1,7 @@
 package com.oocl.reservationsystem.dto.parkingdto;
 
 public class CarRequest {
+
   private String carNumber;
   private Integer customerId;
 

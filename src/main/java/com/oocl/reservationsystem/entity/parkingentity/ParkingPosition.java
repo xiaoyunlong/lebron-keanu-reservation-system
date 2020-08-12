@@ -33,7 +33,8 @@ public class ParkingPosition {
   @JoinColumn(name = "parkinglot_id")
   private ParkingLot parkingLot;
 
-  public ParkingPosition() {}
+  public ParkingPosition() {
+  }
 
   public ParkingPosition(String parkingNumber, int status) {
     this.parkingNumber = parkingNumber;

@@ -28,11 +28,14 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 class ParkingServiceTest extends BaseTest {
 
-  @Autowired ParkingService parkingService;
+  @Autowired
+  ParkingService parkingService;
 
-  @MockBean ParkingLotRepository parkingLotRepository;
+  @MockBean
+  ParkingLotRepository parkingLotRepository;
 
-  @MockBean ParkingPositionRepository parkingPositionRepository;
+  @MockBean
+  ParkingPositionRepository parkingPositionRepository;
 
   @Test
   void should_return_parking_lots_when_find_parking_lots_by_location_given_latitude_longitude() {

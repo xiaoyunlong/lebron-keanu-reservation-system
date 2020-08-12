@@ -1,3 +1,5 @@
 package com.oocl.reservationsystem.exception.order;
 
-public class OrderNotFoundException extends RuntimeException {}
+public class OrderNotFoundException extends RuntimeException {
+
+}

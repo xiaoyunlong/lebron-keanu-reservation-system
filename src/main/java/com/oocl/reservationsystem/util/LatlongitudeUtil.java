@@ -19,9 +19,9 @@ public class LatlongitudeUtil {
     double s =
         2
             * Math.asin(
-                Math.sqrt(
-                    Math.pow(Math.sin(a / 2), 2)
-                        + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+            Math.sqrt(
+                Math.pow(Math.sin(a / 2), 2)
+                    + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
     s = s * EARTH_RADIUS * MILES_TO_METERS;
     s = Math.round(s * 1000) / 1000;
     return s;

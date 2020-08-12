@@ -1,3 +1,5 @@
 package com.oocl.reservationsystem.controller.mailcontroller;
 
-public class MailControllerTest {}
+public class MailControllerTest {
+
+}

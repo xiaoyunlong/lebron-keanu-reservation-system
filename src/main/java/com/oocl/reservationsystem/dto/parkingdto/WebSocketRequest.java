@@ -3,6 +3,7 @@ package com.oocl.reservationsystem.dto.parkingdto;
 import com.google.gson.annotations.Expose;
 
 public class WebSocketRequest {
+
   @Expose
   private Integer parkinglotId;
   @Expose

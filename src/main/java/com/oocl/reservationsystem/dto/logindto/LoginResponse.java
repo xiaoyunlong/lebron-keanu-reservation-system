@@ -5,6 +5,7 @@ import com.oocl.reservationsystem.entity.parkingentity.Car;
 import java.util.List;
 
 public class LoginResponse {
+
   private int id;
   private String username;
   private String email;
