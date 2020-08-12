@@ -41,11 +41,12 @@ public class ParkingLot {
   private String location;
 
   @JsonIgnore
-  @OneToMany(fetch= FetchType.EAGER,mappedBy = "parkingLot")
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parkingLot")
   @Expose
   private List<ParkingPosition> parkingPositions;
 
-  public ParkingLot() {}
+  public ParkingLot() {
+  }
 
   public ParkingLot(
       double latitude,
