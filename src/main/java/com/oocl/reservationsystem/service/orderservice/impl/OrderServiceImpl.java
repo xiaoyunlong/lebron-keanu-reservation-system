@@ -49,8 +49,6 @@ public class OrderServiceImpl implements OrderService {
   @Override
   public OrderResponse addOrder(OrderRequest orderRequest) {
 
-    System.out.println(orderRequest.getStartTime());
-
     if (orderRequest.getStartTime().getTime() - new Date().getTime() > 60 * 60 * 1000) {
       throw new StartTimeOverHourException();
     }
