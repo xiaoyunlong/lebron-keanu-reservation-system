@@ -127,7 +127,7 @@ public class ParkingServiceImpl implements ParkingService {
   @Override
   public ParkingLot updateParkingLotByParkingLotIdAndStatus(WebSocketRequest webSocketRequest) {
     Optional<ParkingLot> parkingLot = parkingLotRepository.findById(webSocketRequest.getParkinglotId());
-    if(parkingLot.isPresent()){
+    if (parkingLot.isPresent()) {
       parkingLot.get().getParkingPositions().get(webSocketRequest.getIndex()).setStatus(webSocketRequest.getStatus());
     }
     return parkingLot.get();
