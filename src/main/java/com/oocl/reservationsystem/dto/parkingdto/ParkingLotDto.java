@@ -2,12 +2,21 @@ package com.oocl.reservationsystem.dto.parkingdto;
 
 public class ParkingLotDto {
 
+  private int id;
   private String name;
   private int capicity;
   private int remainingAmount;
   private int unitPrice;
   private double distance;
   private String location;
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
 
   public String getName() {
     return name;
