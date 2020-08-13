@@ -61,10 +61,6 @@ public class OrderServiceImpl implements OrderService {
       throw new CarAlrearyParkOrReservedException();
     }
 
-    if (parkingService.isCarInPosition(orderRequest.getParkingPositionId())) {
-      throw new OrderParkingPositionNotSpaceException();
-    }
-
     parkingService.parkCarInPosition(orderRequest.getParkingPositionId());
     Order order = new Order();
     BeanUtils.copyProperties(orderRequest, order);
