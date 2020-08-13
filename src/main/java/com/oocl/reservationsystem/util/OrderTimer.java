@@ -4,6 +4,7 @@ import com.oocl.reservationsystem.dto.mqdto.MessageType;
 import com.oocl.reservationsystem.entity.orderentity.Order;
 import com.oocl.reservationsystem.enums.order.OrderStatus;
 import com.oocl.reservationsystem.repository.orderrepository.OrderRepository;
+import com.oocl.reservationsystem.service.mailservice.NotificationService;
 import com.oocl.reservationsystem.service.orderservice.OrderService;
 import com.oocl.reservationsystem.service.parkingservice.ParkingService;
 import com.oocl.reservationsystem.service.rabbitservice.RabbitService;
@@ -25,6 +26,8 @@ public class OrderTimer {
   ParkingService parkingService;
   @Autowired
   RabbitService rabbitService;
+  @Autowired
+  private NotificationService notificationService;
 
   @Scheduled(fixedRate = 6000)
   public void cancelTimeoutOrder() {
@@ -34,6 +37,8 @@ public class OrderTimer {
         order.setStatus(OrderStatus.CANCELLED);
         parkingService.fetchCarOutPosition(order.getParkingPositionId());
         orderRepository.save(order);
+
+        notificationService.saveNotification(order.getCustomerId(), MessageType.ORDER_TIMEOUT_MESSAGE);
         rabbitService.sendMQMessage(order.getCustomerId(), MessageType.ORDER_TIMEOUT_MESSAGE);
       }
     }
