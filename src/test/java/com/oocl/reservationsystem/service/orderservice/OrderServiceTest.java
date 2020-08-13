@@ -1,5 +1,6 @@
 package com.oocl.reservationsystem.service.orderservice;
 
+import com.oocl.reservationsystem.dto.orderdto.OrderPageResponse;
 import com.oocl.reservationsystem.dto.orderdto.OrderRequest;
 import com.oocl.reservationsystem.dto.orderdto.OrderResponse;
 import com.oocl.reservationsystem.entity.loginentity.Customer;
@@ -80,9 +81,9 @@ public class OrderServiceTest {
     when(carService.getCarNumberById(anyInt())).thenReturn("京A88888");
 
 
-    List<OrderResponse> responseList = orderService.getAllOrderByCustomerId(customerId);
+    OrderPageResponse responseList = orderService.getAllOrderByCustomerId(customerId,10,1);
     //then
-    assertEquals(customerId, responseList.get(0).getCustomerId());
+    assertEquals(customerId, responseList.getOrderResponse().get(0).getCustomerId());
   }
 
   @Test

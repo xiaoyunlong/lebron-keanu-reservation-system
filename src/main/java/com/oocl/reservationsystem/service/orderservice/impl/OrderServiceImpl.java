@@ -1,5 +1,6 @@
 package com.oocl.reservationsystem.service.orderservice.impl;
 
+import com.oocl.reservationsystem.dto.orderdto.OrderPageResponse;
 import com.oocl.reservationsystem.dto.orderdto.OrderParkingLotRequest;
 import com.oocl.reservationsystem.dto.orderdto.OrderRequest;
 import com.oocl.reservationsystem.dto.orderdto.OrderResponse;
@@ -82,7 +83,7 @@ public class OrderServiceImpl implements OrderService {
 
 
   @Override
-  public List<OrderResponse> getAllOrderByCustomerId(Integer customerId) {
+  public OrderPageResponse getAllOrderByCustomerId(Integer customerId, Integer pageSize, Integer pageNumber) {
     List<Order> orderList = orderRepository.findByCustomerId(customerId);
     List<OrderResponse> orderResponseList = new ArrayList<>();
     for (Order order : orderList) {
@@ -90,7 +91,29 @@ public class OrderServiceImpl implements OrderService {
       orderResponse.setLicenseNumber(carService.getCarNumberById(order.getCarId()));
       orderResponseList.add(orderResponse);
     }
-    return orderResponseList;
+
+    List<List<OrderResponse>> bigList = new ArrayList<>();
+    List<OrderResponse> smallList = new ArrayList<>();
+    int k = 0;
+    for (OrderResponse orderResponse : orderResponseList) {
+      smallList.add(orderResponse);
+      k++;
+      if (k % pageSize == 0 || k == orderResponseList.size()) {
+        bigList.add(smallList);
+        smallList = new ArrayList<OrderResponse>();
+      }
+    }
+    Integer totalLength = orderResponseList.size();
+    OrderPageResponse orderPageResponse = new OrderPageResponse();
+    orderPageResponse.setTotalLength(totalLength);
+
+    if (pageNumber > bigList.size()) {
+      orderPageResponse.setOrderResponse(new ArrayList<>());
+      return orderPageResponse;
+    }
+
+    orderPageResponse.setOrderResponse(bigList.get(pageNumber - 1));
+    return orderPageResponse;
   }
 
   @Override
@@ -127,7 +150,6 @@ public class OrderServiceImpl implements OrderService {
       throw new OrderNotFoundException();
     }
     Order order = willFinishOrder.get(0);
-    // TODO when given money,and calculate remain money,let car out the lot
     order.setEndTime(new Date());
     order.setTotalCost(
         OrdersUtil.calculateAllCost(order.getEnterTime(), order.getEndTime(), order.getPreCost()));
