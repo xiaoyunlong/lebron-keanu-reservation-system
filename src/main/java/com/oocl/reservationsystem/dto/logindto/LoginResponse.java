@@ -23,6 +23,9 @@ public class LoginResponse {
     this.cars = cars;
   }
 
+  public LoginResponse() {
+  }
+
   public int getId() {
     return id;
   }
