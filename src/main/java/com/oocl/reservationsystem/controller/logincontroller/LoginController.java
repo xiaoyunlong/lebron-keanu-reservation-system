@@ -47,7 +47,7 @@ public class LoginController {
   @ResponseStatus(HttpStatus.ACCEPTED)
   public LoginResponse customerRegister(@RequestBody @Valid RegisterRequest registerRequest) {
     LoginResponse loginResponse = registerService.getCustomerRegisterRequest(registerRequest);
-    rabbitService.sendRegisterMQMessage(loginResponse.getId(), MessageType.REGISTER_MESSAGE);
+    rabbitService.sendMQMessage(loginResponse.getId(), MessageType.REGISTER_MESSAGE);
     return loginResponse;
   }
 }

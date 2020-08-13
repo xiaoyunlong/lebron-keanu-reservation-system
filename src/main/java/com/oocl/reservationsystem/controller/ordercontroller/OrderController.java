@@ -36,7 +36,7 @@ public class OrderController {
   @PostMapping()
   public void addOrder(@RequestBody @Valid OrderRequest orderRequest) {
     OrderResponse orderResponse = orderService.addOrder(orderRequest);
-    rabbitService.sendMQMessage(orderResponse, MessageType.REVERSE_MESSAGE);
+    rabbitService.sendMQMessage(orderResponse.getCustomerId(), MessageType.REVERSE_MESSAGE);
   }
 
   @GetMapping("/{id}")
@@ -46,8 +46,9 @@ public class OrderController {
 
   @PutMapping("/cancel/{order_id}")
   public void cancelOrder(@PathVariable(value = "order_id") Integer orderId) {
+    int customerId = orderService.getOrderById(orderId).getCustomerId();
     orderService.cancelOrder(orderId);
-    rabbitService.sendCancelOrderMQMessage(orderId, MessageType.ORDER_CANCEL_MESSAGE);
+    rabbitService.sendMQMessage(customerId, MessageType.ORDER_CANCEL_MESSAGE);
   }
 
   @PutMapping()
