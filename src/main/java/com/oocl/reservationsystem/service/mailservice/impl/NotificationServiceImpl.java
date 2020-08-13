@@ -52,7 +52,7 @@ public class NotificationServiceImpl implements NotificationService {
   }
 
   private String getCurrentTime() {
-    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     return formatter.format(new Date());
   }
 }

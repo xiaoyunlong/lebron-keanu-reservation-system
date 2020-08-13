@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
 
   @Transactional
   @Override
-  public OrderResponse addOrder(OrderRequest orderRequest) {
+  public OrderResponse addOrder(OrderRequest orderRequest) throws ParseException {
 
     if (orderRequest.getStartTime().getTime() - new Date().getTime() > 60 * 60 * 1000
         || orderRequest.getStartTime().getTime() <= new Date().getTime()) {
@@ -68,6 +69,7 @@ public class OrderServiceImpl implements OrderService {
     BeanUtils.copyProperties(orderRequest, order);
 
     order.setCreateTime(new Date());
+
     order.setStatus(OrderStatus.NOT_USED);
     order.setCarId(carService.findCarByCarNumber(orderRequest.getCarNumber()).getId());
     Order saveOrder = orderRepository.save(order);
@@ -211,12 +213,8 @@ public class OrderServiceImpl implements OrderService {
     ParkingLot parkingLot = parkingService.findParkingLotByPositionId(order.getParkingPositionId());
     orderResponse.setParkingLotName(parkingLot.getName());
     orderResponse.setLocation(parkingLot.getLocation());
-
-    DateFormat dateFormat = new SimpleDateFormat("yyyyHHmmMMdd");
-    String orderNumber =
-        dateFormat.format(order.getCreateTime())
-            + order.getId().toString()
-            + order.getCustomerId().toString();
+    Integer theOrderNumber = order.getId() * 1503 + order.getCustomerId() + order.getCarId() * 1254;
+    String orderNumber = theOrderNumber.toString();
 
     orderResponse.setOrderNumber(orderNumber);
     return orderResponse;

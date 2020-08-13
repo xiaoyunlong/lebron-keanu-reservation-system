@@ -1,5 +1,6 @@
 package com.oocl.reservationsystem.controller.ordercontroller;
 
+import com.google.gson.internal.$Gson$Preconditions;
 import com.oocl.reservationsystem.dto.mqdto.MessageType;
 import com.oocl.reservationsystem.dto.orderdto.OrderParkingLotRequest;
 import com.oocl.reservationsystem.dto.orderdto.OrderRequest;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
 import javax.validation.Valid;
 
 @RestController
@@ -36,9 +38,8 @@ public class OrderController {
   }
 
   @PostMapping()
-  public void addOrder(@RequestBody @Valid OrderRequest orderRequest) {
+  public void addOrder(@RequestBody @Valid OrderRequest orderRequest) throws ParseException {
     OrderResponse orderResponse = orderService.addOrder(orderRequest);
-
     notificationService.saveNotification(orderRequest.getCustomerId(), MessageType.REVERSE_MESSAGE);
     rabbitService.sendMQMessage(orderResponse.getCustomerId(), MessageType.REVERSE_MESSAGE);
   }

@@ -6,12 +6,13 @@ import com.oocl.reservationsystem.dto.orderdto.OrderRequest;
 import com.oocl.reservationsystem.dto.orderdto.OrderResponse;
 import com.oocl.reservationsystem.entity.orderentity.Order;
 
+import java.text.ParseException;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder.In;
 
 public interface OrderService {
 
-  OrderResponse addOrder(OrderRequest orderRequest);
+  OrderResponse addOrder(OrderRequest orderRequest) throws ParseException;
 
   OrderPageResponse getAllOrderByCustomerId(Integer customerId, Integer pageSize, Integer pageNumber);
 

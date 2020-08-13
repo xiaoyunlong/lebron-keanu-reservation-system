@@ -39,13 +39,8 @@ public class LoginController {
   @PostMapping("/login")
   @ResponseBody
   @ResponseStatus(HttpStatus.ACCEPTED)
-  public LoginResponse customerLogin(@RequestBody @Valid LoginRequest loginRequest, HttpSession session) {
-
-    LoginResponse loginResponse = loginService.getCustomerLoginRequest(loginRequest);
-    if (loginResponse != null) {
-      session.setAttribute("user", loginResponse);
-    }
-    return loginResponse;
+  public LoginResponse customerLogin(@RequestBody @Valid LoginRequest loginRequest) {
+    return loginService.getCustomerLoginRequest(loginRequest);
   }
 
   @PostMapping("/register")
