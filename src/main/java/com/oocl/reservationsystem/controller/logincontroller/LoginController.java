@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @RestController
@@ -38,8 +39,13 @@ public class LoginController {
   @PostMapping("/login")
   @ResponseBody
   @ResponseStatus(HttpStatus.ACCEPTED)
-  public LoginResponse customerLogin(@RequestBody @Valid LoginRequest loginRequest) {
-    return loginService.getCustomerLoginRequest(loginRequest);
+  public LoginResponse customerLogin(@RequestBody @Valid LoginRequest loginRequest, HttpSession session) {
+
+    LoginResponse loginResponse = loginService.getCustomerLoginRequest(loginRequest);
+    if (loginResponse != null) {
+      session.setAttribute("user", loginResponse);
+    }
+    return loginResponse;
   }
 
   @PostMapping("/register")

@@ -12,6 +12,7 @@ import com.oocl.reservationsystem.exception.parking.CarNotFoundException;
 import com.oocl.reservationsystem.exception.parking.FetchCarErrorException;
 import com.oocl.reservationsystem.exception.parking.ParkingLotEventTypeErrorException;
 import com.oocl.reservationsystem.exception.parking.ParkingLotNoFoundException;
+import com.oocl.reservationsystem.exception.user.CustomerNotLoginException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -127,6 +128,13 @@ public class GlobalExceptionHandler {
   @ResponseBody
   String carAlrearyParkOrReservedException(CarAlrearyParkOrReservedException exception) {
     return "this car already parked or reserved.";
+  }
+
+  @ExceptionHandler(CustomerNotLoginException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  String customerNotLoginException(CustomerNotLoginException exception) {
+    return "Customer not login.";
   }
 
 
