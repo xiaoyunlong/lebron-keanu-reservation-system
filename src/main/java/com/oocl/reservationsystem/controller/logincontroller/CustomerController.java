@@ -1,6 +1,7 @@
 package com.oocl.reservationsystem.controller.logincontroller;
 
 import com.oocl.reservationsystem.dto.orderdto.OrderPageResponse;
+import com.oocl.reservationsystem.dto.orderdto.OrderResponse;
 import com.oocl.reservationsystem.entity.loginentity.Customer;
 import com.oocl.reservationsystem.entity.mailentity.Notification;
 import com.oocl.reservationsystem.service.loginservice.CustomerService;
@@ -36,10 +37,15 @@ public class CustomerController {
     return customerService.getCustomerById(customerId);
   }
 
-  @GetMapping("/customers/{id}/orders")
+  @GetMapping(value = "/customers/{id}/orders", params = {"pageNumber", "pageSize"})
   public OrderPageResponse getAllOrderByCustomerId(@PathVariable Integer id, @RequestParam Integer pageSize,
       @RequestParam Integer pageNumber) {
-    return orderService.getAllOrderByCustomerId(id,pageSize,pageNumber);
+    return orderService.getAllOrderByCustomerId(id, pageSize, pageNumber);
+  }
+
+  @GetMapping(value = "/customers/{id}/orders")
+  public List<OrderResponse> getAllOrderByCustomerId1(@PathVariable Integer id) {
+    return orderService.getAllOrderByCustomerIdNotPage(id);
   }
 
   @GetMapping("/customers/{id}/notifications")

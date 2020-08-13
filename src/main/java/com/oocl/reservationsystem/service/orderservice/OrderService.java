@@ -26,4 +26,7 @@ public interface OrderService {
   List<Order> findOrdersListByStatus(String status);
 
   void changeStatusFromParkingLot(OrderParkingLotRequest orderParkingLotRequest);
+
+  public List<OrderResponse> getAllOrderByCustomerIdNotPage(Integer customerId);
+
 }

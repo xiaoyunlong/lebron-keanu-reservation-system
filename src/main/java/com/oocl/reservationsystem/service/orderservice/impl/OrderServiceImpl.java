@@ -83,6 +83,19 @@ public class OrderServiceImpl implements OrderService {
 
 
   @Override
+  public List<OrderResponse> getAllOrderByCustomerIdNotPage(Integer customerId) {
+    List<Order> orderList = orderRepository.findByCustomerId(customerId);
+    List<OrderResponse> orderResponseList = new ArrayList<>();
+    for (Order order : orderList) {
+      OrderResponse orderResponse = orderToResponseMapper(order);
+      orderResponse.setLicenseNumber(carService.getCarNumberById(order.getCarId()));
+      orderResponseList.add(orderResponse);
+    }
+    return orderResponseList;
+  }
+
+
+  @Override
   public OrderPageResponse getAllOrderByCustomerId(Integer customerId, Integer pageSize, Integer pageNumber) {
     List<Order> orderList = orderRepository.findByCustomerId(customerId);
     List<OrderResponse> orderResponseList = new ArrayList<>();
