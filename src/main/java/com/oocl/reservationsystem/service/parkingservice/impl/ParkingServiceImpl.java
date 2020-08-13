@@ -99,9 +99,6 @@ public class ParkingServiceImpl implements ParkingService {
             .orElseThrow(
                 () -> new PositionNoFoundException(ParkingEnum.PARKING_POSITION_NOT_FOUND));
 
-    if (parkingPosition.getStatus() == ParkingPositionStatusEnum.HAVE_BEEN_PARKED.getState()) {
-      throw new PositionHaveParkedException(ParkingEnum.PARKING_POSITION_HAVE_BEEN_PARKED);
-    }
     parkingPosition.setStatus(ParkingPositionStatusEnum.HAVE_BEEN_PARKED.getState());
     ParkingLot parkingLotInDB = findParkingLotByPositionId(positionId);
 
