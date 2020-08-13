@@ -16,37 +16,10 @@ import javax.annotation.PostConstruct;
 @Component
 public class OrdersUtil {
 
-  // 声明对象
-  public static OrdersUtil ordersUtil;
-  @Autowired // 注入
-  private ParkingServiceImpl parkingService;
-
   public static Integer calculateAllCost(Date start, Date end, Integer unitPrice) {
     double hours = Math.ceil((double) (end.getTime() - start.getTime()) / 3600000.0);
     return (int) (hours) * unitPrice;
   }
 
-  public static OrderResponse orderToResponseMapper(Order order) {
-    OrderResponse orderResponse = new OrderResponse();
-    BeanUtils.copyProperties(order, orderResponse);
 
-    ParkingLot parkingLot =
-        ordersUtil.parkingService.findParkingLotByPositionId(order.getParkingPosition().getId());
-    orderResponse.setParkingLotName(parkingLot.getName());
-
-    DateFormat dateFormat = new SimpleDateFormat("yyyyHHmmMMdd");
-    String orderNumber =
-        dateFormat.format(order.getCreateTime())
-            + order.getId().toString()
-            + order.getCustomer().getId().toString();
-
-    orderResponse.setOrderNumber(orderNumber);
-    return orderResponse;
-  }
-
-  @PostConstruct // 初始化
-  public void init() {
-    ordersUtil = this;
-    ordersUtil.parkingService = this.parkingService;
-  }
 }
