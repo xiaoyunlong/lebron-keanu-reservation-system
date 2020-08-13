@@ -2,6 +2,7 @@ package com.oocl.reservationsystem.service.parkingservice.impl;
 
 import com.oocl.reservationsystem.dto.parkingdto.CarRequest;
 import com.oocl.reservationsystem.entity.parkingentity.Car;
+import com.oocl.reservationsystem.enums.parking.CarEnum;
 import com.oocl.reservationsystem.exception.parking.CarNotFoundException;
 import com.oocl.reservationsystem.repository.loginrepository.CustomerRepository;
 import com.oocl.reservationsystem.repository.parkingrepository.CarRepository;
@@ -22,14 +23,14 @@ public class CarServiceImpl implements CarService {
 
   @Override
   public String getCarNumberById(Integer id) {
-    Car car = carRepository.findById(id).orElseThrow(CarNotFoundException::new);
+    Car car = carRepository.findById(id).orElseThrow(() -> new CarNotFoundException(CarEnum.CAR_NOT_FOUND));
     return car.getCarNumber();
   }
 
   @Override
   public Car findCarByCarNumber(String carNumber) {
     if (null == carRepository.findTheCarByCarNumber(carNumber)) {
-      throw new CarNotFoundException();
+      throw new CarNotFoundException(CarEnum.CAR_NOT_FOUND);
     }
     return carRepository.findTheCarByCarNumber(carNumber);
   }
@@ -44,6 +45,7 @@ public class CarServiceImpl implements CarService {
 
   @Override
   public void deleteCar(Integer id) {
+    carRepository.findById(id).orElseThrow(() -> new CarNotFoundException(CarEnum.CAR_NOT_FOUND));
     carRepository.deleteById(id);
   }
 }
