@@ -28,6 +28,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -126,8 +127,9 @@ public class OrderServiceImpl implements OrderService {
       orderPageResponse.setOrderResponse(new ArrayList<>());
       return orderPageResponse;
     }
-
-    orderPageResponse.setOrderResponse(bigList.get(pageNumber - 1));
+    List<OrderResponse> before = bigList.get(pageNumber - 1);
+    Collections.reverse(before);
+    orderPageResponse.setOrderResponse(before);
     return orderPageResponse;
   }
 

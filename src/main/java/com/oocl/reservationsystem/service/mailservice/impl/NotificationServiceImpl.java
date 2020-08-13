@@ -31,7 +31,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     Customer customer = customerService.getCustomerById(customerId);
 
-    customer.getNotifications().sort((o1, o2) -> o2.getCreateTime().compareTo(o1.getCreateTime()));
+    customer.getNotifications().sort((o1, o2) -> o2.getId().compareTo(o1.getId()));
 
     NotificationResponseDto notificationResponseDto = new NotificationResponseDto();
     BeanUtils.copyProperties(customer, notificationResponseDto);
