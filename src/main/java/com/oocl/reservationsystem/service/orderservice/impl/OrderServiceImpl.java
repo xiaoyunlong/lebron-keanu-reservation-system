@@ -107,7 +107,7 @@ public class OrderServiceImpl implements OrderService {
       orderResponse.setLicenseNumber(carService.getCarNumberById(order.getCarId()));
       orderResponseList.add(orderResponse);
     }
-
+    Collections.reverse(orderResponseList);
     List<List<OrderResponse>> bigList = new ArrayList<>();
     List<OrderResponse> smallList = new ArrayList<>();
     int k = 0;
@@ -128,7 +128,6 @@ public class OrderServiceImpl implements OrderService {
       return orderPageResponse;
     }
     List<OrderResponse> before = bigList.get(pageNumber - 1);
-    Collections.reverse(before);
     orderPageResponse.setOrderResponse(before);
     return orderPageResponse;
   }
