@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -31,7 +33,9 @@ public class NotificationServiceImpl implements NotificationService {
 
     Customer customer = customerService.getCustomerById(customerId);
 
-    customer.getNotifications().sort((o1, o2) -> o2.getId().compareTo(o1.getId()));
+    List<Notification> before = customer.getNotifications();
+    Collections.reverse(before);
+    customer.setNotifications(before);
 
     NotificationResponseDto notificationResponseDto = new NotificationResponseDto();
     BeanUtils.copyProperties(customer, notificationResponseDto);
