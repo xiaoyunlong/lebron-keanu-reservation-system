@@ -34,7 +34,7 @@ public class NotificationServiceImpl implements NotificationService {
     Customer customer = customerService.getCustomerById(customerId);
 
     List<Notification> before = customer.getNotifications();
-    Collections.reverse(before);
+    //Collections.reverse(before);
     customer.setNotifications(before);
 
     NotificationResponseDto notificationResponseDto = new NotificationResponseDto();
