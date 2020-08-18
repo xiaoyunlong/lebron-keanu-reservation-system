@@ -1,4 +1,2 @@
 #### 需要注意的点
-1.项目暂时分为4个模块，需要添加模块时请按照原风格添加，新建包去存储模块内容
-2.common模块不进行功能区分，所有配置统一在common包内，不再新建子包进行区分
-3.
+Lots of files will delete before Lebron and Keanu do some new feature at Aug/18;
