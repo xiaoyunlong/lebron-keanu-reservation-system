@@ -7,7 +7,7 @@ CREATE TABLE parkingPosition(
   status tinyint NOT NULL
 );
 
-CREATE TABLE orders (
+CREATE TABLE order (
   id INT AUTO_INCREMENT  PRIMARY KEY,
   parkingLot VARCHAR(100) NOT NULL,
   parkingPosition VARCHAR(100) NOT NULL,
