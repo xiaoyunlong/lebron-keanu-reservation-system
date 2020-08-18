@@ -7,13 +7,13 @@ import java.util.Date;
 @Table
 public class Order {
     private String parkingLot;
-    private String parkingPosition;
+    private int parkingPosition;
     private Date parkTime;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    public Order(String parkingLot,String parkingPosition){
+    public Order(String parkingLot,int parkingPosition){
         this.parkingLot=parkingLot;
         this.parkingPosition=parkingPosition;
         this.parkTime=new Date();
@@ -27,11 +27,11 @@ public class Order {
         this.parkingLot = parkingLot;
     }
 
-    public String getParkingPosition() {
+    public int getParkingPosition() {
         return parkingPosition;
     }
 
-    public void setParkingPosition(String parkingPosition) {
+    public void setParkingPosition(int parkingPosition) {
         this.parkingPosition = parkingPosition;
     }
 
