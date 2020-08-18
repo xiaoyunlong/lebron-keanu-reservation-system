@@ -1,39 +1,52 @@
-alibaba:
-  cloud:
-    access-key: '****'
-    secret-key: '****'
-management:
-  endpoint:
-    health:
-      show-details: always
-  endpoints:
-    jmx:
-      exposure:
-        include: '*'
-    web:
-      exposure:
-        include: '*'
-  server:
-    port: 8081
-server:
-  port: 8088
-spring:
-  application:
-    name: reservation-system
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    password: '@@nrot@@'
-    url: jdbc:mysql://10.222.232.158:3306/parkinglot
-    username: root
-  jpa:
-    database: MySQL
-    generate-ddl: false
-    show-sql: false
-  profiles:
-    active: local
-  rabbitmq:
-    host: 10.222.232.158
-    port: 5672
-    username: alwaysot
-    password: 123456
+#alibaba:
+#  cloud:
+#    access-key: '****'
+#    secret-key: '****'
+#management:
+#  endpoint:
+#    health:
+#      show-details: always
+#  endpoints:
+#    jmx:
+#      exposure:
+#        include: '*'
+#    web:
+#      exposure:
+#        include: '*'
+#  server:
+#    port: 8081
+#server:
+#  port: 8088
+#spring:
+#  application:
+#    name: reservation-system
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    password: '@@nrot@@'
+#    url: jdbc:mysql://10.222.232.158:3306/parkinglot
+#    username: root
+#  jpa:
+#    database: MySQL
+#    generate-ddl: false
+#    show-sql: false
+#  profiles:
+#    active: local
+#  rabbitmq:
+#    host: 10.222.232.158
+#    port: 5672
+#    username: alwaysot
+#    password: 123456
 
+server:
+  port: 8888
+
+spring:
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:parkinglot
+    username: lebron
+    password: keanu
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console.enabled: true
