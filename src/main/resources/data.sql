@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS Orders;
 DROP TABLE IF EXISTS parkingPosition;
 
 CREATE TABLE parkingPosition(
@@ -7,11 +7,11 @@ CREATE TABLE parkingPosition(
   status tinyint NOT NULL
 );
 
-CREATE TABLE order (
+CREATE TABLE Orders (
   id INT AUTO_INCREMENT  PRIMARY KEY,
   parkingLot VARCHAR(100) NOT NULL,
-  parkingPosition VARCHAR(100) NOT NULL,
-  parkTime DATE not null
+  parkingPosition INT NOT NULL,
+  parkTime DATE NOT NULL
 );
 
 INSERT INTO parkingPosition (parkingSpace,status) VALUES

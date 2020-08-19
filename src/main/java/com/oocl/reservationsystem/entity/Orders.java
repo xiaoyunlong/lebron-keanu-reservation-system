@@ -5,19 +5,21 @@ import java.util.Date;
 
 @Entity
 @Table
-public class Order {
-    private String parkingLot;
-    private int parkingPosition;
-    private Date parkTime;
+public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String parkingLot;
+    private int parkingPosition;
+    private Date parkTime;
 
-    public Order(String parkingLot,int parkingPosition){
+    public Orders(String parkingLot, int parkingPosition){
         this.parkingLot=parkingLot;
         this.parkingPosition=parkingPosition;
         this.parkTime=new Date();
     }
+
+    public Orders(){}
 
     public String getParkingLot() {
         return parkingLot;

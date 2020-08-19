@@ -1,7 +1,9 @@
 package com.oocl.reservationsystem.service;
 
-import org.springframework.stereotype.Service;
+import com.oocl.reservationsystem.dto.OrderDTO;
+import com.oocl.reservationsystem.entity.Orders;
 
-@Service
-public class OrderService {
+public interface OrderService {
+    Orders addOrder(OrderDTO orderDTO);
+    Orders toOrderEntity(OrderDTO orderDTO,Orders orders);
 }
