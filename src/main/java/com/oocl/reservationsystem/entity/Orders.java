@@ -13,13 +13,19 @@ public class Orders {
     private String parkingLot;
     @Column(name = "parking_position")
     private int parkingPosition;
-    @Column(name = "park_time")
-    private Date parkTime;
+    @Column(name = "reserve_time")
+    private Date reserveTime;
+    @Column(name = "start_time")
+    private Date startTime;
+    @Column(name = "end_time")
+    private Date endTime;
 
-    public Orders(String parkingLot, int parkingPosition, Date date){
+    public Orders(String parkingLot, int parkingPosition, Date reserveTime,Date startTime,Date endTime){
         this.parkingLot=parkingLot;
         this.parkingPosition=parkingPosition;
-        this.parkTime=date;
+        this.reserveTime=reserveTime;
+        this.startTime=startTime;
+        this.endTime=endTime;
     }
 
     public Orders(){}
@@ -41,11 +47,11 @@ public class Orders {
     }
 
     public Date getParkTime() {
-        return parkTime;
+        return reserveTime;
     }
 
     public void setParkTime(Date parkTime) {
-        this.parkTime = parkTime;
+        this.reserveTime = parkTime;
     }
 
     public int getId() {
@@ -54,5 +60,21 @@ public class Orders {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }

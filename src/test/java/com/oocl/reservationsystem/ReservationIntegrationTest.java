@@ -41,8 +41,10 @@ public class ReservationIntegrationTest {
     @Test
     void should_return_the_specific_order_when_post_an_order_given_an_order() throws Exception {
         String orderJson="{\n" +
-                "    \"parkingLot\":\"e-parking\",\n" +
-                "    \"parkingPosition\":10\n" +
+                "\t\"parkingLot\":\"e-parking\",\n" +
+                "\t\"parkingPosition\":10,\n" +
+                "\t\"startTime\": \"2020-08-19T11:26:57.082+00:00\",\n" +
+                "\t\"endTime\": \"2020-08-29T11:26:57.082+00:00\"\n" +
                 "}";
         mockMvc.perform(post("/order").
                 contentType(MediaType.APPLICATION_JSON).
