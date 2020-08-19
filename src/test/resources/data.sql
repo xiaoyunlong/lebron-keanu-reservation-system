@@ -14,6 +14,4 @@ CREATE TABLE orders (
   park_time DATE NOT NULL
 );
 
-INSERT INTO parkingPosition (parking_space,status) VALUES
-(10,1),
-(20,0)
+
