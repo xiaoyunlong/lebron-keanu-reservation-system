@@ -3,17 +3,15 @@ package com.oocl.reservationsystem.service;
 import com.oocl.reservationsystem.dto.OrderDTO;
 import com.oocl.reservationsystem.entity.Orders;
 import com.oocl.reservationsystem.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 @Service
 public class OrderServiceImpl implements OrderService{
-    private final OrderRepository repository;
-
-    public OrderServiceImpl(OrderRepository orderRepository){
-        this.repository=orderRepository;
-    }
+    @Autowired
+    private OrderRepository repository;
 
     public Orders addOrder(OrderDTO orderDTO) {
         Orders orders=new Orders();

@@ -4,19 +4,22 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table
+@Table(name = "orders")
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "parking_lot")
     private String parkingLot;
+    @Column(name = "parking_position")
     private int parkingPosition;
+    @Column(name = "park_time")
     private Date parkTime;
 
-    public Orders(String parkingLot, int parkingPosition){
+    public Orders(String parkingLot, int parkingPosition, Date date){
         this.parkingLot=parkingLot;
         this.parkingPosition=parkingPosition;
-        this.parkTime=new Date();
+        this.parkTime=date;
     }
 
     public Orders(){}

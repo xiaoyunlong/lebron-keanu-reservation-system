@@ -2,6 +2,7 @@ package com.oocl.reservationsystem;
 
 import com.oocl.reservationsystem.entity.Orders;
 import com.oocl.reservationsystem.repository.OrderRepository;
+import com.oocl.reservationsystem.service.OrderService;
 import com.oocl.reservationsystem.service.OrderServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -27,7 +28,7 @@ public class ReservationIntegrationTest {
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
-    private OrderServiceImpl orderService;
+    private OrderService orderService;
 
     @BeforeEach
     void prepareData(){}
@@ -46,7 +47,7 @@ public class ReservationIntegrationTest {
         mockMvc.perform(post("/order").
                 contentType(MediaType.APPLICATION_JSON).
                 content(orderJson)).andExpect(status().isCreated());
-//        List<Orders> orders=orderRepository.findByParkingPosition(10);
-//        Assertions.assertEquals(1,orders.size());
+        List<Orders> orders=orderRepository.findByParkingPosition(10);
+        Assertions.assertEquals(1,orders.size());
     }
 }
