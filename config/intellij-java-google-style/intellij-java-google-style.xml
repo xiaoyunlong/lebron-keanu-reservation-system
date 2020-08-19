@@ -244,7 +244,7 @@
                 <XML_NAMESPACE>^$</XML_NAMESPACE>
               </AND>
             </match>
-            <order>BY_NAME</order>
+            <orders>BY_NAME</orders>
           </rule>
         </section>
         <section>
@@ -278,7 +278,7 @@
                 <XML_NAMESPACE>^$</XML_NAMESPACE>
               </AND>
             </match>
-            <order>BY_NAME</order>
+            <orders>BY_NAME</orders>
           </rule>
         </section>
         <section>
@@ -290,7 +290,7 @@
                 <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
               </AND>
             </match>
-            <order>BY_NAME</order>
+            <orders>BY_NAME</orders>
           </rule>
         </section>
         <section>
@@ -412,7 +412,7 @@
                 <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
               </AND>
             </match>
-            <order>BY_NAME</order>
+            <orders>BY_NAME</orders>
           </rule>
         </section>
         <section>
@@ -500,7 +500,7 @@
                 <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
               </AND>
             </match>
-            <order>BY_NAME</order>
+            <orders>BY_NAME</orders>
           </rule>
         </section>
         <section>
@@ -511,7 +511,7 @@
                 <XML_NAMESPACE>http://schemas.android.com/apk/res-auto</XML_NAMESPACE>
               </AND>
             </match>
-            <order>BY_NAME</order>
+            <orders>BY_NAME</orders>
           </rule>
         </section>
         <section>
@@ -522,7 +522,7 @@
                 <XML_NAMESPACE>http://schemas.android.com/tools</XML_NAMESPACE>
               </AND>
             </match>
-            <order>BY_NAME</order>
+            <orders>BY_NAME</orders>
           </rule>
         </section>
         <section>
@@ -533,7 +533,7 @@
                 <XML_NAMESPACE>.*</XML_NAMESPACE>
               </AND>
             </match>
-            <order>BY_NAME</order>
+            <orders>BY_NAME</orders>
           </rule>
         </section>
       </rules>
