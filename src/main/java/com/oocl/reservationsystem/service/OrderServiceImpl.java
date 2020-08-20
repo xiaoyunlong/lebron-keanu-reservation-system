@@ -24,6 +24,9 @@ public class OrderServiceImpl implements OrderService{
         orders.setParkingLot(orderDTO.getParkingLot());
         orders.setParkingPosition(orderDTO.getParkingPosition());
         orders.setParkTime(new Date());
+        orders.setStartTime(orderDTO.getStartTime());
+        System.out.println(orderDTO.getStartTime());
+        orders.setEndTime(orderDTO.getEndTime());
         return orders;
     }
 }
