@@ -22,4 +22,9 @@ public class PositionServiceImpl implements PositionService {
     public List<ParkingPosition> getAllPosition() {
         return positionRepository.findAll();
     }
+
+    @Override
+    public void resetStatus(int positionId) {
+
+    }
 }
