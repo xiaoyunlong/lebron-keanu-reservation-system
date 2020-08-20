@@ -11,7 +11,11 @@ import java.util.Date;
 @Service
 public class OrderServiceImpl implements OrderService{
     @Autowired
-    private OrderRepository repository;
+    private final OrderRepository repository;
+
+    public OrderServiceImpl(OrderRepository orderRepository){
+        this.repository=orderRepository;
+    }
 
     public Orders addOrder(OrderDTO orderDTO) {
         Orders orders=new Orders();
@@ -25,7 +29,6 @@ public class OrderServiceImpl implements OrderService{
         orders.setParkingPosition(orderDTO.getParkingPosition());
         orders.setParkTime(new Date());
         orders.setStartTime(orderDTO.getStartTime());
-        System.out.println(orderDTO.getStartTime());
         orders.setEndTime(orderDTO.getEndTime());
         return orders;
     }

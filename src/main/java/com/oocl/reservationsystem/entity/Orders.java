@@ -20,10 +20,10 @@ public class Orders {
     @Column(name = "end_time")
     private Date endTime;
 
-    public Orders(String parkingLot, int parkingPosition, Date reserveTime,Date startTime,Date endTime){
+    public Orders(String parkingLot, int parkingPosition, Date startTime,Date endTime){
         this.parkingLot=parkingLot;
         this.parkingPosition=parkingPosition;
-        this.reserveTime=reserveTime;
+        this.reserveTime=new Date();
         this.startTime=startTime;
         this.endTime=endTime;
     }

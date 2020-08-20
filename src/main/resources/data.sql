@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS Orders;
+DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS parkingPosition;
 
 CREATE TABLE parkingPosition(

@@ -15,20 +15,20 @@
 #        include: '*'
 #  server:
 #    port: 8081
-#server:
-#  port: 8088
-#spring:
-#  application:
-#    name: reservation-system
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    password: '@@nrot@@'
-#    url: jdbc:mysql://10.222.232.158:3306/parkinglot
-#    username: root
-#  jpa:
-#    database: MySQL
-#    generate-ddl: false
-#    show-sql: false
+server:
+  port: 8888
+spring:
+  application:
+    name: lebron-keanu-reservation
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: 'wzq141819'
+    url: jdbc:mysql://10.222.232.182:3306/mysql
+    username: root
+  jpa:
+    database: MySQL
+    generate-ddl: false
+    show-sql: false
 #  profiles:
 #    active: local
 #  rabbitmq:
@@ -37,16 +37,16 @@
 #    username: alwaysot
 #    password: 123456
 
-server:
-  port: 8888
-
-spring:
-  datasource:
-    driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:parkinglot
-    username: lebron
-    password: keanu
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-  h2:
-    console.enabled: true
+#server:
+#  port: 8888
+#
+#spring:
+#  datasource:
+#    driverClassName: org.h2.Driver
+#    url: jdbc:h2:mem:parkinglot
+#    username: lebron
+#    password: keanu
+#  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
+#  h2:
+#    console.enabled: true
