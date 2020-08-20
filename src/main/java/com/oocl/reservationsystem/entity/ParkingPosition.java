@@ -21,6 +21,10 @@ public class ParkingPosition {
     public ParkingPosition() {
     }
 
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public int getId() {
         return id;
     }

@@ -22,4 +22,16 @@ public class PositionServiceImpl implements PositionService {
     public List<ParkingPosition> getAllPosition() {
         return positionRepository.findAll();
     }
+
+    @Override
+    public void resetStatus(int positionId) {
+        ParkingPosition parkingPosition = positionRepository.findById(positionId).get();
+        int status = parkingPosition.getStatus();
+        if(status == 0){
+            parkingPosition.setStatus(1);
+        }else{
+            parkingPosition.setStatus(0);
+        }
+        positionRepository.save(parkingPosition);
+    }
 }

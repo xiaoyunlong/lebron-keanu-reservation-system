@@ -34,4 +34,17 @@ public class PositionServiceTest extends BaseTest{
         //then
         Assertions.assertEquals(2,positions.size());
     }
+
+    @Test
+    void should_return_1_when_change_position_status_given_a_position_and_status_0(){
+        //given
+        ParkingPosition parkingPosition = new ParkingPosition("a401",0);
+        int id = positionRepository.save(parkingPosition).getId();
+        //when
+        positionService.resetStatus(id);
+        int result = positionRepository.findAll().get(0).getStatus();
+        //then
+        Assertions.assertEquals(1,result);
+
+    }
 }
